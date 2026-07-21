@@ -90,7 +90,7 @@ export const NHS_SERVICES: Service[] = [
 export const PRIVATE_SERVICES: Service[] = [
   {
     slug: "weight-loss-clinic",
-    name: "Weight Loss Clinic",
+    name: "Weight Loss Treatment",
     description:
       "Private consultations and treatment options to support healthy, sustainable weight loss.",
     kind: "private",
