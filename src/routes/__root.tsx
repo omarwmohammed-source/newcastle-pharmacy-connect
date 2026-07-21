@@ -77,20 +77,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Kenton Pharmacy Clinic — Newcastle NE3" },
+      {
+        name: "description",
+        content:
+          "Kenton Pharmacy Clinic in Newcastle upon Tyne. NHS prescriptions, Pharmacy First, vaccinations and private weight loss and insomnia clinics.",
+      },
+      { name: "author", content: "Kenton Pharmacy Clinic" },
+      { property: "og:title", content: "Kenton Pharmacy Clinic — Newcastle NE3" },
+      {
+        property: "og:description",
+        content:
+          "Your trusted community pharmacy in Kenton, Newcastle. NHS and private services.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
