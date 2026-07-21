@@ -37,7 +37,7 @@ function Home() {
               Kenton, Newcastle upon Tyne
             </span>
             <h1 className="mt-4 text-4xl font-bold tracking-tight text-primary sm:text-5xl">
-              Your trusted community pharmacy
+              Your trusted community pharmacy in Kenton
             </h1>
             <p className="mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
               Friendly, expert pharmacy care in the heart of Kenton. We offer
