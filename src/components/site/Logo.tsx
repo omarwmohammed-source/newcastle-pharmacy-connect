@@ -11,7 +11,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
       </span>
       <span className="flex flex-col leading-tight">
         <span className="text-base font-semibold text-primary sm:text-lg">
-          Kenton Pharmacy
+          {"\n"}
         </span>
         {!compact && (
           <span className="text-xs text-muted-foreground">
