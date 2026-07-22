@@ -9,7 +9,7 @@ import { PHARMACY } from "@/lib/pharmacy-data";
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/services", label: "NHS Services" },
-  { to: "/private", label: "Private Services" },
+  { to: "/private", label: "Private Treatments" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
