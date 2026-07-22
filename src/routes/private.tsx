@@ -5,20 +5,20 @@ import { PRIVATE_SERVICES } from "@/lib/pharmacy-data";
 export const Route = createFileRoute("/private")({
   head: () => ({
     meta: [
-      { title: "Private Clinics — Kenton Pharmacy Clinic" },
+      { title: "Private Treatments — Kenton Pharmacy Clinic" },
       {
         name: "description",
         content:
-          "Private weight loss and insomnia clinics at Kenton Pharmacy Clinic in Newcastle upon Tyne.",
+          "Private weight loss and insomnia treatments at Kenton Pharmacy Clinic in Newcastle upon Tyne.",
       },
       {
         property: "og:title",
-        content: "Private Clinics — Kenton Pharmacy Clinic",
+        content: "Private Treatments — Kenton Pharmacy Clinic",
       },
       {
         property: "og:description",
         content:
-          "Private weight loss and insomnia consultations in Kenton, Newcastle.",
+          "Private weight loss and insomnia treatments in Kenton, Newcastle.",
       },
     ],
   }),
@@ -30,7 +30,7 @@ function PrivatePage() {
     <section className="mx-auto max-w-6xl px-6 py-16">
       <header className="max-w-2xl">
         <h1 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
-          Private Clinics
+          Private Treatments
         </h1>
         <p className="mt-3 text-muted-foreground">
           Private consultations with our pharmacy team. Register your interest

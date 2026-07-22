@@ -33,15 +33,13 @@ function Home() {
       <section className="border-b border-border bg-gradient-to-b from-muted/60 to-background">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
           <div>
-            <span className="inline-block rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent-foreground/90 ring-1 ring-accent/30">
-              Kenton, Newcastle upon Tyne
-            </span>
-            <h1 className="mt-4 text-4xl font-bold tracking-tight text-primary sm:text-5xl">
+            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl">
               Your trusted community pharmacy in Kenton
             </h1>
             <p className="mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
               Friendly, expert pharmacy care in the heart of Kenton. We offer
-              NHS services, private clinics and everyday prescription support.
+              NHS services, private treatments and everyday prescription
+              support.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg">
@@ -65,7 +63,7 @@ function Home() {
               },
               {
                 icon: HeartPulse,
-                title: "Private Clinics",
+                title: "Private Treatments",
                 copy: "Weight Loss and Insomnia consultations.",
                 to: "/private" as const,
               },

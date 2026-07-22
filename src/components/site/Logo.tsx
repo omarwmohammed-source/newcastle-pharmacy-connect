@@ -1,24 +1,15 @@
-import { Plus } from "lucide-react";
+import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 
 export function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="flex items-center gap-3">
-      <span
-        aria-hidden
-        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground"
-      >
-        <Plus className="h-6 w-6 text-accent" strokeWidth={3} />
-      </span>
-      <span className="flex flex-col leading-tight">
-        <span className="text-base font-semibold text-primary sm:text-lg">
-          {"\n"}
-        </span>
-        {!compact && (
-          <span className="text-xs text-muted-foreground">
-            Your community pharmacy clinic
-          </span>
-        )}
-      </span>
-    </div>
+    <img
+      src={logoAsset.url}
+      alt="Kenton Pharmacy Clinic"
+      className={
+        compact
+          ? "h-10 w-auto rounded-md"
+          : "h-14 w-auto rounded-md sm:h-16"
+      }
+    />
   );
 }
