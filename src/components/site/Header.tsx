@@ -17,24 +17,24 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
-      <div className="hidden bg-primary text-primary-foreground md:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2 text-sm">
+    <header className="sticky top-0 z-40 border-b border-primary/20 bg-primary text-primary-foreground shadow-sm">
+      <div className="hidden border-b border-primary-foreground/10 md:block">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2 text-xs text-primary-foreground/85">
           <a
             href={PHARMACY.phoneHref}
-            className="inline-flex items-center gap-2 hover:underline"
+            className="inline-flex items-center gap-2 hover:text-primary-foreground"
           >
-            <Phone className="h-4 w-4" />
+            <Phone className="h-3.5 w-3.5" />
             {PHARMACY.phone}
           </a>
-          <span className="text-primary-foreground/80">
+          <span>
             {PHARMACY.addressLine1}, {PHARMACY.postcode}
           </span>
         </div>
       </div>
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-        <Link to="/" aria-label="Kenton Pharmacy Clinic home">
-          <Logo />
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+        <Link to="/" aria-label="Kenton Pharmacy Clinic home" className="shrink-0">
+          <Logo onDark />
         </Link>
         <nav className="hidden items-center gap-1 lg:flex">
           {NAV.map((item) => (
@@ -42,18 +42,26 @@ export function Header() {
               key={item.to}
               to={item.to}
               activeOptions={{ exact: item.to === "/" }}
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-primary"
+              className="rounded-md px-3 py-2 text-sm font-medium text-primary-foreground/80 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground data-[status=active]:bg-primary-foreground/15 data-[status=active]:text-primary-foreground"
             >
               {item.label}
             </Link>
           ))}
-          <Button asChild className="ml-2">
+          <Button
+            asChild
+            className="ml-2 bg-accent text-accent-foreground hover:bg-accent/90"
+          >
             <Link to="/register">Register interest</Link>
           </Button>
         </nav>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild className="lg:hidden">
-            <Button variant="ghost" size="icon" aria-label="Open menu">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Open menu"
+              className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
