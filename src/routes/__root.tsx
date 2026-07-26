@@ -84,14 +84,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Kenton Pharmacy Clinic in Newcastle upon Tyne. NHS prescriptions, Pharmacy First, vaccinations and private weight loss and insomnia clinics.",
+          "Kenton Pharmacy Clinic in Newcastle upon Tyne. Full NHS pharmacy services, free prescription delivery across Newcastle, and private weight loss and insomnia treatments.",
       },
       { name: "author", content: "Kenton Pharmacy Clinic" },
       { property: "og:title", content: "Kenton Pharmacy Clinic — Newcastle NE3" },
       {
         property: "og:description",
         content:
-          "Your trusted community pharmacy in Kenton, Newcastle. NHS and private services.",
+          "Full NHS services and free prescription delivery across Newcastle. Your trusted community pharmacy in Kenton.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -99,8 +99,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&display=swap",
+      },
     ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

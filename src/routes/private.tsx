@@ -29,9 +29,10 @@ function PrivatePage() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <header className="max-w-2xl">
-        <h1 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+        <h1 className="font-serif text-4xl font-semibold tracking-tight text-primary sm:text-5xl">
           Private Treatments
         </h1>
+
         <p className="mt-3 text-muted-foreground">
           Private consultations with our pharmacy team. Register your interest
           and we'll contact you to arrange an appointment.

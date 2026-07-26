@@ -4,6 +4,7 @@ export type Service = {
   description: string;
   details?: string[];
   kind: "nhs" | "private";
+  featured?: boolean;
 };
 
 export const NHS_SERVICES: Service[] = [
@@ -11,7 +12,7 @@ export const NHS_SERVICES: Service[] = [
     slug: "pharmacy-first",
     name: "Pharmacy First",
     description:
-      "Get treatment for seven common conditions without seeing your GP.",
+      "Get NHS advice and treatment for seven common conditions from our pharmacist — no GP appointment needed.",
     details: [
       "Earache",
       "Sinusitis",
@@ -22,67 +23,127 @@ export const NHS_SERVICES: Service[] = [
       "Infected insect bites",
     ],
     kind: "nhs",
+    featured: true,
   },
   {
     slug: "prescriptions",
     name: "Prescriptions & EPS",
     description:
-      "Nominate us for the NHS Electronic Prescription Service and collect your medicine here.",
+      "Nominate Kenton Pharmacy Clinic for the NHS Electronic Prescription Service and pick up your medicines here.",
     kind: "nhs",
+    featured: true,
+  },
+  {
+    slug: "free-delivery",
+    name: "Free Prescription Delivery",
+    description:
+      "Free NHS prescription delivery to your door across all areas of Newcastle upon Tyne.",
+    kind: "nhs",
+    featured: true,
   },
   {
     slug: "blood-pressure",
     name: "Blood Pressure Check",
     description:
-      "Free NHS blood pressure checks for eligible adults, no appointment needed.",
+      "Free NHS blood pressure checks for eligible adults — no appointment needed.",
     kind: "nhs",
   },
   {
     slug: "contraception",
-    name: "Contraception",
+    name: "Contraception (ongoing supply)",
     description:
-      "Ongoing supply and initiation of oral contraception on the NHS.",
+      "NHS supply and initiation of the oral contraceptive pill directly from our pharmacist.",
+    kind: "nhs",
+  },
+  {
+    slug: "emergency-contraception",
+    name: "Emergency Contraception",
+    description:
+      "Confidential advice and supply of the morning-after pill from our pharmacist.",
     kind: "nhs",
   },
   {
     slug: "stop-smoking",
-    name: "Stop Smoking Service",
+    name: "Stop Smoking Support",
     description:
-      "Friendly support and NHS treatment to help you quit for good.",
+      "Friendly, expert support and NHS treatment to help you quit smoking for good.",
     kind: "nhs",
   },
   {
     slug: "flu-vaccination",
-    name: "Flu Vaccination",
-    description: "Free NHS seasonal flu jabs for eligible patients.",
+    name: "Flu Vaccination (NHS)",
+    description:
+      "Free NHS seasonal flu jabs for eligible patients, delivered by our trained team.",
+    kind: "nhs",
+  },
+  {
+    slug: "covid-vaccination",
+    name: "COVID-19 Vaccination",
+    description:
+      "Seasonal NHS COVID-19 vaccinations for eligible patients when the programme is running.",
     kind: "nhs",
   },
   {
     slug: "new-medicine-service",
     name: "New Medicine Service",
     description:
-      "Extra support when you start a new medicine for a long-term condition.",
+      "Extra support and follow-up when you start a new medicine for a long-term condition.",
     kind: "nhs",
   },
   {
     slug: "discharge-medicines",
-    name: "Discharge Medicines",
+    name: "Discharge Medicines Service",
     description:
-      "Help reviewing and continuing medicines started after a hospital stay.",
-    kind: "nhs",
-  },
-  {
-    slug: "disposal-of-medicines",
-    name: "Disposal of Medicines",
-    description:
-      "Drop off unused or expired medicines and we'll dispose of them safely.",
+      "Help reviewing and continuing the medicines you were started on during a hospital stay.",
     kind: "nhs",
   },
   {
     slug: "emergency-dispensing",
     name: "Emergency Dispensing",
     description:
-      "Urgent supply of your regular prescription medicine when you've run out.",
+      "Urgent supply of your regular prescription medicine when you've run out and can't reach your GP.",
+    kind: "nhs",
+  },
+  {
+    slug: "disposal-of-medicines",
+    name: "Disposal of Unwanted Medicines",
+    description:
+      "Drop off unused or expired medicines at the pharmacy and we'll dispose of them safely.",
+    kind: "nhs",
+  },
+  {
+    slug: "minor-ailments",
+    name: "Minor Ailments Advice",
+    description:
+      "Free pharmacist advice on everyday health concerns like coughs, colds, hay fever and skin conditions.",
+    kind: "nhs",
+  },
+  {
+    slug: "healthy-living",
+    name: "Healthy Living Advice",
+    description:
+      "Weight, diet, alcohol and lifestyle advice from a Healthy Living Pharmacy team.",
+    kind: "nhs",
+  },
+  {
+    slug: "travel-health",
+    name: "Travel Health Advice",
+    description:
+      "Pre-travel advice on staying well abroad, including guidance on medicines and vaccinations.",
+    kind: "nhs",
+  },
+  {
+    slug: "diabetes-support",
+    name: "Diabetes Support",
+    description:
+      "Advice on diabetes medicines, blood glucose monitoring and living well with diabetes.",
+    kind: "nhs",
+  },
+  {
+    slug: "inhaler-technique",
+    name: "Asthma & Inhaler Technique",
+    description:
+      "Personal check of your inhaler technique to help you get the most from your asthma or COPD medicines.",
     kind: "nhs",
   },
 ];
@@ -113,6 +174,8 @@ export const PHARMACY = {
   addressLine1: "41 Halewood Avenue",
   addressLine2: "Newcastle upon Tyne",
   postcode: "NE3 3RX",
+  deliveryArea: "All areas of Newcastle upon Tyne",
+  freeDelivery: true,
   mapEmbed:
     "https://www.google.com/maps?q=41+Halewood+Avenue+Newcastle+NE3+3RX&output=embed",
   hours: [

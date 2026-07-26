@@ -15,30 +15,19 @@ export function Logo({
         src={logoAsset.url}
         alt="Kenton Pharmacy Clinic"
         className={
-          compact
-            ? "h-10 w-10 rounded-full object-cover ring-1 ring-white/15"
-            : "h-14 w-14 rounded-full object-cover ring-1 ring-white/15 sm:h-16 sm:w-16"
+          (compact ? "h-10 sm:h-11" : "h-12 sm:h-14") +
+          " w-auto object-contain select-none"
         }
       />
       {showWordmark && (
-        <div className="flex flex-col leading-tight">
-          <span
-            className={
-              (onDark ? "text-primary-foreground" : "text-foreground") +
-              " text-base font-semibold tracking-tight sm:text-lg"
-            }
-          >
-            Kenton Pharmacy Clinic
-          </span>
-          <span
-            className={
-              (onDark ? "text-primary-foreground/70" : "text-muted-foreground") +
-              " text-[11px] uppercase tracking-[0.15em] sm:text-xs"
-            }
-          >
-            Newcastle · NE3
-          </span>
-        </div>
+        <span
+          className={
+            (onDark ? "text-primary-foreground" : "text-primary") +
+            " font-serif text-xl font-semibold tracking-wide sm:text-2xl"
+          }
+        >
+          Kenton Pharmacy Clinic
+        </span>
       )}
     </div>
   );
