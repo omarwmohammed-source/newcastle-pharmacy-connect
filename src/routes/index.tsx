@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, HeartPulse, Pill, Stethoscope } from "lucide-react";
+import { ArrowRight, HeartPulse, Pill, Stethoscope, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OpeningHours } from "@/components/site/OpeningHours";
 import { PHARMACY } from "@/lib/pharmacy-data";
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Community pharmacy in Kenton, Newcastle. NHS prescriptions, Pharmacy First, vaccinations and private weight loss and insomnia clinics.",
+          "Community pharmacy in Kenton, Newcastle. Full NHS services, free prescription delivery across Newcastle, and private weight loss and insomnia treatments.",
       },
       {
         property: "og:title",
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "NHS and private pharmacy services in Kenton, Newcastle upon Tyne.",
+          "Full NHS pharmacy services and free prescription delivery across Newcastle.",
       },
     ],
   }),
@@ -33,13 +33,17 @@ function Home() {
       <section className="border-b border-border bg-gradient-to-b from-muted/60 to-background">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
           <div>
-            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl">
+            <p className="inline-flex items-center gap-2 rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent-foreground ring-1 ring-accent/30">
+              <Truck className="h-3.5 w-3.5" />
+              Free prescription delivery across Newcastle
+            </p>
+            <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-primary sm:text-5xl">
               Your trusted community pharmacy in Kenton
             </h1>
             <p className="mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
-              Friendly, expert pharmacy care in the heart of Kenton. We offer
-              NHS services, private treatments and everyday prescription
-              support.
+              Serving all areas of Newcastle upon Tyne with the full range of
+              NHS pharmacy services, free prescription delivery and private
+              treatments — from friendly, expert pharmacists.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg">
@@ -49,16 +53,28 @@ function Home() {
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/services">View services</Link>
+                <Link to="/services">View NHS services</Link>
               </Button>
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               {
+                icon: Truck,
+                title: "Free delivery",
+                copy: "Free NHS prescription delivery to any Newcastle address.",
+                to: "/services" as const,
+              },
+              {
                 icon: Stethoscope,
-                title: "NHS Services",
-                copy: "Pharmacy First, vaccinations, BP checks and more.",
+                title: "All NHS services",
+                copy: "Pharmacy First, BP checks, vaccinations and more.",
+                to: "/services" as const,
+              },
+              {
+                icon: Pill,
+                title: "Prescriptions & EPS",
+                copy: "Nominate us and pick up quickly, or have them delivered.",
                 to: "/services" as const,
               },
               {
@@ -67,12 +83,6 @@ function Home() {
                 copy: "Weight Loss and Insomnia consultations.",
                 to: "/private" as const,
               },
-              {
-                icon: Pill,
-                title: "Prescriptions",
-                copy: "Nominate us for EPS and collect quickly.",
-                to: "/services" as const,
-              },
             ].map((t) => (
               <Link
                 key={t.title}
@@ -80,7 +90,9 @@ function Home() {
                 className="rounded-xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md"
               >
                 <t.icon className="h-6 w-6 text-accent" />
-                <h2 className="mt-3 font-semibold text-primary">{t.title}</h2>
+                <h2 className="mt-3 font-serif text-lg font-semibold text-primary">
+                  {t.title}
+                </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{t.copy}</p>
               </Link>
             ))}
@@ -91,7 +103,9 @@ function Home() {
       <section className="mx-auto grid max-w-6xl gap-8 px-6 py-16 md:grid-cols-2">
         <OpeningHours />
         <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-primary">Find us</h2>
+          <h2 className="font-serif text-xl font-semibold text-primary">
+            Find us
+          </h2>
           <p className="mt-2 text-sm text-muted-foreground">
             {PHARMACY.addressLine1}
             <br />

@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Truck } from "lucide-react";
 import { Logo } from "./Logo";
 import { PHARMACY } from "@/lib/pharmacy-data";
 
@@ -9,11 +10,18 @@ export function Footer() {
         <div>
           <Logo />
           <p className="mt-4 text-sm text-muted-foreground">
-            A trusted community pharmacy in Kenton, Newcastle upon Tyne.
+            A trusted community pharmacy in Kenton, serving all areas of Newcastle
+            upon Tyne with free prescription delivery.
+          </p>
+          <p className="mt-3 inline-flex items-center gap-2 rounded-md bg-accent/15 px-2.5 py-1 text-xs font-medium text-accent-foreground ring-1 ring-accent/30">
+            <Truck className="h-3.5 w-3.5" />
+            Free delivery across Newcastle
           </p>
         </div>
         <div className="text-sm">
-          <h3 className="mb-2 font-semibold text-foreground">Visit us</h3>
+          <h3 className="mb-2 font-serif text-lg font-semibold text-primary">
+            Visit us
+          </h3>
           <p className="text-muted-foreground">
             {PHARMACY.addressLine1}
             <br />
@@ -29,7 +37,9 @@ export function Footer() {
           </a>
         </div>
         <div className="text-sm">
-          <h3 className="mb-2 font-semibold text-foreground">Opening hours</h3>
+          <h3 className="mb-2 font-serif text-lg font-semibold text-primary">
+            Opening hours
+          </h3>
           <ul className="space-y-1 text-muted-foreground">
             {PHARMACY.hours.map((h) => (
               <li key={h.day} className="flex justify-between gap-4">
