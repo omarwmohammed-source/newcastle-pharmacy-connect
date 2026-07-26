@@ -1,92 +1,65 @@
-# Kenton Pharmacy Clinic — website plan
+## Goals
 
-Simple, trustworthy multi-page site inspired by the layout/simplicity of heatonroadpharmacy.co.uk, styled around the uploaded logo (navy + green cross). Name used throughout: **Kenton Pharmacy Clinic**.
+1. Fix the header so the logo blends in cleanly (no circle crop, no ring) and use a Garamond-style serif for the brand wordmark matching the logo.
+2. Make it obvious across the site that Kenton Pharmacy Clinic serves **all of Newcastle** and offers **free prescription delivery**.
+3. Add a comprehensive **NHS Services catalogue page** modelled on healthera.co.uk/app/services, with a "Register interest" form for each service capturing name, phone, email (and service).
 
-## Routes (TanStack Start, file-based)
+## 1. Header + logo cleanup
 
-```
-src/routes/
-  __root.tsx          -> shared header (logo + nav + phone) and footer
-  index.tsx           -> Home
-  services.tsx        -> NHS Services (index + service cards)
-  private.tsx         -> Private Services (Weight Loss, Insomnia)
-  contact.tsx         -> Contact + opening hours + map
-  register.tsx        -> Register interest form (accepts ?service=... query)
-```
+- Replace the circular avatar treatment in `src/components/site/Logo.tsx` with a clean rectangular logo lockup: `object-contain`, transparent background, no `rounded-full`, no `ring`. The navy from the logo already matches the navy header, so the logo will visually sit flush inside the bar.
+- Bump the logo height so it reads clearly (~44px header / ~56px on larger screens) and give the header a touch more vertical padding so it doesn't feel cramped.
+- Wordmark next to the logo uses the Garamond-style serif (see §2). Keep "Kenton Pharmacy Clinic" as the primary line; drop the "Newcastle · NE3" small caps under it (the delivery banner will carry the location message instead).
 
-Each route file gets its own `head()` with a unique title/description/og tags (Newcastle + Kenton + NE3 keywords). Nav uses `<Link>` with active states.
+## 2. Typography — Garamond serif
 
-## Shared chrome (in `__root.tsx`)
+- Load **EB Garamond** (closest free Google Font to the logo's typeface) via a `<link>` tag in `src/routes/__root.tsx` head (Tailwind v4 forbids remote `@import` in `styles.css`).
+- Register `--font-serif: "EB Garamond", Georgia, serif;` inside `@theme` in `src/styles.css` so `font-serif` utility works.
+- Apply the serif to: the header wordmark, all page `h1`/`h2` headings (hero, section titles, service names). Body copy and UI stay in the current sans for readability.
 
-- **Top strip**: phone `0191 205 2006` (click-to-call) · address `41 Halewood Avenue, Newcastle, NE3 3RX`.
-- **Header**: logo left, name "Kenton Pharmacy Clinic" + tagline, nav right: Home · NHS Services · Private Services · Contact · **Register** (button-styled CTA).
-- **Footer**: logo, address, phone, opening hours summary, small print.
+## 3. Newcastle-wide + free delivery messaging
 
-## Home (`/`)
+- Add a slim **announcement strip** just above the header (or as the top row of the header on desktop) reading e.g. *"Free prescription delivery across Newcastle — call 0191 205 2006"* with a phone link. Visible on all pages.
+- Update the homepage hero subheading (`src/routes/index.tsx`) to lead with "Serving all areas of Newcastle upon Tyne with free prescription delivery."
+- Add a small "Free delivery across Newcastle" highlight card in the homepage feature row and a matching line in the Footer.
+- Add `deliveryArea` and `freeDelivery: true` fields to `PHARMACY` in `src/lib/pharmacy-data.ts` so the copy is centralised.
 
-- Hero: pharmacy name, one-line intro ("Your trusted community pharmacy in Kenton, Newcastle"), primary CTA "Register your details" → `/register`, secondary "View services" → `/services`.
-- Short "What we do" — 3 tiles: NHS Services, Private Clinics, Prescriptions.
-- Opening hours block: Mon–Fri 8:30–18:00 · Sat 9:00–18:00 · Sun closed.
-- Find us: address + embedded Google Map iframe for NE3 3RX.
+## 4. NHS Services catalogue page (Healthera-style)
 
-## NHS Services (`/services`)
+Rework `src/routes/services.tsx` into a proper catalogue:
 
-Grid of service cards, each with title, one-line description, and a "Register interest" button that links to `/register?service=<name>`.
+- **Intro band**: "Browse our NHS pharmacy services" + one-line summary + reassurance that all NHS pharmacy services are available.
+- **Featured row** (3 cards): Pharmacy First, Prescriptions & EPS, Blood Pressure Check.
+- **All services grid**: alphabetised list of NHS services, each rendered as a card with:
+  - Service name (serif heading)
+  - Short description (Healthera-style single-sentence summary)
+  - "Register interest" button → opens a modal form pre-filled with the service.
+- Expand `NHS_SERVICES` in `src/lib/pharmacy-data.ts` with a broader NHS catalogue (Healthera-inspired, wording ours), e.g.: Pharmacy First, Prescriptions & EPS, Free Prescription Delivery, Blood Pressure Check, Contraception (ongoing supply), Emergency Contraception, Stop Smoking Support, Flu Vaccination (NHS), COVID Vaccination (eligible patients), New Medicine Service, Discharge Medicines Service, Emergency Dispensing, Disposal of Unwanted Medicines, Minor Ailments advice, Healthy Living advice, Substance Misuse support, Travel Health advice, Diabetes support, Asthma inhaler technique.
 
-- Pharmacy First (covers Earache, Sinusitis, Sore Throat, UTIs in Women, Shingles, Impetigo, Infected Insect Bites — listed inside the card)
-- Prescriptions & EPS
-- Blood Pressure Check
-- Contraception
-- Stop Smoking Service
-- Flu Vaccination
-- New Medicine Service
-- Discharge Medicines
-- Disposal of Medicines
-- Emergency Dispensing
+## 5. Per-service Register Interest form (modal)
 
-## Private Services (`/private`)
+- New `src/components/site/RegisterInterestDialog.tsx` — shadcn `Dialog` wrapping a compact form (Name, Phone, Email, Preferred contact time, Notes, hidden Service field, consent checkbox). Reuses the Zod schema already in `src/routes/register.tsx`.
+- Update `ServiceCard` to trigger the dialog instead of navigating to `/register` (keep the standalone `/register` page as a fallback linked from the header CTA).
+- On submit, show a success toast — no backend wiring in this pass (matches current behaviour). Note in the plan: enabling Lovable Cloud later would let us store enquiries; not doing it now unless asked.
 
-Same card pattern, visually distinct (subtle tint + "Private" badge):
-- Weight Loss Clinic
-- Insomnia Clinic
+## 6. SEO + head metadata
 
-Each card has its own "Register interest" button → `/register?service=<name>`.
+- Update `src/routes/services.tsx` head to reflect the new catalogue framing (title/description mention "all NHS pharmacy services" and "free delivery across Newcastle").
+- Update root `__root.tsx` description to include "free prescription delivery across Newcastle".
 
-## Register (`/register`)
+## Files touched
 
-Single shared form page. Reads `?service=` from the URL and pre-selects it. Fields:
-- Full name (required)
-- Phone (required)
-- Email (optional)
-- Date of birth (optional)
-- Service (dropdown of all NHS + private services, pre-filled)
-- Message / details (optional)
-- Consent checkbox (required)
+- `src/components/site/Logo.tsx` — clean lockup, serif wordmark, drop ring/circle.
+- `src/components/site/Header.tsx` — announcement strip, spacing, remove circular styling.
+- `src/components/site/Footer.tsx` — add delivery line.
+- `src/components/site/ServiceCard.tsx` — open dialog instead of link.
+- `src/components/site/RegisterInterestDialog.tsx` — **new**.
+- `src/routes/__root.tsx` — Garamond `<link>`, meta description tweak.
+- `src/routes/index.tsx` — hero copy, delivery highlight.
+- `src/routes/services.tsx` — catalogue layout.
+- `src/lib/pharmacy-data.ts` — expanded NHS list + delivery flags.
+- `src/styles.css` — `--font-serif` in `@theme`.
 
-Zod validation, shadcn form primitives. On submit → success screen "Thanks — we'll be in touch shortly."
+## Out of scope
 
-**Where submissions go:** in this first build, submissions are handled client-side and show a confirmation only (nothing stored). To actually save enquiries so you can view them later, we'd enable Lovable Cloud (free managed backend) — flagged as an open question below.
-
-## Contact (`/contact`)
-
-- Address, phone (click-to-call), email placeholder (you can send me one to swap in).
-- Full opening hours table.
-- Embedded Google Map for 41 Halewood Ave, NE3 3RX.
-- Small "Register your interest" CTA → `/register`.
-
-## Design
-
-- Style reference: heatonroadpharmacy.co.uk — clean, generous whitespace, blue navy primary, green accent from the cross, off-white background, rounded cards with soft borders. No hero photography, no gradients.
-- Semantic color tokens defined in `src/styles.css` (`--primary`, `--accent`, `--background`, etc.) so nothing is hardcoded.
-- Type: clean sans (Inter or similar), single H1 per page, semantic HTML, alt text on the logo.
-- Fully responsive; mobile nav collapses to a sheet menu.
-
-## Assets & tech
-
-- Upload logo via `lovable-assets` from `/mnt/user-uploads/image.png`, import the asset pointer, use in header + footer + favicon.
-- shadcn primitives: `button`, `input`, `textarea`, `label`, `select`, `checkbox`, `sheet` (mobile nav), `sonner` (toasts). Zod for validation.
-- Every route registers its own `head()` metadata; og:image omitted (no meaningful hero image yet).
-
-## Open question before I build
-
-Do you want form submissions **saved** somewhere you can view later (a list of enquiries in an admin view, optionally emailed to you)? That needs Lovable Cloud enabled — free, managed, no external accounts. If yes, I'll wire it up in the same build; if no, the form will just show a "thanks" confirmation.
+- No backend/storage for form submissions (toast only).
+- No changes to the Private Treatments page beyond consistency (serif headings).
