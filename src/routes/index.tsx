@@ -41,9 +41,9 @@ function Home() {
               Your trusted community pharmacy in Kenton
             </h1>
             <p className="mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
-              Serving all areas of Newcastle upon Tyne with the full range of
-              NHS pharmacy services, free prescription delivery and private
-              treatments — from friendly, expert pharmacists.
+              We serve all areas of Newcastle upon Tyne with the full range of
+              NHS pharmacy services, free prescription delivery, and private
+              treatments. Our team of friendly, expert pharmacists is here to help.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg">
