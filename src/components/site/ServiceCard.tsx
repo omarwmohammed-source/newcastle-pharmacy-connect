@@ -17,7 +17,22 @@ export function ServiceCard({ service }: { service: Service }) {
           </span>
         )}
       </div>
-      <p className="text-sm text-muted-foreground">{service.description}</p>
+      <p className="text-sm text-muted-foreground">
+        {service.description}
+        {service.link && (
+          <>
+            {" "}
+            <a
+              href={service.link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline underline-offset-2 hover:text-primary/80"
+            >
+              {service.link.text}
+            </a>
+          </>
+        )}
+      </p>
       {service.details && (
         <ul className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1 text-sm text-foreground/80">
           {service.details.map((d) => (
