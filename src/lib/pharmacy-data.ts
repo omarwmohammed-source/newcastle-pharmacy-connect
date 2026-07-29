@@ -1,9 +1,8 @@
-import type React from "react";
-
 export type Service = {
   slug: string;
   name: string;
-  description: string | React.ReactNode;
+  description: string;
+  link?: { href: string; text: string };
   details?: string[];
   kind: "nhs" | "private";
   featured?: boolean;
