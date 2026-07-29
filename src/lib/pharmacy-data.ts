@@ -2,6 +2,7 @@ export type Service = {
   slug: string;
   name: string;
   description: string;
+  link?: { href: string; text: string };
   details?: string[];
   kind: "nhs" | "private";
   featured?: boolean;
@@ -30,6 +31,10 @@ export const NHS_SERVICES: Service[] = [
     name: "Prescriptions & EPS",
     description:
       "Nominate Kenton Pharmacy Clinic for the NHS Electronic Prescription Service and pick up your medicines here.",
+    link: {
+      href: "https://www.nhs.uk/nhs-app/help/prescriptions/nominating-a-pharmacy/",
+      text: "Alternatively, you can also nominate us using the NHS app.",
+    },
     kind: "nhs",
     featured: true,
   },
