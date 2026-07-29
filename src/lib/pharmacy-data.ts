@@ -30,8 +30,20 @@ export const NHS_SERVICES: Service[] = [
   {
     slug: "prescriptions",
     name: "Prescriptions & EPS",
-    description:
-      "Nominate Kenton Pharmacy Clinic for the NHS Electronic Prescription Service and pick up your medicines here.",
+    description: (
+      <>
+        Nominate Kenton Pharmacy Clinic for the NHS Electronic Prescription
+        Service and pick up your medicines here.{" "}
+        <a
+          href="https://www.nhs.uk/nhs-app/help/prescriptions/nominating-a-pharmacy/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline underline-offset-2 hover:text-primary/80"
+        >
+          Alternatively, you can also nominate us using the NHS app.
+        </a>
+      </>
+    ),
     kind: "nhs",
     featured: true,
   },
