@@ -1,7 +1,7 @@
 export type Service = {
   slug: string;
   name: string;
-  description: string;
+  description: string | React.ReactNode;
   details?: string[];
   kind: "nhs" | "private";
   featured?: boolean;
