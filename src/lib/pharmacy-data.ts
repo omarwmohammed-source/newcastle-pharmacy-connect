@@ -1,3 +1,5 @@
+import type React from "react";
+
 export type Service = {
   slug: string;
   name: string;
