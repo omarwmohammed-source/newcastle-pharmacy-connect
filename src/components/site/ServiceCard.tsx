@@ -44,15 +44,24 @@ export function ServiceCard({ service }: { service: Service }) {
         </ul>
       )}
       <div className="mt-auto pt-5">
-        <RegisterInterestDialog
-          service={service}
-          trigger={
-            <Button variant="outline" className="w-full">
+        {formUrl ? (
+          <Button asChild variant="outline" className="w-full">
+            <a href={formUrl} target="_blank" rel="noopener noreferrer">
               Register interest
               <ArrowRight className="ml-1 h-4 w-4" />
-            </Button>
-          }
-        />
+            </a>
+          </Button>
+        ) : (
+          <RegisterInterestDialog
+            service={service}
+            trigger={
+              <Button variant="outline" className="w-full">
+                Register interest
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+            }
+          />
+        )}
       </div>
     </div>
   );
