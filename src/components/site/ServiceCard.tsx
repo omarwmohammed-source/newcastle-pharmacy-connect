@@ -1,10 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Service } from "@/lib/pharmacy-data";
+import { type Service, serviceFormUrl } from "@/lib/pharmacy-data";
 import { RegisterInterestDialog } from "./RegisterInterestDialog";
 
 export function ServiceCard({ service }: { service: Service }) {
   const isPrivate = service.kind === "private";
+  const formUrl = serviceFormUrl(service);
   return (
     <div className="flex flex-col rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
       <div className="mb-3 flex items-start justify-between gap-2">
