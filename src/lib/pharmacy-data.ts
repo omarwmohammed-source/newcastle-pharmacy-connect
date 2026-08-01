@@ -6,7 +6,36 @@ export type Service = {
   details?: string[];
   kind: "nhs" | "private";
   featured?: boolean;
+  /** Optional per-service Google Form URL. Overrides the shared form below. */
+  formUrl?: string;
 };
+
+/**
+ * Shared Google Form used for "Register interest".
+ * 1. Create your Google Form (name, phone, email, notes...).
+ * 2. Paste its share link below (the .../viewform URL).
+ * 3. Optional: add a short-answer "Service" question, click the 3-dot menu >
+ *    "Get pre-filled link", and paste the entry.XXXXXXX id below so the chosen
+ *    service is filled in automatically.
+ */
+export const GOOGLE_FORM = {
+  url: "",
+  serviceEntryId: "", // e.g. "entry.1234567890"
+};
+
+export function serviceFormUrl(service: {
+  name: string;
+  slug: string;
+  formUrl?: string;
+}): string | null {
+  const base = service.formUrl ?? GOOGLE_FORM.url;
+  if (!base) return null;
+  if (!GOOGLE_FORM.serviceEntryId || service.formUrl) return base;
+  const sep = base.includes("?") ? "&" : "?";
+  return `${base}${sep}usp=pp_url&${GOOGLE_FORM.serviceEntryId}=${encodeURIComponent(
+    service.name,
+  )}`;
+}
 
 export const NHS_SERVICES: Service[] = [
   {
