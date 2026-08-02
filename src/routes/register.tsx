@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useId } from "react";
 import { z } from "zod";
 import { CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
@@ -330,15 +330,19 @@ function Field({
   error?: string;
   hint?: string;
   required?: boolean;
-  children: React.ReactNode;
+  children: React.ReactNode | ((id: string) => React.ReactNode);
 }) {
+  const id = useId();
   return (
     <div>
-      <Label className="mb-1.5 flex items-center gap-1 text-sm font-medium">
+      <Label
+        htmlFor={id}
+        className="mb-1.5 flex items-center gap-1 text-sm font-medium"
+      >
         {label}
         {required && <span className="text-destructive">*</span>}
       </Label>
-      {children}
+      {typeof children === "function" ? children(id) : children}
       {hint && !error && (
         <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
       )}
