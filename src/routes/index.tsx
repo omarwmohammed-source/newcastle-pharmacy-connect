@@ -3,6 +3,50 @@ import { ArrowRight, HeartPulse, Pill, Stethoscope, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OpeningHours } from "@/components/site/OpeningHours";
 import { PHARMACY } from "@/lib/pharmacy-data";
+import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
+
+const BASE_URL = "https://kenton-pharmacy-clinic.lovable.app";
+const LOGO_URL = `${BASE_URL}${logoAsset.url}`;
+
+const pharmacySchema = {
+  "@context": "https://schema.org",
+  "@type": "Pharmacy",
+  name: PHARMACY.name,
+  image: LOGO_URL,
+  url: BASE_URL,
+  telephone: PHARMACY.phoneHref.replace("tel:", ""),
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: PHARMACY.addressLine1,
+    addressLocality: PHARMACY.addressLine2,
+    postalCode: PHARMACY.postcode,
+    addressCountry: "GB",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: "54.9975",
+    longitude: "-1.6505",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:30",
+      closes: "18:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Saturday",
+      opens: "09:00",
+      closes: "18:00",
+    },
+  ],
+  areaServed: {
+    "@type": "City",
+    name: "Newcastle upon Tyne",
+  },
+  priceRange: "£",
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,9 +67,19 @@ export const Route = createFileRoute("/")({
           "Full NHS pharmacy services and free prescription delivery across Newcastle.",
       },
     ],
+    links: [
+      { rel: "canonical", href: BASE_URL },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        innerHTML: JSON.stringify(pharmacySchema),
+      },
+    ],
   }),
   component: Home,
 });
+
 
 function Home() {
   return (
