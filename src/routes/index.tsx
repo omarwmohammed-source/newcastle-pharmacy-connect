@@ -78,6 +78,10 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pharmacySchema) }}
+      />
       <section className="border-b border-border bg-gradient-to-b from-muted/60 to-background">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
           <div>
