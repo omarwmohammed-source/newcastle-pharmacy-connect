@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Truck } from "lucide-react";
 import { ServiceCard } from "@/components/site/ServiceCard";
 import { NHS_SERVICES } from "@/lib/pharmacy-data";
+import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
+
+const OG_IMAGE = `${BASE_URL}${logoAsset.url}`;
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -11,7 +14,7 @@ export const Route = createFileRoute("/services")({
       {
         name: "description",
         content:
-          "Browse all NHS pharmacy services at Kenton Pharmacy Clinic in Newcastle: Pharmacy First, prescriptions & EPS, free prescription delivery, blood pressure checks, vaccinations and more.",
+          "NHS pharmacy services at Kenton Pharmacy Clinic in Newcastle. Pharmacy First, prescriptions, free delivery, blood pressure checks, and more.",
       },
       { property: "og:title", content: "NHS Services — Kenton Pharmacy Clinic" },
       {
@@ -19,6 +22,10 @@ export const Route = createFileRoute("/services")({
         content:
           "Full range of NHS pharmacy services and free prescription delivery across Newcastle.",
       },
+      { property: "og:url", content: `${BASE_URL}/services` },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:type", content: "website" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: `${BASE_URL}/services` }],
   }),
