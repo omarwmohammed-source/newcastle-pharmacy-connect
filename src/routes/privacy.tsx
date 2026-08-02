@@ -37,7 +37,7 @@ function PrivacyPage() {
       <div className="prose prose-slate mt-10 max-w-none">
         <Block title="Who we are">
           <p>
-            Kenton Pharmacy Clinic, {PHARMACY.address}. We are the data
+            Kenton Pharmacy Clinic, {`${PHARMACY.addressLine1}, ${PHARMACY.addressLine2}, ${PHARMACY.postcode}`}. We are the data
             controller for the personal information you submit through this
             website. You can contact us on {PHARMACY.phone} or in the pharmacy.
           </p>

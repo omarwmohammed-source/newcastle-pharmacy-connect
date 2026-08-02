@@ -75,7 +75,7 @@ function CookiesPage() {
           <h2 className="text-xl font-semibold text-primary">Questions</h2>
           <p className="mt-2">
             Call us on {PHARMACY.phone} or pop into the pharmacy at{" "}
-            {PHARMACY.address}.
+            {`${PHARMACY.addressLine1}, ${PHARMACY.addressLine2}, ${PHARMACY.postcode}`}.
           </p>
         </div>
       </div>

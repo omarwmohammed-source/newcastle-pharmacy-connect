@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PrivateRouteImport } from './routes/private'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +31,16 @@ const RegisterRoute = RegisterRouteImport.update({
 const PrivateRoute = PrivateRouteImport.update({
   id: '/private',
   path: '/private',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -51,6 +63,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/privacy': typeof PrivacyRoute
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
@@ -59,6 +73,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/privacy': typeof PrivacyRoute
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
@@ -68,6 +84,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/privacy': typeof PrivacyRoute
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
@@ -78,16 +96,28 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/contact'
+    | '/cookies'
+    | '/privacy'
     | '/private'
     | '/register'
     | '/services'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/contact' | '/private' | '/register' | '/services'
+  to:
+    | '/'
+    | '/admin'
+    | '/contact'
+    | '/cookies'
+    | '/privacy'
+    | '/private'
+    | '/register'
+    | '/services'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/contact'
+    | '/cookies'
+    | '/privacy'
     | '/private'
     | '/register'
     | '/services'
@@ -97,6 +127,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   ContactRoute: typeof ContactRoute
+  CookiesRoute: typeof CookiesRoute
+  PrivacyRoute: typeof PrivacyRoute
   PrivateRoute: typeof PrivateRoute
   RegisterRoute: typeof RegisterRoute
   ServicesRoute: typeof ServicesRoute
@@ -123,6 +155,20 @@ declare module '@tanstack/react-router' {
       path: '/private'
       fullPath: '/private'
       preLoaderRoute: typeof PrivateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -153,6 +199,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   ContactRoute: ContactRoute,
+  CookiesRoute: CookiesRoute,
+  PrivacyRoute: PrivacyRoute,
   PrivateRoute: PrivateRoute,
   RegisterRoute: RegisterRoute,
   ServicesRoute: ServicesRoute,
