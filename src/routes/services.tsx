@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Truck } from "lucide-react";
 import { ServiceCard } from "@/components/site/ServiceCard";
 import { NHS_SERVICES } from "@/lib/pharmacy-data";
+import { BASE_URL } from "@/lib/site-config";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -19,9 +20,11 @@ export const Route = createFileRoute("/services")({
           "Full range of NHS pharmacy services and free prescription delivery across Newcastle.",
       },
     ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/services` }],
   }),
   component: ServicesPage,
 });
+
 
 function ServicesPage() {
   const featured = NHS_SERVICES.filter((s) => s.featured);

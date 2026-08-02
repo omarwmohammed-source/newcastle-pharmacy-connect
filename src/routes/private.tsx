@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServiceCard } from "@/components/site/ServiceCard";
 import { PRIVATE_SERVICES } from "@/lib/pharmacy-data";
+import { BASE_URL } from "@/lib/site-config";
 
 export const Route = createFileRoute("/private")({
   head: () => ({
@@ -21,9 +22,11 @@ export const Route = createFileRoute("/private")({
           "Private weight loss and insomnia treatments in Kenton, Newcastle.",
       },
     ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/private` }],
   }),
   component: PrivatePage,
 });
+
 
 function PrivatePage() {
   return (

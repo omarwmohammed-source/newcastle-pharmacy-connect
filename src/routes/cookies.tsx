@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PHARMACY } from "@/lib/pharmacy-data";
+import { BASE_URL } from "@/lib/site-config";
 
 export const Route = createFileRoute("/cookies")({
   head: () => ({
@@ -19,9 +20,11 @@ export const Route = createFileRoute("/cookies")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/cookies` }],
   }),
   component: CookiesPage,
 });
+
 
 function CookiesPage() {
   return (

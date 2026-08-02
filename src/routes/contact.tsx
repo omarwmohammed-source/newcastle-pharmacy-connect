@@ -3,6 +3,7 @@ import { MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OpeningHours } from "@/components/site/OpeningHours";
 import { PHARMACY } from "@/lib/pharmacy-data";
+import { BASE_URL } from "@/lib/site-config";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -21,9 +22,11 @@ export const Route = createFileRoute("/contact")({
         content: `Visit us at ${PHARMACY.addressLine1}, Newcastle, ${PHARMACY.postcode}.`,
       },
     ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/contact` }],
   }),
   component: ContactPage,
 });
+
 
 function ContactPage() {
   return (
