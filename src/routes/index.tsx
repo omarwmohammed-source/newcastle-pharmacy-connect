@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { OpeningHours } from "@/components/site/OpeningHours";
 import { PHARMACY } from "@/lib/pharmacy-data";
 import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
-
-const BASE_URL = "https://kenton-pharmacy-clinic.lovable.app";
+import { BASE_URL } from "@/lib/site-config";
 const LOGO_URL = `${BASE_URL}${logoAsset.url}`;
 
 const pharmacySchema = {
@@ -66,6 +65,10 @@ export const Route = createFileRoute("/")({
         content:
           "Full NHS pharmacy services and free prescription delivery across Newcastle.",
       },
+      { property: "og:url", content: BASE_URL },
+      { property: "og:image", content: `${BASE_URL}${logoAsset.url}` },
+      { property: "og:type", content: "website" },
+      { name: "twitter:image", content: `${BASE_URL}${logoAsset.url}` },
     ],
     links: [
       { rel: "canonical", href: BASE_URL },
