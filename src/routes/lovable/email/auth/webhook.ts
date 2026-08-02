@@ -9,7 +9,7 @@ import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
 // Configuration
-const SITE_NAME = "newcastle-pharmacy-connect"
+const SITE_NAME = "Kenton Pharmacy Clinic"
 const SENDER_DOMAIN = "notify.pharmacy-clinic.com"
 const ROOT_DOMAIN = "pharmacy-clinic.com"
 const FROM_DOMAIN = "notify.pharmacy-clinic.com"
