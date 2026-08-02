@@ -73,7 +73,6 @@ function AdminPage() {
 }
 
 function SignIn() {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
@@ -81,23 +80,6 @@ function SignIn() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPending(true);
-    if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
-        options: { emailRedirectTo: `${window.location.origin}/admin` },
-      });
-      setPending(false);
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-      toast.success(
-        "Account created. Check your inbox for a confirmation email, then sign in.",
-      );
-      setMode("signin");
-      return;
-    }
     const { error } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
@@ -110,11 +92,10 @@ function SignIn() {
     <section className="mx-auto max-w-md px-6 py-20">
       <div className="rounded-xl border bg-card p-8 shadow-sm">
         <ShieldCheck className="h-8 w-8 text-primary" />
-        <h1 className="mt-4 text-2xl font-bold text-primary">
-          {mode === "signin" ? "Staff sign in" : "Create staff account"}
-        </h1>
+        <h1 className="mt-4 text-2xl font-bold text-primary">Staff sign in</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          This area contains patient enquiries. Authorised staff only.
+          This area contains patient enquiries. Access is restricted to the
+          pharmacy's registered account.
         </p>
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <div>
@@ -137,9 +118,7 @@ function SignIn() {
             <Input
               id="password"
               type="password"
-              autoComplete={
-                mode === "signin" ? "current-password" : "new-password"
-              }
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -147,26 +126,14 @@ function SignIn() {
             />
           </div>
           <Button type="submit" className="w-full" disabled={pending}>
-            {pending
-              ? "Please wait…"
-              : mode === "signin"
-                ? "Sign in"
-                : "Create account"}
+            {pending ? "Please wait…" : "Sign in"}
           </Button>
         </form>
-        <button
-          type="button"
-          className="mt-4 text-sm text-primary underline underline-offset-2"
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-        >
-          {mode === "signin"
-            ? "First time here? Create your staff account"
-            : "Already have an account? Sign in"}
-        </button>
       </div>
     </section>
   );
 }
+
 
 
 function Dashboard() {
