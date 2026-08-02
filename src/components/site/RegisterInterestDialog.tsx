@@ -68,11 +68,13 @@ export function RegisterInterestDialog({
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState<Values>(empty);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [pending, setPending] = useState(false);
+  const send = useServerFn(submitEnquiry);
 
   const set = <K extends keyof Values>(k: K, v: Values[K]) =>
     setValues((prev) => ({ ...prev, [k]: v }));
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = schema.safeParse(values);
     if (!result.success) {
@@ -85,10 +87,33 @@ export function RegisterInterestDialog({
       return;
     }
     setErrors({});
-    toast.success(`Thanks — we'll be in touch about ${service.name}.`);
-    setValues(empty);
-    setOpen(false);
+    setPending(true);
+    try {
+      await send({
+        data: {
+          fullName: result.data.fullName,
+          phone: result.data.phone,
+          email: result.data.email ?? "",
+          dob: "",
+          serviceSlug: service.slug,
+          serviceName: service.name,
+          message: result.data.notes ?? "",
+          consent: true,
+          source: "service-card",
+        },
+      });
+      toast.success(`Thanks — we'll be in touch about ${service.name}.`);
+      setValues(empty);
+      setOpen(false);
+    } catch {
+      toast.error(
+        "Sorry, we couldn't send that. Please try again or call us on 0191 205 2006.",
+      );
+    } finally {
+      setPending(false);
+    }
   };
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
