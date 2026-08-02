@@ -262,7 +262,15 @@ function RegisterPage() {
           <div>
             <Label htmlFor="consent" className="text-sm font-normal">
               I agree to be contacted about this enquiry by Kenton Pharmacy
-              Clinic.
+              Clinic. Your details are stored securely and used only to respond
+              to you — see our{" "}
+              <Link
+                to="/privacy"
+                className="text-primary underline underline-offset-2"
+              >
+                privacy notice
+              </Link>
+              .
             </Label>
             {errors.consent && (
               <p className="mt-1 text-sm text-destructive">{errors.consent}</p>
@@ -270,9 +278,15 @@ function RegisterPage() {
           </div>
         </div>
 
-        <Button type="submit" size="lg" className="w-full sm:w-auto">
-          Submit
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full sm:w-auto"
+          disabled={pending}
+        >
+          {pending ? "Sending…" : "Submit"}
         </Button>
+
       </form>
     </section>
   );
