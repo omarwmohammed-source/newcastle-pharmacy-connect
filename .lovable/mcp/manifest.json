@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://obyzmabdrkwibpxteyud.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "kenton-pharmacy-clinic",
+      "version": "0.1.0",
+      "title": "Kenton Pharmacy Clinic"
+    },
+    "tools": [
+      {
+        "name": "list_services",
+        "title": "List pharmacy services",
+        "description": "List the NHS services and private treatments offered by Kenton Pharmacy Clinic, along with opening hours and contact details.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "all",
+                "nhs",
+                "private"
+              ],
+              "description": "Filter by service type (default all)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_enquiries",
+        "title": "List patient enquiries",
+        "description": "List register-interest enquiries submitted through the Kenton Pharmacy Clinic website, newest first. Staff access only.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "new",
+                "in_progress",
+                "done"
+              ],
+              "description": "Filter by enquiry status."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Maximum number of enquiries to return (default 25)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_enquiry",
+        "title": "Update an enquiry",
+        "description": "Update the status and/or staff notes of a patient enquiry. Staff access only.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "The enquiry id."
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "new",
+                "in_progress",
+                "done"
+              ],
+              "description": "New status for the enquiry."
+            },
+            "staff_notes": {
+              "type": "string",
+              "maxLength": 2000,
+              "description": "Internal staff notes to store against the enquiry."
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
