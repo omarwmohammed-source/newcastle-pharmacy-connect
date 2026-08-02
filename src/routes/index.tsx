@@ -70,12 +70,6 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: BASE_URL },
     ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        innerHTML: JSON.stringify(pharmacySchema),
-      },
-    ],
   }),
   component: Home,
 });
