@@ -33,4 +33,32 @@ export async function notifyNewEnquiry(
     // Never let an email problem lose a submission.
     console.error("[enquiries] alert failed", error);
   }
+
+  // Acknowledgement to the customer (only when they gave an email address).
+  if (!enquiry.email) return;
+  try {
+    const { sendTemplateEmail } = await import(
+      "@/lib/email-templates/send-email"
+    );
+    const result = await sendTemplateEmail(
+      "enquiry-confirmation",
+      enquiry.email,
+      {
+        idempotencyKey: `enquiry-confirmation-${enquiry.id}`,
+        replyTo: PHARMACY_INBOX,
+        templateData: {
+          fullName: enquiry.fullName?.split(" ")[0] || "there",
+          serviceName: enquiry.serviceName,
+        },
+      },
+    );
+    if (!result.sent) {
+      console.warn(
+        `[enquiries] confirmation not sent for ${enquiry.id}: ${result.reason}`,
+      );
+    }
+  } catch (error) {
+    console.error("[enquiries] confirmation failed", error);
+  }
 }
+
