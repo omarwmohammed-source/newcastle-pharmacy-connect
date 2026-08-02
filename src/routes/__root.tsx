@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
+import { BASE_URL } from "@/lib/site-config";
 
 function NotFoundComponent() {
   return (
@@ -84,17 +86,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Kenton Pharmacy Clinic in Newcastle upon Tyne. Full NHS pharmacy services, free prescription delivery across Newcastle, and private weight loss and insomnia treatments.",
+          "Kenton Pharmacy Clinic in Newcastle. Full NHS pharmacy services, free prescription delivery, and private weight loss and insomnia treatments.",
       },
       { name: "author", content: "Kenton Pharmacy Clinic" },
       { property: "og:title", content: "Kenton Pharmacy Clinic — Newcastle NE3" },
       {
         property: "og:description",
         content:
-          "Full NHS services and free prescription delivery across Newcastle. Your trusted community pharmacy in Kenton.",
+          "Full NHS pharmacy services and free prescription delivery across Newcastle. Your trusted community pharmacy in Kenton.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: BASE_URL },
+      { property: "og:image", content: `${BASE_URL}${logoAsset.url}` },
+      { property: "og:site_name", content: "Kenton Pharmacy Clinic" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: `${BASE_URL}${logoAsset.url}` },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
