@@ -1,7 +1,4 @@
 // Server-only: alerts the pharmacy when a new enquiry arrives.
-// Email delivery activates once a verified sender domain is configured for the
-// project. Until then this records the enquiry in the server log and resolves
-// without throwing, so a form submission is never lost to an email problem.
 import type { EnquiryInput } from "./enquiries-schema";
 import { PHARMACY_INBOX } from "./staff-access";
 
@@ -9,10 +6,31 @@ export async function notifyNewEnquiry(
   enquiry: EnquiryInput & { id: string },
 ): Promise<void> {
   try {
-    console.info(
-      `[enquiries] new enquiry ${enquiry.id} for ${PHARMACY_INBOX} — ${enquiry.serviceName} — ${enquiry.fullName} — ${enquiry.phone}`,
+    const { sendTemplateEmail } = await import(
+      "@/lib/email-templates/send-email"
     );
+    const result = await sendTemplateEmail("new-enquiry", PHARMACY_INBOX, {
+      idempotencyKey: `new-enquiry-${enquiry.id}`,
+      replyTo: enquiry.email || undefined,
+      templateData: {
+        fullName: enquiry.fullName,
+        phone: enquiry.phone,
+        email: enquiry.email,
+        serviceName: enquiry.serviceName,
+        message: enquiry.message,
+        source: enquiry.source,
+        submittedAt: new Date().toLocaleString("en-GB", {
+          timeZone: "Europe/London",
+        }),
+      },
+    });
+    if (!result.sent) {
+      console.warn(
+        `[enquiries] alert not sent for ${enquiry.id}: ${result.reason}`,
+      );
+    }
   } catch (error) {
+    // Never let an email problem lose a submission.
     console.error("[enquiries] alert failed", error);
   }
 }
