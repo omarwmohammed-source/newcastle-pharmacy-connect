@@ -46,6 +46,35 @@ export const getStaffStatus = createServerFn({ method: "GET" })
     return { isStaff: data === true };
   });
 
+// Lets the pharmacy's own business address grant itself staff access the first
+// time it signs in, so the owner isn't locked out of /admin. Any other address
+// is rejected.
+export const claimStaffAccess = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { isAllowlistedStaffEmail } = await import("./staff-access");
+    const email = (context.claims as { email?: string } | null)?.email ?? null;
+    if (!isAllowlistedStaffEmail(email)) {
+      return { granted: false as const };
+    }
+
+    const { supabaseAdmin } = await import(
+      "@/integrations/supabase/client.server"
+    );
+    const { error } = await supabaseAdmin
+      .from("user_roles")
+      .upsert(
+        { user_id: context.userId, role: "admin" },
+        { onConflict: "user_id,role" },
+      );
+    if (error) {
+      console.error("[staff] role grant failed", error);
+      return { granted: false as const };
+    }
+    return { granted: true as const };
+  });
+
+
 export const listEnquiries = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
