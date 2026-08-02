@@ -18,8 +18,10 @@ import {
 import { useServerFn } from "@tanstack/react-start";
 import { ALL_SERVICES } from "@/lib/pharmacy-data";
 import { submitEnquiry } from "@/lib/enquiries.functions";
+import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
 
+const OG_IMAGE = `${BASE_URL}${logoAsset.url}`;
 
 
 const searchSchema = z.object({
@@ -45,6 +47,10 @@ export const Route = createFileRoute("/register")({
         content:
           "Register your details for prescriptions, NHS or private services at Kenton Pharmacy Clinic.",
       },
+      { property: "og:url", content: `${BASE_URL}/register` },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:type", content: "website" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: `${BASE_URL}/register` }],
   }),

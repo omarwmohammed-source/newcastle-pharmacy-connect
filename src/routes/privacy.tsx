@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PHARMACY } from "@/lib/pharmacy-data";
+import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
+
+const OG_IMAGE = `${BASE_URL}${logoAsset.url}`;
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -17,8 +20,11 @@ export const Route = createFileRoute("/privacy")({
         content:
           "How we handle and protect the personal details you share with Kenton Pharmacy Clinic.",
       },
+      { property: "og:url", content: `${BASE_URL}/privacy` },
+      { property: "og:image", content: OG_IMAGE },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: `${BASE_URL}/privacy` }],
   }),

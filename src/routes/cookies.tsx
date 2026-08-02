@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PHARMACY } from "@/lib/pharmacy-data";
+import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
+
+const OG_IMAGE = `${BASE_URL}${logoAsset.url}`;
 
 export const Route = createFileRoute("/cookies")({
   head: () => ({
@@ -17,8 +20,11 @@ export const Route = createFileRoute("/cookies")({
         content:
           "No advertising or tracking cookies — here is exactly what this website stores.",
       },
+      { property: "og:url", content: `${BASE_URL}/cookies` },
+      { property: "og:image", content: OG_IMAGE },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: `${BASE_URL}/cookies` }],
   }),
