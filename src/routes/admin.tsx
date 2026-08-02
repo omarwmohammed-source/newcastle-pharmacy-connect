@@ -248,8 +248,10 @@ function Dashboard() {
 
       {denied ? (
         <p className="mt-12 rounded-lg border bg-muted/40 p-6 text-sm text-muted-foreground">
-          Your account is signed in but has not been given staff access yet. Ask
-          an administrator to add the staff role to your account.
+          Your account is signed in but does not have staff access. The
+          pharmacy&apos;s registered business email gets access automatically —
+          any other account has to be approved by an administrator.
+
         </p>
       ) : loading ? (
         <p className="mt-12 text-muted-foreground">Loading enquiries…</p>
