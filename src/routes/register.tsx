@@ -15,7 +15,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useServerFn } from "@tanstack/react-start";
 import { ALL_SERVICES } from "@/lib/pharmacy-data";
+import { submitEnquiry } from "@/lib/enquiries.functions";
+
 
 const searchSchema = z.object({
   service: z.string().optional(),
@@ -95,11 +98,13 @@ function RegisterPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [pending, setPending] = useState(false);
+  const send = useServerFn(submitEnquiry);
 
   const set = <K extends keyof FormValues>(k: K, v: FormValues[K]) =>
     setValues((prev) => ({ ...prev, [k]: v }));
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = formSchema.safeParse(values);
     if (!result.success) {
@@ -115,9 +120,33 @@ function RegisterPage() {
       return;
     }
     setErrors({});
-    setSubmitted(true);
-    toast.success("Thanks — we'll be in touch shortly");
+    setPending(true);
+    try {
+      const chosen = ALL_SERVICES.find((s) => s.slug === result.data.service);
+      await send({
+        data: {
+          fullName: result.data.fullName,
+          phone: result.data.phone,
+          email: result.data.email ?? "",
+          dob: result.data.dob ?? "",
+          serviceSlug: result.data.service,
+          serviceName: chosen?.name ?? result.data.service,
+          message: result.data.message ?? "",
+          consent: true,
+          source: "register-page",
+        },
+      });
+      setSubmitted(true);
+      toast.success("Thanks — we'll be in touch shortly");
+    } catch {
+      toast.error(
+        "Sorry, we couldn't send that. Please try again or call us on 0191 205 2006.",
+      );
+    } finally {
+      setPending(false);
+    }
   };
+
 
   if (submitted) {
     return (
@@ -233,7 +262,15 @@ function RegisterPage() {
           <div>
             <Label htmlFor="consent" className="text-sm font-normal">
               I agree to be contacted about this enquiry by Kenton Pharmacy
-              Clinic.
+              Clinic. Your details are stored securely and used only to respond
+              to you — see our{" "}
+              <Link
+                to="/privacy"
+                className="text-primary underline underline-offset-2"
+              >
+                privacy notice
+              </Link>
+              .
             </Label>
             {errors.consent && (
               <p className="mt-1 text-sm text-destructive">{errors.consent}</p>
@@ -241,9 +278,15 @@ function RegisterPage() {
           </div>
         </div>
 
-        <Button type="submit" size="lg" className="w-full sm:w-auto">
-          Submit
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full sm:w-auto"
+          disabled={pending}
+        >
+          {pending ? "Sending…" : "Submit"}
         </Button>
+
       </form>
     </section>
   );
