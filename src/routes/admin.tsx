@@ -19,7 +19,9 @@ import {
   listEnquiries,
   setEnquiryStatus,
   getStaffStatus,
+  claimStaffAccess,
 } from "@/lib/enquiries.functions";
+
 import type { EnquiryRow } from "@/lib/enquiries-schema";
 import { ENQUIRY_STATUSES } from "@/lib/enquiries-schema";
 
