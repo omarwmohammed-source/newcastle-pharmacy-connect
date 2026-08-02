@@ -3,7 +3,10 @@ import { MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OpeningHours } from "@/components/site/OpeningHours";
 import { PHARMACY } from "@/lib/pharmacy-data";
+import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
+
+const OG_IMAGE = `${BASE_URL}${logoAsset.url}`;
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -21,6 +24,10 @@ export const Route = createFileRoute("/contact")({
         property: "og:description",
         content: `Visit us at ${PHARMACY.addressLine1}, Newcastle, ${PHARMACY.postcode}.`,
       },
+      { property: "og:url", content: `${BASE_URL}/contact` },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:type", content: "website" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: `${BASE_URL}/contact` }],
   }),
