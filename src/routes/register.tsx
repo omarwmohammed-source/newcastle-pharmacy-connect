@@ -193,32 +193,41 @@ function RegisterPage() {
 
       <form onSubmit={onSubmit} className="mt-10 space-y-5" noValidate>
         <Field label="Full name" error={errors.fullName} required>
-          <Input
-            value={values.fullName}
-            onChange={(e) => set("fullName", e.target.value)}
-            autoComplete="name"
-            maxLength={100}
-          />
+          {(id) => (
+            <Input
+              id={id}
+              value={values.fullName}
+              onChange={(e) => set("fullName", e.target.value)}
+              autoComplete="name"
+              maxLength={100}
+            />
+          )}
         </Field>
 
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Phone" error={errors.phone} required>
-            <Input
-              type="tel"
-              value={values.phone}
-              onChange={(e) => set("phone", e.target.value)}
-              autoComplete="tel"
-              maxLength={20}
-            />
+            {(id) => (
+              <Input
+                id={id}
+                type="tel"
+                value={values.phone}
+                onChange={(e) => set("phone", e.target.value)}
+                autoComplete="tel"
+                maxLength={20}
+              />
+            )}
           </Field>
           <Field label="Email (optional)" error={errors.email}>
-            <Input
-              type="email"
-              value={values.email}
-              onChange={(e) => set("email", e.target.value)}
-              autoComplete="email"
-              maxLength={255}
-            />
+            {(id) => (
+              <Input
+                id={id}
+                type="email"
+                value={values.email}
+                onChange={(e) => set("email", e.target.value)}
+                autoComplete="email"
+                maxLength={255}
+              />
+            )}
           </Field>
         </div>
 
@@ -227,40 +236,48 @@ function RegisterPage() {
           error={errors.dob}
           hint="Helps us match your NHS records"
         >
-          <Input
-            type="date"
-            value={values.dob}
-            onChange={(e) => set("dob", e.target.value)}
-          />
+          {(id) => (
+            <Input
+              id={id}
+              type="date"
+              value={values.dob}
+              onChange={(e) => set("dob", e.target.value)}
+            />
+          )}
         </Field>
 
         <Field label="Service" error={errors.service} required>
-          <Select
-            value={values.service}
-            onValueChange={(v) => set("service", v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Choose a service" />
-            </SelectTrigger>
-            <SelectContent>
-              {ALL_SERVICES.map((s) => (
-                <SelectItem key={s.slug} value={s.slug}>
-                  {s.name}
-                  {s.kind === "private" ? " (Private)" : ""}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {(id) => (
+            <Select
+              value={values.service}
+              onValueChange={(v) => set("service", v)}
+            >
+              <SelectTrigger id={id}>
+                <SelectValue placeholder="Choose a service" />
+              </SelectTrigger>
+              <SelectContent>
+                {ALL_SERVICES.map((s) => (
+                  <SelectItem key={s.slug} value={s.slug}>
+                    {s.name}
+                    {s.kind === "private" ? " (Private)" : ""}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </Field>
 
         <Field label="Anything else? (optional)" error={errors.message}>
-          <Textarea
-            value={values.message}
-            onChange={(e) => set("message", e.target.value)}
-            maxLength={1000}
-            rows={4}
-            placeholder="Medication name, preferred times, etc."
-          />
+          {(id) => (
+            <Textarea
+              id={id}
+              value={values.message}
+              onChange={(e) => set("message", e.target.value)}
+              maxLength={1000}
+              rows={4}
+              placeholder="Medication name, preferred times, etc."
+            />
+          )}
         </Field>
 
         <div className="flex items-start gap-3">
