@@ -18,6 +18,8 @@ import {
 import { useServerFn } from "@tanstack/react-start";
 import { ALL_SERVICES } from "@/lib/pharmacy-data";
 import { submitEnquiry } from "@/lib/enquiries.functions";
+import { BASE_URL } from "@/lib/site-config";
+
 
 
 const searchSchema = z.object({
@@ -44,7 +46,9 @@ export const Route = createFileRoute("/register")({
           "Register your details for prescriptions, NHS or private services at Kenton Pharmacy Clinic.",
       },
     ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/register` }],
   }),
+
   component: RegisterPage,
 });
 
