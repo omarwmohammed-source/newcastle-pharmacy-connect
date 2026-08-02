@@ -170,6 +170,7 @@ function SignIn() {
 function Dashboard() {
   const load = useServerFn(listEnquiries);
   const checkStaff = useServerFn(getStaffStatus);
+  const claim = useServerFn(claimStaffAccess);
   const updateStatus = useServerFn(setEnquiryStatus);
 
   const [rows, setRows] = useState<EnquiryRow[]>([]);
@@ -179,7 +180,13 @@ function Dashboard() {
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
-      const staff = await checkStaff({});
+      let staff = await checkStaff({});
+      if (!staff.isStaff) {
+        // The pharmacy's own business address can grant itself access on
+        // first sign-in so the owner is never locked out.
+        const claimed = await claim({});
+        if (claimed.granted) staff = await checkStaff({});
+      }
       if (!staff.isStaff) {
         setDenied(true);
         setRows([]);
@@ -192,7 +199,8 @@ function Dashboard() {
     } finally {
       setLoading(false);
     }
-  }, [checkStaff, load]);
+  }, [checkStaff, claim, load]);
+
 
   useEffect(() => {
     void refresh();
