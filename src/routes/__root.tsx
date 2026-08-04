@@ -150,7 +150,9 @@ function RootComponent() {
         </main>
         <Footer />
       </div>
+      <PrivacyBanner />
       <Toaster richColors position="top-center" />
+
     </QueryClientProvider>
   );
 }
