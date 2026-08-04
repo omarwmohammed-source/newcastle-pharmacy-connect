@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import { PrivacyBanner } from "@/components/site/PrivacyBanner";
+
 import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
 
