@@ -40,8 +40,14 @@ function PrivacyPage() {
       </h1>
       <p className="mt-3 text-muted-foreground">
         How Kenton Pharmacy Clinic handles the information you give us through
-        this website. Last updated: {new Date().getFullYear()}.
+        this website. Last updated: {new Date().getFullYear()}. For how we
+        record and safeguard your patient and prescription information, see our{" "}
+        <Link to="/patient-privacy" className="text-primary underline">
+          patient privacy notice
+        </Link>
+        .
       </p>
+
 
       <div className="prose prose-slate mt-10 max-w-none">
         <Block title="Who we are">

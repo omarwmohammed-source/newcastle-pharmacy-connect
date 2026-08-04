@@ -14,6 +14,7 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PrivateRouteImport } from './routes/private'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PatientPrivacyRouteImport } from './routes/patient-privacy'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -50,6 +51,11 @@ const PrivateRoute = PrivateRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientPrivacyRoute = PatientPrivacyRouteImport.update({
+  id: '/patient-privacy',
+  path: '/patient-privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/mcp': typeof McpRoute
+  '/patient-privacy': typeof PatientPrivacyRoute
   '/privacy': typeof PrivacyRoute
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/mcp': typeof McpRoute
+  '/patient-privacy': typeof PatientPrivacyRoute
   '/privacy': typeof PrivacyRoute
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/mcp': typeof McpRoute
+  '/patient-privacy': typeof PatientPrivacyRoute
   '/privacy': typeof PrivacyRoute
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookies'
     | '/mcp'
+    | '/patient-privacy'
     | '/privacy'
     | '/private'
     | '/register'
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookies'
     | '/mcp'
+    | '/patient-privacy'
     | '/privacy'
     | '/private'
     | '/register'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookies'
     | '/mcp'
+    | '/patient-privacy'
     | '/privacy'
     | '/private'
     | '/register'
@@ -241,6 +253,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CookiesRoute: typeof CookiesRoute
   McpRoute: typeof McpRoute
+  PatientPrivacyRoute: typeof PatientPrivacyRoute
   PrivacyRoute: typeof PrivacyRoute
   PrivateRoute: typeof PrivateRoute
   RegisterRoute: typeof RegisterRoute
@@ -290,6 +303,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient-privacy': {
+      id: '/patient-privacy'
+      path: '/patient-privacy'
+      fullPath: '/patient-privacy'
+      preLoaderRoute: typeof PatientPrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -385,6 +405,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CookiesRoute: CookiesRoute,
   McpRoute: McpRoute,
+  PatientPrivacyRoute: PatientPrivacyRoute,
   PrivacyRoute: PrivacyRoute,
   PrivateRoute: PrivateRoute,
   RegisterRoute: RegisterRoute,
