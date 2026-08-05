@@ -14,7 +14,7 @@ export function BuiltByOmar() {
 
   return (
     <p className="mt-2 text-xs text-muted-foreground">
-      This website was built by Omar — I help small businesses use AI to save
+      This website was built by Omar, and I help small businesses use AI to save
       time and money.{" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
@@ -38,8 +38,8 @@ export function BuiltByOmar() {
           <div className="space-y-3 text-sm text-muted-foreground">
             <p>
               I work with small businesses to integrate AI and build simple,
-              practical tools — booking forms, admin automation, websites like
-              this one — without the jargon or the enterprise price tag.
+              practical tools, like booking forms, admin automation, and websites
+              like this one, without the jargon or the enterprise price tag.
             </p>
             <p>
               I'm currently taking on a limited number of projects{" "}
@@ -67,7 +67,7 @@ export function BuiltByOmar() {
             </a>
           </div>
           <p className="text-xs text-muted-foreground">
-            No pitch, no obligation — just tell me what's eating your time.
+            No pitch, no obligation, just tell me what's eating your time.
           </p>
         </DialogContent>
       </Dialog>
