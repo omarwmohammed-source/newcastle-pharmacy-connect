@@ -76,7 +76,6 @@ export function Footer() {
         </nav>
 
         © {new Date().getFullYear()} {PHARMACY.name}. All rights reserved.
-        <BuiltByOmar />
       </div>
 
 
