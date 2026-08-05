@@ -19,6 +19,7 @@ export function Footer() {
             <Truck className="h-3.5 w-3.5" />
             Free delivery across Newcastle
           </p>
+          <BuiltByOmar />
         </div>
         <div className="text-sm">
           <h3 className="mb-2 font-serif text-lg font-semibold text-primary">
@@ -75,7 +76,6 @@ export function Footer() {
         </nav>
 
         © {new Date().getFullYear()} {PHARMACY.name}. All rights reserved.
-        <BuiltByOmar />
       </div>
 
 
