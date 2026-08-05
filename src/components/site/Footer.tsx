@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Truck } from "lucide-react";
 import { Logo } from "./Logo";
 import { PHARMACY } from "@/lib/pharmacy-data";
+import { BuiltByOmar } from "./BuiltByOmar";
+
 
 export function Footer() {
   return (
