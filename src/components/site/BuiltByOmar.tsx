@@ -38,8 +38,10 @@ export function BuiltByOmar() {
           <div className="space-y-3 text-sm text-muted-foreground">
             <p>
               I work with small businesses to integrate AI and build simple,
-              practical tools, like booking forms, admin automation, and websites
-              like this one, without the jargon or the enterprise price tag.
+              practical tools, like booking forms, admin automation, websites
+              like this one, voice agents, chatbots, and simple custom builds
+              based on client needs, without the jargon or the enterprise price
+              tag.
             </p>
             <p>
               I'm currently taking on a limited number of projects{" "}
