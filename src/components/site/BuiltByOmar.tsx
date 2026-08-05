@@ -14,15 +14,14 @@ export function BuiltByOmar() {
 
   return (
     <p className="mt-2 text-xs text-muted-foreground">
-      This website was built by Omar, and I help small businesses use AI to save
-      time and money.{" "}
+      This website was built by Omar. I help businesses save time using AI.{" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <button
             type="button"
             className="inline-flex items-center gap-1 font-medium text-accent underline underline-offset-2 hover:opacity-80"
           >
-            Currently building free pilots
+            Get a free AI pilot
             <ArrowRight className="h-3 w-3" />
           </button>
         </DialogTrigger>
