@@ -14,7 +14,8 @@ export function BuiltByOmar() {
 
   return (
     <p className="mt-2 text-xs text-muted-foreground">
-      This website was built by Omar. I help businesses save time using AI.{" "}
+      This website was built by Omar. I help businesses implement AI to save
+      time and money. If you'd like to learn more, click the following link:{" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <button
