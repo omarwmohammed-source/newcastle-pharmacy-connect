@@ -15,15 +15,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   listEnquiries,
   setEnquiryStatus,
   getStaffStatus,
   claimStaffAccess,
 } from "@/lib/enquiries.functions";
+import { EmailSettingsEditor } from "@/components/site/EmailSettingsEditor";
 
 import type { EnquiryRow } from "@/lib/enquiries-schema";
 import { ENQUIRY_STATUSES } from "@/lib/enquiries-schema";
+
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
