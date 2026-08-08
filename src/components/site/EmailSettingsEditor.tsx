@@ -231,7 +231,7 @@ export function EmailSettingsEditor() {
                 <Input
                   id="subheading"
                   value={(section as EnquiryEmailSection).subheading ?? ""}
-                  onChange={(e) => updateSection(selected, "subheading", e.target.value)}
+                  onChange={(e) => updateSection(selected, "subheading" as keyof EmailSettings[typeof selected], e.target.value)}
                 />
               </div>
             )}
@@ -254,7 +254,7 @@ export function EmailSettingsEditor() {
                     id="body"
                     rows={3}
                     value={(section as EnquiryEmailSection).body ?? ""}
-                    onChange={(e) => updateSection(selected, "body", e.target.value)}
+                    onChange={(e) => updateSection(selected, "body" as keyof EmailSettings[typeof selected], e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -263,7 +263,7 @@ export function EmailSettingsEditor() {
                     id="closing"
                     rows={3}
                     value={(section as EnquiryEmailSection).closing ?? ""}
-                    onChange={(e) => updateSection(selected, "closing", e.target.value)}
+                    onChange={(e) => updateSection(selected, "closing" as keyof EmailSettings[typeof selected], e.target.value)}
                   />
                 </div>
               </>
@@ -275,7 +275,7 @@ export function EmailSettingsEditor() {
                 <Input
                   id="buttonText"
                   value={(section as AuthEmailSection).buttonText ?? ""}
-                  onChange={(e) => updateSection(selected, "buttonText", e.target.value)}
+                  onChange={(e) => updateSection(selected, "buttonText" as keyof EmailSettings[typeof selected], e.target.value)}
                 />
               </div>
             )}
