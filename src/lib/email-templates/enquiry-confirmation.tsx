@@ -59,17 +59,17 @@ export function EnquiryConfirmationEmail({
           <Text
             style={{ fontSize: "14px", color: "#7b8794", margin: "0 0 20px" }}
           >
-            {fillTemplate(c.subheading, { fullName, serviceName })}
+            {fillTemplate(c.subheading ?? "", { fullName, serviceName })}
           </Text>
           <Hr style={{ borderColor: "#e6e9ef", margin: "0 0 20px" }} />
           <Text style={paragraph}>
-            {fillTemplate(c.intro, { fullName, serviceName })}
+            {fillTemplate(c.intro ?? "", { fullName, serviceName })}
           </Text>
           <Text style={paragraph}>
-            {fillTemplate(c.body, { fullName, serviceName, phone })}
+            {fillTemplate(c.body ?? "", { fullName, serviceName, phone })}
           </Text>
           <Text style={paragraph}>
-            {fillTemplate(c.closing, { fullName, serviceName, phone })}
+            {fillTemplate(c.closing ?? "", { fullName, serviceName, phone })}
           </Text>
           <Hr style={{ borderColor: "#e6e9ef", margin: "4px 0 16px" }} />
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: 0 }}>
