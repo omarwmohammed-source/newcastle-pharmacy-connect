@@ -69,15 +69,15 @@ const MOCK_DATA = {
 
 export const sendTestEmail = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { template: keyof EmailSettings }) => input)
+  .inputValidator((input: { template: keyof EmailSettings; to?: string }) => input)
   .handler(async ({ data, context }) => {
     const { data: isStaff } = await context.supabase.rpc("is_staff", {
       _user_id: context.userId,
     });
     if (isStaff !== true) throw new Error("Access denied");
 
-    const email = (context.claims as { email?: string })?.email;
-    if (!email) throw new Error("No email found for your account");
+    const email = data.to?.trim() || (context.claims as { email?: string })?.email;
+    if (!email) throw new Error("Enter an email address to send the test to");
 
     const settings = await getEmailSettingsForSending();
     const templateName = data.template;
@@ -161,10 +161,14 @@ export const sendTestEmail = createServerFn({ method: "POST" })
       );
     } catch (error) {
       if (error instanceof EmailAPIError && error.code === "recipient_suppressed") {
-        return { sent: false as const, reason: "recipient_suppressed" as const };
+        return {
+          sent: false as const,
+          reason: "recipient_suppressed" as const,
+          recipient: email,
+        };
       }
       throw error;
     }
 
-    return { sent: true as const };
+    return { sent: true as const, recipient: email };
   });

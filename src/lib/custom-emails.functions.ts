@@ -66,20 +66,27 @@ export const deleteCustomTemplate = createServerFn({ method: "POST" })
 
 export const sendCustomTemplateTest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => customEmailTemplateSchema.parse(input))
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        template: customEmailTemplateSchema,
+        to: z.string().email().optional(),
+      })
+      .parse(input),
+  )
   .handler(async ({ data, context }) => {
     const { requireStaff, sendCustomEmail } = await import("./custom-emails.server");
     const { sampleVariables } = await import("./custom-email-schema");
     await requireStaff(context as any);
 
-    const email = (context.claims as { email?: string })?.email;
-    if (!email) throw new Error("No email found for your account");
+    const recipient = data.to ?? (context.claims as { email?: string })?.email;
+    if (!recipient) throw new Error("Enter an email address to send the test to");
 
     const result = await sendCustomEmail(
-      email,
-      { ...data, subject: `[TEST] ${data.subject}` },
-      sampleVariables(data),
+      recipient,
+      { ...data.template, subject: `[TEST] ${data.template.subject}` },
+      sampleVariables(data.template),
       "test",
     );
-    return result;
+    return { ...result, recipient };
   });
