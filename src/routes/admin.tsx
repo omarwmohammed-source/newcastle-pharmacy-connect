@@ -280,7 +280,9 @@ function Dashboard() {
         <TabsList>
           <TabsTrigger value="enquiries">Patient enquiries</TabsTrigger>
           <TabsTrigger value="emails">Email templates</TabsTrigger>
+          <TabsTrigger value="custom">Create new template</TabsTrigger>
         </TabsList>
+
 
         <TabsContent value="enquiries" className="mt-6">
           <div className="flex items-center justify-between gap-3">
