@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      custom_email_templates: {
+        Row: {
+          body: string
+          button_text: string
+          button_url: string
+          closing: string
+          created_at: string
+          created_by: string | null
+          design: Json
+          footer: string
+          heading: string
+          id: string
+          intro: string
+          name: string
+          placeholders: Json
+          preview: string
+          subheading: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          button_text?: string
+          button_url?: string
+          closing?: string
+          created_at?: string
+          created_by?: string | null
+          design?: Json
+          footer?: string
+          heading?: string
+          id?: string
+          intro?: string
+          name: string
+          placeholders?: Json
+          preview?: string
+          subheading?: string
+          subject?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          button_text?: string
+          button_url?: string
+          closing?: string
+          created_at?: string
+          created_by?: string | null
+          design?: Json
+          footer?: string
+          heading?: string
+          id?: string
+          intro?: string
+          name?: string
+          placeholders?: Json
+          preview?: string
+          subheading?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       email_settings: {
         Row: {
           created_at: string
