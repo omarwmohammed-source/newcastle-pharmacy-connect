@@ -1,8 +1,9 @@
 import type { ComponentType } from 'react'
+import type { EmailSettings } from '../email-settings-schema'
 
 export interface TemplateEntry {
   component: ComponentType<any>
-  subject: string | ((data: Record<string, any>) => string)
+  subject: string | ((data: Record<string, any>, settings?: EmailSettings) => string)
   displayName?: string
   previewData?: Record<string, any>
   /** Fixed recipient — overrides caller-provided recipientEmail when set. */
@@ -20,5 +21,3 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'new-enquiry': newEnquiryTemplate,
   'enquiry-confirmation': enquiryConfirmationTemplate,
 }
-
-
