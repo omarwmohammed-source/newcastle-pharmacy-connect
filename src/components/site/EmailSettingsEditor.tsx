@@ -60,6 +60,7 @@ export function EmailSettingsEditor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
+  const [testTo, setTestTo] = useState("");
 
   useEffect(() => {
     load({})
