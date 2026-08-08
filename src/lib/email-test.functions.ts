@@ -155,6 +155,7 @@ export const sendTestEmail = createServerFn({ method: "POST" })
           html,
           text,
           purpose: "transactional",
+          idempotency_key: `test-${templateName}-${Date.now()}`,
           label: `test-${templateName}`,
         },
         { apiKey, sendUrl: process.env["LOVABLE_SEND_URL"] },
