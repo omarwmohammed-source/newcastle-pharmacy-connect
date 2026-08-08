@@ -31,17 +31,18 @@ import { ENQUIRY_STATUSES } from "@/lib/enquiries-schema";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Staff enquiries — Kenton Pharmacy Clinic" },
+      { title: "Staff dashboard — Kenton Pharmacy Clinic" },
       {
         name: "description",
         content:
-          "Secure staff area for viewing patient enquiries submitted through the Kenton Pharmacy Clinic website.",
+          "Secure staff area for managing patient enquiries and email templates for the Kenton Pharmacy Clinic website.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: AdminPage,
 });
+
 
 const STATUS_LABEL: Record<string, string> = {
   new: "New",
