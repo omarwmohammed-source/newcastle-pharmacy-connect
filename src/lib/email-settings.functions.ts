@@ -54,5 +54,6 @@ export const updateEmailSettings = createServerFn({ method: "POST" })
       );
 
     if (error) throw new Error(error.message);
+    clearEmailSettingsCache();
     return { ok: true as const };
   });
