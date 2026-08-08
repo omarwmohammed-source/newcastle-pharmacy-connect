@@ -15,30 +15,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   listEnquiries,
   setEnquiryStatus,
   getStaffStatus,
   claimStaffAccess,
 } from "@/lib/enquiries.functions";
+import { EmailSettingsEditor } from "@/components/site/EmailSettingsEditor";
 
 import type { EnquiryRow } from "@/lib/enquiries-schema";
 import { ENQUIRY_STATUSES } from "@/lib/enquiries-schema";
 
+
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Staff enquiries — Kenton Pharmacy Clinic" },
+      { title: "Staff dashboard — Kenton Pharmacy Clinic" },
       {
         name: "description",
         content:
-          "Secure staff area for viewing patient enquiries submitted through the Kenton Pharmacy Clinic website.",
+          "Secure staff area for managing patient enquiries and email templates for the Kenton Pharmacy Clinic website.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: AdminPage,
 });
+
 
 const STATUS_LABEL: Record<string, string> = {
   new: "New",
@@ -253,95 +257,106 @@ function Dashboard() {
   };
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-12">
+    <section className="mx-auto max-w-7xl px-6 py-12">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-primary">
-            Patient enquiries
+            Staff dashboard
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Submitted through the website. Handle in line with the practice
-            privacy notice.
+            Manage patient enquiries and email templates.
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={() => void refresh()}>
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Refresh
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => void supabase.auth.signOut()}
-          >
+          <Button variant="ghost" size="sm" onClick={() => void supabase.auth.signOut()}>
             <LogOut className="mr-2 h-4 w-4" />
             Sign out
           </Button>
         </div>
       </header>
 
-      {denied ? (
-        <p className="mt-12 rounded-lg border bg-muted/40 p-6 text-sm text-muted-foreground">
-          Your account is signed in but does not have staff access. The
-          pharmacy&apos;s registered business email gets access automatically —
-          any other account has to be approved by an administrator.
+      <Tabs defaultValue="enquiries" className="mt-8">
+        <TabsList>
+          <TabsTrigger value="enquiries">Patient enquiries</TabsTrigger>
+          <TabsTrigger value="emails">Email templates</TabsTrigger>
+        </TabsList>
 
-        </p>
-      ) : loading ? (
-        <p className="mt-12 text-muted-foreground">Loading enquiries…</p>
-      ) : rows.length === 0 ? (
-        <p className="mt-12 text-muted-foreground">No enquiries yet.</p>
-      ) : (
-        <div className="mt-8 space-y-4">
-          {rows.map((r) => (
-            <article key={r.id} className="rounded-xl border bg-card p-5">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <h2 className="text-lg font-semibold text-primary">
-                    {r.full_name}
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    {r.service_name}
-                    {r.source ? ` · ${r.source}` : ""}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary">
-                    {new Date(r.created_at).toLocaleString("en-GB")}
-                  </Badge>
-                  <Select
-                    value={r.status}
-                    onValueChange={(v) => void onStatus(r.id, v)}
-                  >
-                    <SelectTrigger className="h-8 w-[150px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {ENQUIRY_STATUSES.map((s) => (
-                        <SelectItem key={s} value={s}>
-                          {STATUS_LABEL[s] ?? s}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-3">
-                <Detail label="Phone" value={r.phone} />
-                <Detail label="Email" value={r.email} />
-                <Detail label="Date of birth" value={r.dob} />
-              </dl>
-              {r.message && (
-                <p className="mt-4 rounded-md bg-muted/50 p-3 text-sm">
-                  {r.message}
-                </p>
-              )}
-            </article>
-          ))}
-        </div>
-      )}
+        <TabsContent value="enquiries" className="mt-6">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-xl font-semibold text-primary">Patient enquiries</h2>
+            <Button variant="outline" size="sm" onClick={() => void refresh()}>
+              <RefreshCw className="mr-2 h-4 w-4" />
+              Refresh
+            </Button>
+          </div>
+          {denied ? (
+            <p className="mt-6 rounded-lg border bg-muted/40 p-6 text-sm text-muted-foreground">
+              Your account is signed in but does not have staff access. The
+              pharmacy&apos;s registered business email gets access automatically —
+              any other account has to be approved by an administrator.
+            </p>
+          ) : loading ? (
+            <p className="mt-6 text-muted-foreground">Loading enquiries…</p>
+          ) : rows.length === 0 ? (
+            <p className="mt-6 text-muted-foreground">No enquiries yet.</p>
+          ) : (
+            <div className="mt-6 space-y-4">
+              {rows.map((r) => (
+                <article key={r.id} className="rounded-xl border bg-card p-5">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <h2 className="text-lg font-semibold text-primary">
+                        {r.full_name}
+                      </h2>
+                      <p className="text-sm text-muted-foreground">
+                        {r.service_name}
+                        {r.source ? ` · ${r.source}` : ""}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary">
+                        {new Date(r.created_at).toLocaleString("en-GB")}
+                      </Badge>
+                      <Select
+                        value={r.status}
+                        onValueChange={(v) => void onStatus(r.id, v)}
+                      >
+                        <SelectTrigger className="h-8 w-[150px]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ENQUIRY_STATUSES.map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {STATUS_LABEL[s] ?? s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-3">
+                    <Detail label="Phone" value={r.phone} />
+                    <Detail label="Email" value={r.email} />
+                    <Detail label="Date of birth" value={r.dob} />
+                  </dl>
+                  {r.message && (
+                    <p className="mt-4 rounded-md bg-muted/50 p-3 text-sm">
+                      {r.message}
+                    </p>
+                  )}
+                </article>
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="emails" className="mt-6">
+          <EmailSettingsEditor />
+        </TabsContent>
+      </Tabs>
     </section>
   );
+
 }
 
 function Detail({ label, value }: { label: string; value: string | null }) {

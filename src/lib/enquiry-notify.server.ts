@@ -1,6 +1,6 @@
 // Server-only: alerts the pharmacy when a new enquiry arrives.
 import type { EnquiryInput } from "./enquiries-schema";
-import { PHARMACY_INBOX } from "./staff-access";
+import { PHARMACY_INBOX, PHARMACY_PHONE } from "./staff-access";
 
 export async function notifyNewEnquiry(
   enquiry: EnquiryInput & { id: string },
@@ -49,6 +49,7 @@ export async function notifyNewEnquiry(
         templateData: {
           fullName: enquiry.fullName?.split(" ")[0] || "there",
           serviceName: enquiry.serviceName,
+          phone: PHARMACY_PHONE,
         },
       },
     );

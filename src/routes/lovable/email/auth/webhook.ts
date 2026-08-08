@@ -7,6 +7,7 @@ import { MagicLinkEmail } from '@/lib/email-templates/magic-link'
 import { RecoveryEmail } from '@/lib/email-templates/recovery'
 import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
+import { getEmailSettingsForSending } from '@/lib/email-settings-loader'
 
 // Configuration
 const SITE_NAME = "Kenton Pharmacy Clinic"
@@ -23,56 +24,77 @@ const handler = createAuthEmailHandler({
   senderDomain: SENDER_DOMAIN,
   sendUrl: process.env['LOVABLE_SEND_URL'],
   emails: {
-    signup: {
-      subject: 'Confirm your email',
-      render: (data) =>
-        React.createElement(SignupEmail, {
+    signup: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.signup.subject,
+        element: React.createElement(SignupEmail, {
           siteName: SITE_NAME,
           siteUrl: SITE_URL,
           recipient: data.email,
           confirmationUrl: data.url,
+          content: settings.signup,
         }),
+      }
     },
-    invite: {
-      subject: "You've been invited",
-      render: (data) =>
-        React.createElement(InviteEmail, {
+    invite: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.invite.subject,
+        element: React.createElement(InviteEmail, {
           siteName: SITE_NAME,
           siteUrl: SITE_URL,
           confirmationUrl: data.url,
+          content: settings.invite,
         }),
+      }
     },
-    magiclink: {
-      subject: 'Your login link',
-      render: (data) =>
-        React.createElement(MagicLinkEmail, {
+    magiclink: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.magiclink.subject,
+        element: React.createElement(MagicLinkEmail, {
           siteName: SITE_NAME,
           confirmationUrl: data.url,
+          content: settings.magiclink,
         }),
+      }
     },
-    recovery: {
-      subject: 'Reset your password',
-      render: (data) =>
-        React.createElement(RecoveryEmail, {
+    recovery: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.recovery.subject,
+        element: React.createElement(RecoveryEmail, {
           siteName: SITE_NAME,
           confirmationUrl: data.url,
+          content: settings.recovery,
         }),
+      }
     },
-    email_change: {
-      subject: 'Confirm your new email',
-      render: (data) =>
-        React.createElement(EmailChangeEmail, {
+    email_change: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.emailChange.subject,
+        element: React.createElement(EmailChangeEmail, {
           siteName: SITE_NAME,
           oldEmail: data.old_email ?? '',
           email: data.email,
           newEmail: data.new_email ?? '',
           confirmationUrl: data.url,
+          content: settings.emailChange,
         }),
+      }
     },
-    reauthentication: {
-      subject: 'Your verification code',
-      render: (data) =>
-        React.createElement(ReauthenticationEmail, { token: data.token ?? '' }),
+    reauthentication: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.reauthentication.subject,
+        element: React.createElement(ReauthenticationEmail, {
+          token: data.token ?? '',
+          siteName: SITE_NAME,
+          content: settings.reauthentication,
+        }),
+      }
     },
   },
 })

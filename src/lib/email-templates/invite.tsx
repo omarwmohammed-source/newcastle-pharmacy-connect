@@ -11,43 +11,41 @@ import {
   Preview,
   Text,
 } from '@react-email/components'
+import { defaultEmailSettings, fillTemplate, type AuthEmailSection } from '../email-settings-schema'
 
 interface InviteEmailProps {
   siteName: string
   siteUrl: string
   confirmationUrl: string
+  content?: Partial<AuthEmailSection>
 }
 
 export const InviteEmail = ({
   siteName,
   siteUrl,
   confirmationUrl,
-}: InviteEmailProps) => (
-  <Html lang="en" dir="ltr">
-    <Head />
-    <Preview>You've been invited to join {siteName}</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>You've been invited</Heading>
-        <Text style={text}>
-          You've been invited to join{' '}
-          <Link href={siteUrl} style={link}>
-            <strong>{siteName}</strong>
-          </Link>
-          . Click the button below to accept the invitation and create your
-          account.
-        </Text>
-        <Button style={button} href={confirmationUrl}>
-          Accept Invitation
-        </Button>
-        <Text style={footer}>
-          If you weren't expecting this invitation, you can safely ignore this
-          email.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-)
+  content,
+}: InviteEmailProps) => {
+  const c = { ...defaultEmailSettings.invite, ...content }
+  return (
+    <Html lang="en" dir="ltr">
+      <Head />
+      <Preview>{fillTemplate(c.preview, { siteName })}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Heading style={h1}>{c.heading}</Heading>
+          <Text style={text}>
+            {fillTemplate(c.intro, { siteName, siteUrl })}
+          </Text>
+          <Button style={button} href={confirmationUrl}>
+            {c.buttonText}
+          </Button>
+          <Text style={footer}>{c.footer}</Text>
+        </Container>
+      </Body>
+    </Html>
+  )
+}
 
 export default InviteEmail
 
