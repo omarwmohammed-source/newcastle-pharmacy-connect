@@ -1,24 +1,25 @@
 import { z } from "zod";
 
 export const authEmailSectionSchema = z.object({
-  subject: z.string().trim().max(200),
-  heading: z.string().trim().max(200),
-  preview: z.string().trim().max(300),
-  intro: z.string().trim().max(1000),
+  subject: z.string().trim().min(1).max(200),
+  heading: z.string().trim().min(1).max(200),
+  preview: z.string().trim().min(1).max(300),
+  intro: z.string().trim().min(1).max(1000),
   buttonText: z.string().trim().max(100).optional(),
-  footer: z.string().trim().max(1000),
+  footer: z.string().trim().min(1).max(1000),
 });
 
 export const enquiryEmailSectionSchema = z.object({
-  subject: z.string().trim().max(200),
-  heading: z.string().trim().max(200),
-  preview: z.string().trim().max(300),
+  subject: z.string().trim().min(1).max(200),
+  heading: z.string().trim().min(1).max(200),
+  preview: z.string().trim().min(1).max(300),
   subheading: z.string().trim().max(200).optional(),
   intro: z.string().trim().max(1000).optional(),
   body: z.string().trim().max(2000).optional(),
   closing: z.string().trim().max(1000).optional(),
-  footer: z.string().trim().max(1000),
+  footer: z.string().trim().min(1).max(1000),
 });
+
 
 export const emailSettingsSchema = z.object({
   signup: authEmailSectionSchema,
