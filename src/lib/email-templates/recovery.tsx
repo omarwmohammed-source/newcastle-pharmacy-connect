@@ -10,37 +10,37 @@ import {
   Preview,
   Text,
 } from '@react-email/components'
+import { defaultEmailSettings, fillTemplate, type AuthEmailSection } from '../email-settings-schema'
 
 interface RecoveryEmailProps {
   siteName: string
   confirmationUrl: string
+  content?: Partial<AuthEmailSection>
 }
 
 export const RecoveryEmail = ({
   siteName,
   confirmationUrl,
-}: RecoveryEmailProps) => (
-  <Html lang="en" dir="ltr">
-    <Head />
-    <Preview>Reset your password for {siteName}</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>Reset your password</Heading>
-        <Text style={text}>
-          We received a request to reset your password for {siteName}. Click
-          the button below to choose a new password.
-        </Text>
-        <Button style={button} href={confirmationUrl}>
-          Reset Password
-        </Button>
-        <Text style={footer}>
-          If you didn't request a password reset, you can safely ignore this
-          email. Your password will not be changed.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-)
+  content,
+}: RecoveryEmailProps) => {
+  const c = { ...defaultEmailSettings.recovery, ...content }
+  return (
+    <Html lang="en" dir="ltr">
+      <Head />
+      <Preview>{fillTemplate(c.preview, { siteName })}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Heading style={h1}>{c.heading}</Heading>
+          <Text style={text}>{fillTemplate(c.intro, { siteName })}</Text>
+          <Button style={button} href={confirmationUrl}>
+            {c.buttonText}
+          </Button>
+          <Text style={footer}>{c.footer}</Text>
+        </Container>
+      </Body>
+    </Html>
+  )
+}
 
 export default RecoveryEmail
 
