@@ -192,37 +192,10 @@ function StaffAuth() {
               : "Create account"}
           </Button>
         </form>
-        <div className="mt-4 text-center text-sm">
-          {mode === "signin" ? (
-            <>
-              Need an account?{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setMode("signup");
-                  resetForm();
-                }}
-                className="font-medium text-primary underline hover:text-primary/80"
-              >
-                Create one
-              </button>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setMode("signin");
-                  resetForm();
-                }}
-                className="font-medium text-primary underline hover:text-primary/80"
-              >
-                Sign in
-              </button>
-            </>
-          )}
-        </div>
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          New sign-ups are closed. Accounts are created by an administrator.
+        </p>
+
       </div>
     </section>
   );
