@@ -49,7 +49,7 @@ export async function notifyNewEnquiry(
         templateData: {
           fullName: enquiry.fullName?.split(" ")[0] || "there",
           serviceName: enquiry.serviceName,
-          phone: PHARMACY_INBOX,
+          phone: PHARMACY_PHONE,
         },
       },
     );
