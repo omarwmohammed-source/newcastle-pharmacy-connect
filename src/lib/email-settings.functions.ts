@@ -8,7 +8,7 @@ import {
 } from "./email-settings-schema";
 
 async function verifyStaff(context: {
-  supabase: ReturnType<typeof import("@/integrations/supabase/client")["createClient"]>;
+  supabase: any;
   userId: string;
 }) {
   const { data } = await context.supabase.rpc("is_staff", {
