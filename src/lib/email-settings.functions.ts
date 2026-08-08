@@ -6,6 +6,7 @@ import {
   defaultEmailSettings,
   type EmailSettings,
 } from "./email-settings-schema";
+import { clearEmailSettingsCache } from "./email-settings-loader";
 
 async function verifyStaff(context: {
   supabase: any;
