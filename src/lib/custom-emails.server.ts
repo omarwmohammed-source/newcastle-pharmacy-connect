@@ -82,6 +82,7 @@ export async function sendCustomEmail(
         html,
         text,
         purpose: "transactional",
+        idempotency_key: `${labelPrefix}-${template.name}-${Date.now()}`.slice(0, 120),
         label: `${labelPrefix}-${template.name}`.slice(0, 60),
       },
       { apiKey, sendUrl: process.env["LOVABLE_SEND_URL"] },
