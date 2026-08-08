@@ -79,11 +79,11 @@ export function NewEnquiryEmail({
             {fillTemplate(c.heading, { fullName, serviceName })}
           </Heading>
           <Text style={{ margin: "0 0 20px", fontSize: "14px", color: "#7b8794" }}>
-            {fillTemplate(c.subheading, { fullName, serviceName })}
+            {fillTemplate(c.subheading ?? "", { fullName, serviceName })}
           </Text>
           <Hr style={{ borderColor: "#e6e9ef", margin: "0 0 20px" }} />
           <Section>
-            <Text style={{ ...labelStyle, textTransform: "none" }}>{fillTemplate(c.intro, { fullName, serviceName })}</Text>
+            <Text style={{ ...labelStyle, textTransform: "none" }}>{fillTemplate(c.intro ?? "", { fullName, serviceName })}</Text>
             <Text style={labelStyle}>Service</Text>
             <Text style={valueStyle}>{serviceName}</Text>
             <Text style={labelStyle}>Name</Text>
