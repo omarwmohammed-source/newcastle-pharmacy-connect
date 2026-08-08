@@ -9,28 +9,35 @@ import {
   Preview,
   Text,
 } from '@react-email/components'
+import { defaultEmailSettings, fillTemplate, type AuthEmailSection } from '../email-settings-schema'
 
 interface ReauthenticationEmailProps {
   token: string
+  siteName?: string
+  content?: Partial<Omit<AuthEmailSection, 'buttonText'>>
 }
 
-export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => (
-  <Html lang="en" dir="ltr">
-    <Head />
-    <Preview>Your verification code</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>Confirm reauthentication</Heading>
-        <Text style={text}>Use the code below to confirm your identity:</Text>
-        <Text style={codeStyle}>{token}</Text>
-        <Text style={footer}>
-          This code will expire shortly. If you didn't request this, you can
-          safely ignore this email.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-)
+export const ReauthenticationEmail = ({
+  token,
+  siteName = 'Kenton Pharmacy Clinic',
+  content,
+}: ReauthenticationEmailProps) => {
+  const c = { ...defaultEmailSettings.reauthentication, ...content }
+  return (
+    <Html lang="en" dir="ltr">
+      <Head />
+      <Preview>{fillTemplate(c.preview, { siteName })}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Heading style={h1}>{c.heading}</Heading>
+          <Text style={text}>{fillTemplate(c.intro, { siteName })}</Text>
+          <Text style={codeStyle}>{token}</Text>
+          <Text style={footer}>{c.footer}</Text>
+        </Container>
+      </Body>
+    </Html>
+  )
+}
 
 export default ReauthenticationEmail
 
