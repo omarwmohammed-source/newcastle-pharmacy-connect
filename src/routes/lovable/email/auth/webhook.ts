@@ -24,77 +24,77 @@ const handler = createAuthEmailHandler({
   senderDomain: SENDER_DOMAIN,
   sendUrl: process.env['LOVABLE_SEND_URL'],
   emails: {
-    signup: {
-      subject: async () => (await getEmailSettingsForSending()).signup.subject,
-      render: async (data) => {
-        const settings = await getEmailSettingsForSending()
-        return React.createElement(SignupEmail, {
+    signup: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.signup.subject,
+        element: React.createElement(SignupEmail, {
           siteName: SITE_NAME,
           siteUrl: SITE_URL,
           recipient: data.email,
           confirmationUrl: data.url,
           content: settings.signup,
-        })
-      },
+        }),
+      }
     },
-    invite: {
-      subject: async () => (await getEmailSettingsForSending()).invite.subject,
-      render: async (data) => {
-        const settings = await getEmailSettingsForSending()
-        return React.createElement(InviteEmail, {
+    invite: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.invite.subject,
+        element: React.createElement(InviteEmail, {
           siteName: SITE_NAME,
           siteUrl: SITE_URL,
           confirmationUrl: data.url,
           content: settings.invite,
-        })
-      },
+        }),
+      }
     },
-    magiclink: {
-      subject: async () => (await getEmailSettingsForSending()).magiclink.subject,
-      render: async (data) => {
-        const settings = await getEmailSettingsForSending()
-        return React.createElement(MagicLinkEmail, {
+    magiclink: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.magiclink.subject,
+        element: React.createElement(MagicLinkEmail, {
           siteName: SITE_NAME,
           confirmationUrl: data.url,
           content: settings.magiclink,
-        })
-      },
+        }),
+      }
     },
-    recovery: {
-      subject: async () => (await getEmailSettingsForSending()).recovery.subject,
-      render: async (data) => {
-        const settings = await getEmailSettingsForSending()
-        return React.createElement(RecoveryEmail, {
+    recovery: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.recovery.subject,
+        element: React.createElement(RecoveryEmail, {
           siteName: SITE_NAME,
           confirmationUrl: data.url,
           content: settings.recovery,
-        })
-      },
+        }),
+      }
     },
-    email_change: {
-      subject: async () => (await getEmailSettingsForSending()).emailChange.subject,
-      render: async (data) => {
-        const settings = await getEmailSettingsForSending()
-        return React.createElement(EmailChangeEmail, {
+    email_change: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.emailChange.subject,
+        element: React.createElement(EmailChangeEmail, {
           siteName: SITE_NAME,
           oldEmail: data.old_email ?? '',
           email: data.email,
           newEmail: data.new_email ?? '',
           confirmationUrl: data.url,
           content: settings.emailChange,
-        })
-      },
+        }),
+      }
     },
-    reauthentication: {
-      subject: async () => (await getEmailSettingsForSending()).reauthentication.subject,
-      render: async (data) => {
-        const settings = await getEmailSettingsForSending()
-        return React.createElement(ReauthenticationEmail, {
+    reauthentication: async (data) => {
+      const settings = await getEmailSettingsForSending()
+      return {
+        subject: settings.reauthentication.subject,
+        element: React.createElement(ReauthenticationEmail, {
           token: data.token ?? '',
           siteName: SITE_NAME,
           content: settings.reauthentication,
-        })
-      },
+        }),
+      }
     },
   },
 })
