@@ -23,6 +23,7 @@ import {
   claimStaffAccess,
 } from "@/lib/enquiries.functions";
 import { EmailSettingsEditor } from "@/components/site/EmailSettingsEditor";
+import { CustomEmailTemplates } from "@/components/site/CustomEmailTemplates";
 
 import type { EnquiryRow } from "@/lib/enquiries-schema";
 import { ENQUIRY_STATUSES } from "@/lib/enquiries-schema";
