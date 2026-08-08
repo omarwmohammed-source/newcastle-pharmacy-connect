@@ -69,15 +69,24 @@ function AdminPage() {
     );
   }
 
-  return session ? <Dashboard /> : <SignIn />;
+  return session ? <Dashboard /> : <StaffAuth />;
 }
 
-function SignIn() {
+function StaffAuth() {
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [pending, setPending] = useState(false);
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const resetForm = () => {
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setPending(false);
+  };
+
+  const onSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setPending(true);
     const { error } = await supabase.auth.signInWithPassword({
@@ -88,16 +97,47 @@ function SignIn() {
     if (error) toast.error(error.message);
   };
 
+  const onSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+    setPending(true);
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+    });
+    setPending(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    if (!data.session) {
+      toast.success("Account created. Please check your email to confirm.");
+      resetForm();
+      setMode("signin");
+    } else {
+      toast.success("Account created.");
+    }
+  };
+
   return (
     <section className="mx-auto max-w-md px-6 py-20">
       <div className="rounded-xl border bg-card p-8 shadow-sm">
         <ShieldCheck className="h-8 w-8 text-primary" />
-        <h1 className="mt-4 text-2xl font-bold text-primary">Staff sign in</h1>
+        <h1 className="mt-4 text-2xl font-bold text-primary">
+          {mode === "signin" ? "Staff sign in" : "Create staff account"}
+        </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          This area contains patient enquiries. Access is restricted to the
-          pharmacy's registered account.
+          {mode === "signin"
+            ? "This area contains patient enquiries. Access is restricted to the pharmacy's registered account."
+            : "Create an account to access patient enquiries. Only the pharmacy's registered email addresses can view the dashboard."}
         </p>
-        <form onSubmit={onSubmit} className="mt-6 space-y-4">
+        <form
+          onSubmit={mode === "signin" ? onSignIn : onSignUp}
+          className="mt-6 space-y-4"
+        >
           <div>
             <Label htmlFor="email" className="mb-1.5 block text-sm">
               Email
@@ -118,17 +158,71 @@ function SignIn() {
             <Input
               id="password"
               type="password"
-              autoComplete="current-password"
+              autoComplete={mode === "signin" ? "current-password" : "new-password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={8}
             />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Must be at least 8 characters.
+            </p>
           </div>
+          {mode === "signup" && (
+            <div>
+              <Label htmlFor="confirmPassword" className="mb-1.5 block text-sm">
+                Confirm password
+              </Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                minLength={8}
+              />
+            </div>
+          )}
           <Button type="submit" className="w-full" disabled={pending}>
-            {pending ? "Please wait…" : "Sign in"}
+            {pending
+              ? "Please wait…"
+              : mode === "signin"
+              ? "Sign in"
+              : "Create account"}
           </Button>
         </form>
+        <div className="mt-4 text-center text-sm">
+          {mode === "signin" ? (
+            <>
+              Need an account?{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("signup");
+                  resetForm();
+                }}
+                className="font-medium text-primary underline hover:text-primary/80"
+              >
+                Create one
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("signin");
+                  resetForm();
+                }}
+                className="font-medium text-primary underline hover:text-primary/80"
+              >
+                Sign in
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </section>
   );
