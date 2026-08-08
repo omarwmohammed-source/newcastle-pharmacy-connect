@@ -356,7 +356,12 @@ function Dashboard() {
         <TabsContent value="emails" className="mt-6">
           <EmailSettingsEditor />
         </TabsContent>
+
+        <TabsContent value="custom" className="mt-6">
+          <CustomEmailTemplates />
+        </TabsContent>
       </Tabs>
+
     </section>
   );
 
