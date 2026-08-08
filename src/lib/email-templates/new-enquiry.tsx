@@ -10,6 +10,7 @@ import {
   Text,
 } from "@react-email/components";
 import * as React from "react";
+import { defaultEmailSettings, fillTemplate, type EnquiryEmailSection } from "../email-settings-schema";
 import type { TemplateEntry } from "./registry";
 
 interface NewEnquiryEmailProps {
@@ -20,9 +21,10 @@ interface NewEnquiryEmailProps {
   message?: string;
   source?: string;
   submittedAt?: string;
+  content?: Partial<EnquiryEmailSection>;
 }
 
-const label: React.CSSProperties = {
+const labelStyle: React.CSSProperties = {
   margin: "0",
   fontSize: "12px",
   letterSpacing: "0.08em",
@@ -30,7 +32,7 @@ const label: React.CSSProperties = {
   color: "#7b8794",
 };
 
-const value: React.CSSProperties = {
+const valueStyle: React.CSSProperties = {
   margin: "2px 0 14px",
   fontSize: "16px",
   color: "#0f2340",
@@ -44,11 +46,13 @@ export function NewEnquiryEmail({
   message = "",
   source = "—",
   submittedAt = "",
+  content,
 }: NewEnquiryEmailProps) {
+  const c = { ...defaultEmailSettings.newEnquiry, ...content };
   return (
     <Html>
       <Head />
-      <Preview>{`New enquiry: ${serviceName} — ${fullName}`}</Preview>
+      <Preview>{fillTemplate(c.preview, { fullName, serviceName })}</Preview>
       <Body
         style={{
           backgroundColor: "#f4f6f9",
@@ -72,39 +76,40 @@ export function NewEnquiryEmail({
               color: "#0f2340",
             }}
           >
-            New enquiry received
+            {fillTemplate(c.heading, { fullName, serviceName })}
           </Heading>
           <Text style={{ margin: "0 0 20px", fontSize: "14px", color: "#7b8794" }}>
-            Kenton Pharmacy Clinic website
+            {fillTemplate(c.subheading, { fullName, serviceName })}
           </Text>
           <Hr style={{ borderColor: "#e6e9ef", margin: "0 0 20px" }} />
           <Section>
-            <Text style={label}>Service</Text>
-            <Text style={value}>{serviceName}</Text>
-            <Text style={label}>Name</Text>
-            <Text style={value}>{fullName}</Text>
-            <Text style={label}>Phone</Text>
-            <Text style={value}>{phone}</Text>
-            <Text style={label}>Email</Text>
-            <Text style={value}>{email || "—"}</Text>
+            <Text style={{ ...labelStyle, textTransform: "none" }}>{fillTemplate(c.intro, { fullName, serviceName })}</Text>
+            <Text style={labelStyle}>Service</Text>
+            <Text style={valueStyle}>{serviceName}</Text>
+            <Text style={labelStyle}>Name</Text>
+            <Text style={valueStyle}>{fullName}</Text>
+            <Text style={labelStyle}>Phone</Text>
+            <Text style={valueStyle}>{phone}</Text>
+            <Text style={labelStyle}>Email</Text>
+            <Text style={valueStyle}>{email || "—"}</Text>
             {message ? (
               <>
-                <Text style={label}>Message</Text>
-                <Text style={value}>{message}</Text>
+                <Text style={labelStyle}>Message</Text>
+                <Text style={valueStyle}>{message}</Text>
               </>
             ) : null}
-            <Text style={label}>Source</Text>
-            <Text style={value}>{source}</Text>
+            <Text style={labelStyle}>Source</Text>
+            <Text style={valueStyle}>{source}</Text>
             {submittedAt ? (
               <>
-                <Text style={label}>Submitted</Text>
-                <Text style={value}>{submittedAt}</Text>
+                <Text style={labelStyle}>Submitted</Text>
+                <Text style={valueStyle}>{submittedAt}</Text>
               </>
             ) : null}
           </Section>
           <Hr style={{ borderColor: "#e6e9ef", margin: "4px 0 16px" }} />
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: 0 }}>
-            View and manage all enquiries in the staff dashboard.
+            {fillTemplate(c.footer, { fullName, serviceName })}
           </Text>
         </Container>
       </Body>
@@ -115,8 +120,11 @@ export function NewEnquiryEmail({
 export const template = {
   component: NewEnquiryEmail,
   displayName: "New enquiry alert",
-  subject: (data: Record<string, any>) =>
-    `New enquiry: ${data['serviceName'] ?? "Service"} — ${data['fullName'] ?? "Website"}`,
+  subject: (data: Record<string, any>, settings?: { newEnquiry?: Partial<EnquiryEmailSection> }) =>
+    fillTemplate(
+      settings?.newEnquiry?.subject ?? defaultEmailSettings.newEnquiry.subject,
+      { serviceName: data['serviceName'] ?? "Service", fullName: data['fullName'] ?? "Website" },
+    ),
   previewData: {
     fullName: "Jane Smith",
     phone: "0191 205 2006",
