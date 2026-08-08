@@ -65,7 +65,14 @@ export const blankTemplate: CustomEmailTemplate = {
   footer: "Kenton Pharmacy Clinic, 41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
   design: defaultDesign,
   placeholders: [
-    { key: "firstName", label: "First name", sample: "Jane" },
+    { key: "firstName", label: "First name", sample: "Sarah" },
+    { key: "fullName", label: "Full name", sample: "Sarah Ahmed" },
+    { key: "email", label: "Email address", sample: "patient@example.com" },
+    { key: "phone", label: "Phone number", sample: "07700 900123" },
+    { key: "serviceName", label: "Service name", sample: "Blood pressure check" },
+    { key: "appointmentDate", label: "Appointment date", sample: "Monday 14 September, 10:30am" },
+    { key: "pharmacyName", label: "Pharmacy name", sample: "Kenton Pharmacy Clinic" },
+    { key: "pharmacyPhone", label: "Pharmacy phone", sample: "0191 205 2006" },
   ],
 };
 
