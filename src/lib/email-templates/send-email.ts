@@ -2,6 +2,7 @@ import * as React from 'react'
 import { render } from '@react-email/render'
 import { EmailAPIError, sendLovableEmail } from '@lovable.dev/email-js'
 import { TEMPLATES } from './registry'
+import { getEmailSettingsForSending } from './email-settings-loader'
 
 // Server-only: reads LOVABLE_API_KEY. Never import from client components.
 
@@ -57,12 +58,16 @@ export async function sendTemplateEmail(
   }
 
   const templateData = options.templateData ?? {}
-  const element = React.createElement(template.component, templateData)
+  const emailSettings = await getEmailSettingsForSending()
+  const element = React.createElement(template.component, {
+    ...templateData,
+    content: (emailSettings as any)?.[templateName === 'new-enquiry' ? 'newEnquiry' : 'enquiryConfirmation'],
+  })
   const html = await render(element)
   const text = await render(element, { plainText: true })
   const subject =
     typeof template.subject === 'function'
-      ? template.subject(templateData)
+      ? template.subject(templateData, emailSettings)
       : template.subject
 
   try {
