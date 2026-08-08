@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      email_settings: {
+        Row: {
+          created_at: string
+          id: string
+          settings: Json
+          settings_key: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          settings?: Json
+          settings_key?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          settings?: Json
+          settings_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       enquiries: {
         Row: {
           consent: boolean
