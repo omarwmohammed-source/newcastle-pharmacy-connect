@@ -70,9 +70,9 @@ export function EmailSettingsEditor() {
       .finally(() => setLoading(false));
   }, [load]);
 
-  const updateSection = (
-    key: TemplateKey,
-    field: keyof (AuthEmailSection | EnquiryEmailSection),
+  const updateSection = <K extends TemplateKey>(
+    key: K,
+    field: keyof EmailSettings[K],
     value: string,
   ) => {
     setSettings((prev) => {
@@ -81,6 +81,7 @@ export function EmailSettingsEditor() {
       return { ...prev, [key]: section } as EmailSettings;
     });
   };
+
 
   const onSave = async () => {
     if (!settings) return;
