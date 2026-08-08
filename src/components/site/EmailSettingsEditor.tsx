@@ -60,6 +60,7 @@ export function EmailSettingsEditor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
+  const [testTo, setTestTo] = useState("");
 
   useEffect(() => {
     load({})
@@ -99,14 +100,20 @@ export function EmailSettingsEditor() {
   const onTest = async () => {
     setTesting(true);
     try {
-      const result = await test({ data: { template: selected } });
+      const result = await test({
+        data: { template: selected, to: testTo.trim() || undefined },
+      });
       if (result.sent) {
-        toast.success("Test email sent to your inbox");
+        toast.success(`Test email sent to ${result.recipient ?? "your inbox"}`);
       } else {
         toast.error("This recipient is suppressed by the email provider");
       }
     } catch (error) {
-      toast.error("Couldn't send test email");
+      toast.error(
+        error instanceof Error && error.message
+          ? error.message
+          : "Couldn't send test email",
+      );
     } finally {
       setTesting(false);
     }
@@ -166,7 +173,18 @@ export function EmailSettingsEditor() {
               Edit the wording used when this email is sent.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap items-end gap-2">
+            <div className="min-w-[220px]">
+              <Label htmlFor="test-to">Send test to</Label>
+              <Input
+                id="test-to"
+                type="email"
+                className="mt-1"
+                placeholder="you@example.com"
+                value={testTo}
+                onChange={(e) => setTestTo(e.target.value)}
+              />
+            </div>
             <Button variant="outline" onClick={() => void onTest()} disabled={testing}>
               {testing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
               Send test

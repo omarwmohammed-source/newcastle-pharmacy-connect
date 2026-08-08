@@ -51,6 +51,7 @@ export function CustomEmailTemplates() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
+  const [testTo, setTestTo] = useState("");
 
   useEffect(() => {
     load({})
@@ -109,12 +110,20 @@ export function CustomEmailTemplates() {
     if (!draft) return;
     setTesting(true);
     try {
-      const result = (await test({ data: draft })) as { sent: boolean };
+      const result = (await test({
+        data: { template: draft, to: testTo.trim() || undefined },
+      })) as { sent: boolean; recipient?: string };
       toast[result.sent ? "success" : "error"](
-        result.sent ? "Test email sent to your inbox" : "This recipient is blocked by the email provider",
+        result.sent
+          ? `Test email sent to ${result.recipient ?? "your inbox"}`
+          : "This recipient is blocked by the email provider",
       );
-    } catch {
-      toast.error("Couldn't send test email");
+    } catch (error) {
+      toast.error(
+        error instanceof Error && error.message
+          ? error.message
+          : "Couldn't send test email",
+      );
     } finally {
       setTesting(false);
     }
@@ -175,6 +184,17 @@ export function CustomEmailTemplates() {
                 className="mt-1"
                 value={draft.name}
                 onChange={(e) => set("name", e.target.value)}
+              />
+            </div>
+            <div className="min-w-[220px]">
+              <Label htmlFor="tpl-test-to">Send test to</Label>
+              <Input
+                id="tpl-test-to"
+                type="email"
+                className="mt-1"
+                placeholder="you@example.com"
+                value={testTo}
+                onChange={(e) => setTestTo(e.target.value)}
               />
             </div>
             <div className="flex gap-2 pt-5">
