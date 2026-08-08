@@ -126,7 +126,7 @@ export const template = {
       { serviceName: data['serviceName'] ?? "Service", fullName: data['fullName'] ?? "Website" },
     ),
   previewData: {
-    fullName: "Jane Smith",
+    fullName: "Sarah Ahmed",
     phone: "0191 205 2006",
     email: "jane@example.com",
     serviceName: "Weight Loss Clinic",
