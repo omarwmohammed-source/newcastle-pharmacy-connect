@@ -54,22 +54,59 @@ const STATUS_LABEL: Record<string, string> = {
 function AdminPage() {
   const [session, setSession] = useState<unknown>(null);
   const [ready, setReady] = useState(false);
+  const [authError, setAuthError] = useState(false);
+  const [authAttempt, setAuthAttempt] = useState(0);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+    let active = true;
+
+    setReady(false);
+    setAuthError(false);
+    void supabase.auth.getSession().then(({ data, error }) => {
+      if (!active) return;
+      if (error) {
+        setAuthError(true);
+        setSession(null);
+      } else {
+        setSession(data.session);
+      }
+      setReady(true);
+    }).catch(() => {
+      if (!active) return;
+      setAuthError(true);
+      setSession(null);
       setReady(true);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      if (!active) return;
       setSession(s);
+      setAuthError(false);
+      setReady(true);
     });
-    return () => sub.subscription.unsubscribe();
-  }, []);
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [authAttempt]);
 
   if (!ready) {
     return (
       <section className="mx-auto max-w-md px-6 py-24 text-center text-muted-foreground">
         Loading…
+      </section>
+    );
+  }
+
+  if (authError) {
+    return (
+      <section className="mx-auto max-w-md px-6 py-24 text-center">
+        <h1 className="text-2xl font-bold text-primary">Staff sign in unavailable</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          We couldn&apos;t connect to the secure staff area. Please try again.
+        </p>
+        <Button className="mt-6" onClick={() => setAuthAttempt((value) => value + 1)}>
+          Try again
+        </Button>
       </section>
     );
   }
