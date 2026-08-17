@@ -194,7 +194,7 @@ export const PRIVATE_SERVICES: Service[] = [
     slug: "insomnia-clinic",
     name: "Insomnia Clinic",
     description:
-      "Private assessment and treatment for short-term insomnia to help you sleep better.",
+      "Private assessment and treatment for insomnia to help you sleep better.",
     kind: "private",
   },
 ];
