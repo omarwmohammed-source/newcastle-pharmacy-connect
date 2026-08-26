@@ -1,49 +1,37 @@
-# Regain admin access
+# Stop enquiry emails landing in Junk
 
-## The situation
+## The honest picture first
 
-Three accounts can sign in to `/admin`, all with admin rights:
+Your email setup is healthy: the domain `notify.pharmacy-clinic.com` is verified, and the delivery log shows every enquiry email is being **sent successfully** to habib.jiwa2@nhs.net. Nothing is failing — the emails are arriving, but the receiving mail provider (NHS mail / Outlook / Gmail) is filing them into Junk.
 
-- habib@pharmacy-clinic.com (created 2 Aug)
-- habib.jiwa2@nhs.net (created 8 Aug)
-- omarwmohammed@gmail.com (created 8 Aug)
+No website or sender can force an email into the "Primary" tab — that decision is made entirely by the recipient's mail provider, based on **sender reputation**. Your domain is brand new (only a handful of emails ever sent), so providers treat it with suspicion until it builds history. This is normal and fixable.
 
-Passwords cannot be shown. They are stored as one-way hashes, so the original
-text does not exist anywhere in the system and cannot be recovered by anyone,
-including me. This is deliberate: it is what stops a leak from exposing access
-to patient enquiry data.
+## What I'll change in the code (things we control)
 
-The fix is to set new passwords, not to look up old ones.
+1. **Improve the staff alert email content** — spam filters score the content itself:
+   - Clearer, less "alert-like" subject line (e.g. `New enquiry: Weight Management — Sarah Ahmed` instead of anything with "URGENT"/"NEW REQUEST" styling)
+   - Add a proper plain-text version alongside the HTML (missing plain text is a spam signal)
+   - Make sure the From name shows as "Kenton Pharmacy Clinic" and set Reply-To to the enquirer's email address, so replying goes straight to the patient
+   - Remove anything that looks like marketing/bulk-mail formatting
 
-## Option A — Set new passwords now (fastest)
+2. **Same clean-up for the customer confirmation email** so patients' copies also land in inbox.
 
-You tell me a new password for each account you want to keep, and I set it
-directly. You can sign in immediately afterwards and change it later.
+## What you need to do (recipient side — this is what actually fixes it)
 
-- Applies to any or all three accounts
-- No email required, works even if the inbox is unreachable
-- Send the password through the secure secret form, not plain chat
+These steps train the mail providers that your emails are wanted. They matter more than any code change:
 
-## Option B — Add "Forgot password" to the staff sign-in page
+1. **In the NHS mailbox (habib.jiwa2@nhs.net):** open Junk, right-click an enquiry email → "Mark as not junk" / "Never block sender". Do this for each one already there.
+2. **Add the sender to contacts/safe senders:** add `noreply@notify.pharmacy-clinic.com` (the exact sending address) to the NHS mailbox's Safe Senders list and address book.
+3. **Reply to one of the enquiry emails** (even just "received") — replying is one of the strongest trust signals.
+4. **Patients (Gmail/Hotmail/iCloud):** same idea — if a confirmation lands in junk, marking it "Not spam" once usually fixes it permanently for that mailbox.
 
-A self-service reset you can use any time in future.
+## Ongoing
 
-- Add a "Forgot password?" link on `/admin` that sends a reset email
-- Add a `/reset-password` page where the new password is entered
-- Uses the existing branded email setup on your domain
-- Requires the account's inbox to be working (nhs.net and gmail are fine;
-  habib@pharmacy-clinic.com depends on that mailbox being live)
+- Reputation builds with volume and time. After a few weeks of regular, non-bounced sends, placement improves on its own.
+- Avoid blasting many test emails at once from the admin panel — bursts from a new domain hurt reputation.
 
-## Recommendation
+## Technical details
 
-Do both: Option A to get you back in tonight, Option B so you never need to
-ask me again.
-
-## Technical notes
-
-- Option A uses the privileged auth admin API to update the password hash for
-  the named user; no schema change.
-- Option B adds a public `/reset-password` route (outside the staff gate),
-  calls `resetPasswordForEmail` with a redirect to that route, and completes
-  with `updateUser({ password })` after the recovery link is followed.
-- Sign-ups stay disabled; only the three existing accounts remain.
+- Files touched: `src/lib/email-templates/new-enquiry.tsx`, `enquiry-confirmation.tsx`, possibly `send-email.ts` (reply-to + plain text).
+- No DNS or domain changes needed — SPF/DKIM are already correct via the verified delegation.
+- No third-party service needed; switching providers would not fix a new-domain reputation problem anyway.
