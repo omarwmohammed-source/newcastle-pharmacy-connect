@@ -50,12 +50,12 @@ export function NewEnquiryEmail({
 }: NewEnquiryEmailProps) {
   const c = { ...defaultEmailSettings.newEnquiry, ...content };
   return (
-    <Html>
+    <Html lang="en" dir="ltr">
       <Head />
       <Preview>{fillTemplate(c.preview, { fullName, serviceName })}</Preview>
       <Body
         style={{
-          backgroundColor: "#f4f6f9",
+          backgroundColor: "#ffffff",
           fontFamily: "Georgia, 'EB Garamond', serif",
           margin: 0,
           padding: "24px 0",
@@ -109,6 +109,10 @@ export function NewEnquiryEmail({
           </Section>
           <Hr style={{ borderColor: "#e6e9ef", margin: "4px 0 16px" }} />
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: 0 }}>
+            Kenton Pharmacy Clinic · 41 Halewood Avenue, Newcastle upon Tyne,
+            NE3 3RX
+          </Text>
+          <Text style={{ fontSize: "13px", color: "#7b8794", margin: "6px 0 0" }}>
             {fillTemplate(c.footer, { fullName, serviceName })}
           </Text>
         </Container>
