@@ -5,6 +5,7 @@ import {
   Heading,
   Hr,
   Html,
+  Link,
   Preview,
   Section,
   Text,
@@ -107,6 +108,48 @@ export function NewEnquiryEmail({
               </>
             ) : null}
           </Section>
+          {(phone && phone !== "\u2014") || (email && email !== "\u2014") ? (
+            <Section style={{ margin: "4px 0 20px" }}>
+              {phone && phone !== "\u2014" ? (
+                <Link
+                  href={`tel:${phone.replace(/[^+0-9]/g, "")}`}
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: "#0f2340",
+                    color: "#ffffff",
+                    borderRadius: "6px",
+                    fontSize: "15px",
+                    padding: "11px 20px",
+                    marginRight: "10px",
+                    textDecoration: "none",
+                  }}
+                >
+                  Call {fullName}
+                </Link>
+              ) : null}
+              {email && email !== "\u2014" ? (
+                <Link
+                  href={`mailto:${email}?subject=${encodeURIComponent(
+                    `Kenton Pharmacy Clinic \u2013 ${serviceName}`,
+                  )}&body=${encodeURIComponent(
+                    `Dear ${fullName},\n\nThank you for your enquiry about ${serviceName}. We would be happy to arrange a suitable time to speak with you.\n\nKind regards,\nKenton Pharmacy Clinic\n41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX\nTelephone 0191 205 2006`,
+                  )}`}
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: "#ffffff",
+                    color: "#0f2340",
+                    border: "1px solid #0f2340",
+                    borderRadius: "6px",
+                    fontSize: "15px",
+                    padding: "10px 20px",
+                    textDecoration: "none",
+                  }}
+                >
+                  Draft a reply
+                </Link>
+              ) : null}
+            </Section>
+          ) : null}
           <Hr style={{ borderColor: "#e6e9ef", margin: "4px 0 16px" }} />
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: 0 }}>
             Kenton Pharmacy Clinic · 41 Halewood Avenue, Newcastle upon Tyne,
