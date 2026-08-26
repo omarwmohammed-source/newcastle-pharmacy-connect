@@ -12,6 +12,7 @@ export interface TemplateEntry {
 
 import { template as newEnquiryTemplate } from './new-enquiry'
 import { template as enquiryConfirmationTemplate } from './enquiry-confirmation'
+import { template as enquiryActionNeededTemplate } from './enquiry-action-needed'
 
 /**
  * Template registry — maps template names to their React Email components.
@@ -20,4 +21,5 @@ import { template as enquiryConfirmationTemplate } from './enquiry-confirmation'
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'new-enquiry': newEnquiryTemplate,
   'enquiry-confirmation': enquiryConfirmationTemplate,
+  'enquiry-action-needed': enquiryActionNeededTemplate,
 }

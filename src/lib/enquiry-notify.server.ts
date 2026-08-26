@@ -1,6 +1,7 @@
 // Server-only: alerts the pharmacy when a new enquiry arrives.
 import type { EnquiryInput } from "./enquiries-schema";
 import {
+  ACTION_ALERT_EMAIL,
   PHARMACY_INBOX,
   PHARMACY_PHONE,
   STAFF_NOTIFICATION_EMAILS,
@@ -39,6 +40,23 @@ export async function notifyNewEnquiry(
       // Never let an email problem lose a submission.
       console.error(`[enquiries] alert failed for ${staffEmail}`, error);
     }
+  }
+
+  // Heads-up to the personal inbox — no patient details, just "go and look".
+  try {
+    const { sendTemplateEmail } = await import(
+      "@/lib/email-templates/send-email"
+    );
+    await sendTemplateEmail("enquiry-action-needed", ACTION_ALERT_EMAIL, {
+      idempotencyKey: `enquiry-action-needed-${enquiry.id}`,
+      templateData: {
+        submittedAt: new Date().toLocaleString("en-GB", {
+          timeZone: "Europe/London",
+        }),
+      },
+    });
+  } catch (error) {
+    console.error("[enquiries] action alert failed", error);
   }
 
   // Acknowledgement to the customer (only when they gave an email address).

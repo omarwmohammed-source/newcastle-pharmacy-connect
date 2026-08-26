@@ -4,14 +4,15 @@
 export const PHARMACY_INBOX = "habib.jiwa2@nhs.net";
 export const PHARMACY_PHONE = "0191 205 2006";
 
-export const STAFF_NOTIFICATION_EMAILS = [
-  PHARMACY_INBOX,
-  "omarwmohammed@gmail.com",
-];
+export const STAFF_NOTIFICATION_EMAILS = [PHARMACY_INBOX];
+
+/** Gets a heads-up only — never any patient details. */
+export const ACTION_ALERT_EMAIL = "habibjiwa@hotmail.co.uk";
 
 export const STAFF_ALLOWLIST = [
   ...STAFF_NOTIFICATION_EMAILS,
   "habib@pharmacy-clinic.com",
+  "omarwmohammed@gmail.com",
 ];
 
 export function isAllowlistedStaffEmail(email: string | null | undefined) {
