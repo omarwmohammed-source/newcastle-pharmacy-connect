@@ -49,7 +49,7 @@ export function Header() {
 
       {/* Main bar */}
       <div className="bg-primary text-primary-foreground">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6">
           {activeBranch ? (
             <Link
               to="/$branch"
@@ -65,6 +65,7 @@ export function Header() {
             </Link>
           )}
 
+          <div className="ml-auto flex items-center gap-2">
           <nav className="hidden items-center gap-0.5 whitespace-nowrap xl:flex">
             {activeBranch ? (
               <>
@@ -97,13 +98,6 @@ export function Header() {
                 >
                   Contact
                 </Link>
-                <Link
-                  to="/"
-                  className="ml-1.5 inline-flex items-center gap-1.5 rounded-md border border-primary-foreground/25 px-2.5 py-1.5 text-xs font-medium text-primary-foreground/90 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground"
-                >
-                  <ArrowLeftRight className="h-3.5 w-3.5" />
-                  Switch branch
-                </Link>
                 <Button
                   asChild
                   className="ml-2 bg-accent text-accent-foreground hover:bg-accent/90"
@@ -126,6 +120,16 @@ export function Header() {
               ))
             )}
           </nav>
+          {activeBranch && (
+            <Link
+              to="/"
+              aria-label="Change branch"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-accent/50 bg-primary-foreground/10 px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/20 sm:text-sm"
+            >
+              <ArrowLeftRight className="h-3.5 w-3.5" />
+              Change branch
+            </Link>
+          )}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild className="xl:hidden">
               <Button
@@ -224,6 +228,7 @@ export function Header() {
               </div>
             </SheetContent>
           </Sheet>
+          </div>
         </div>
       </div>
     </header>
