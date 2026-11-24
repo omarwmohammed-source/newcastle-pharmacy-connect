@@ -1,9 +1,16 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type Service, serviceFormUrl } from "@/lib/pharmacy-data";
+import { BRANCHES, type BranchConfig } from "@/lib/branches";
 import { RegisterInterestDialog } from "./RegisterInterestDialog";
 
-export function ServiceCard({ service }: { service: Service }) {
+export function ServiceCard({
+  service,
+  branch = BRANCHES.kenton,
+}: {
+  service: Service;
+  branch?: BranchConfig;
+}) {
   const isPrivate = service.kind === "private";
   const formUrl = serviceFormUrl(service);
   return (
@@ -54,6 +61,7 @@ export function ServiceCard({ service }: { service: Service }) {
         ) : (
           <RegisterInterestDialog
             service={service}
+            branch={branch}
             trigger={
               <Button variant="outline" className="w-full">
                 Register interest

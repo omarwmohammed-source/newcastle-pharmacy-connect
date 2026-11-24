@@ -53,16 +53,16 @@ export const defaultDesign: EmailDesign = emailDesignSchema.parse({});
 
 export const blankTemplate: CustomEmailTemplate = {
   name: "New template",
-  subject: "A message from Kenton Pharmacy Clinic",
+  subject: "A message from Newcastle Pharmacy Clinic",
   preview: "A short line shown next to the subject in the inbox",
   heading: "Hello {{firstName}}",
-  subheading: "Kenton Pharmacy Clinic",
+  subheading: "Newcastle Pharmacy Clinic",
   intro: "Write your opening message here.",
   body: "Add the main details of your message here.",
-  closing: "If it's urgent, please call us on 0191 205 2006.",
+  closing: "If it's urgent, please call us on {{pharmacyPhone}}.",
   buttonText: "",
   buttonUrl: "",
-  footer: "Kenton Pharmacy Clinic, 41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
+  footer: "Newcastle Pharmacy Clinic · Kenton (NE3 3RX) & Chillingham Road (NE6 5LJ)",
   design: defaultDesign,
   placeholders: [
     { key: "firstName", label: "First name", sample: "Sarah" },
@@ -71,7 +71,7 @@ export const blankTemplate: CustomEmailTemplate = {
     { key: "phone", label: "Phone number", sample: "07700 900123" },
     { key: "serviceName", label: "Service name", sample: "Blood pressure check" },
     { key: "appointmentDate", label: "Appointment date", sample: "Monday 14 September, 10:30am" },
-    { key: "pharmacyName", label: "Pharmacy name", sample: "Kenton Pharmacy Clinic" },
+    { key: "pharmacyName", label: "Pharmacy name", sample: "Newcastle Pharmacy Clinic" },
     { key: "pharmacyPhone", label: "Pharmacy phone", sample: "0191 205 2006" },
   ],
 };

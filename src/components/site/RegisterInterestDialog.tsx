@@ -19,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { submitEnquiry } from "@/lib/enquiries.functions";
 import type { Service } from "@/lib/pharmacy-data";
+import { BRANCHES, type BranchConfig } from "@/lib/branches";
 
 
 const schema = z.object({
@@ -60,9 +61,11 @@ const empty: Values = {
 
 export function RegisterInterestDialog({
   service,
+  branch = BRANCHES.kenton,
   trigger,
 }: {
   service: Service;
+  branch?: BranchConfig;
   trigger: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -91,6 +94,7 @@ export function RegisterInterestDialog({
     try {
       await send({
         data: {
+          branch: branch.slug,
           fullName: result.data.fullName,
           phone: result.data.phone,
           email: result.data.email ?? "",
@@ -107,7 +111,7 @@ export function RegisterInterestDialog({
       setOpen(false);
     } catch {
       toast.error(
-        "Sorry, we couldn't send that. Please try again or call us on 0191 205 2006.",
+        `Sorry, we couldn't send that. Please try again or call us on ${branch.phone}.`,
       );
     } finally {
       setPending(false);
@@ -124,7 +128,7 @@ export function RegisterInterestDialog({
             Register interest — {service.name}
           </DialogTitle>
           <DialogDescription>
-            Leave your details and a member of the Kenton Pharmacy Clinic team
+            Leave your details and a member of the {branch.name} team
             will be in touch shortly.
           </DialogDescription>
         </DialogHeader>
@@ -198,8 +202,8 @@ export function RegisterInterestDialog({
                 htmlFor={`consent-${service.slug}`}
                 className="text-sm font-normal"
               >
-                I agree to be contacted about this enquiry by Kenton Pharmacy
-                Clinic. Your details are stored securely and used only to
+                I agree to be contacted about this enquiry by {branch.name}.
+                Your details are stored securely and used only to
                 respond to you — see our{" "}
                 <Link
                   to="/privacy"

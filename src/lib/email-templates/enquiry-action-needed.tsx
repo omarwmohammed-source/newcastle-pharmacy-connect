@@ -12,14 +12,24 @@ import * as React from "react";
 import type { TemplateEntry } from "./registry";
 
 interface ActionNeededProps {
+  branchLabel?: string;
+  branchName?: string;
+  branchAddress?: string;
   submittedAt?: string;
 }
 
-export function EnquiryActionNeededEmail({ submittedAt = "" }: ActionNeededProps) {
+export function EnquiryActionNeededEmail({
+  branchLabel = "Kenton",
+  branchName = "Kenton Pharmacy Clinic",
+  branchAddress = "41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
+  submittedAt = "",
+}: ActionNeededProps) {
   return (
     <Html lang="en" dir="ltr">
       <Head />
-      <Preview>A new website form is waiting in your NHS mailbox</Preview>
+      <Preview>
+        A new {branchLabel} enquiry is waiting in your NHS mailbox
+      </Preview>
       <Body
         style={{
           backgroundColor: "#ffffff",
@@ -39,7 +49,8 @@ export function EnquiryActionNeededEmail({ submittedAt = "" }: ActionNeededProps
             Action needed
           </Heading>
           <Text style={{ margin: "0 0 14px", fontSize: "16px", color: "#0f2340" }}>
-            A new form has come in from the Kenton Pharmacy Clinic website.
+            A new form has come in for {branchName} from the Newcastle Pharmacy
+            Clinic website.
           </Text>
           <Text style={{ margin: "0 0 14px", fontSize: "16px", color: "#0f2340" }}>
             Please open your NHS mailbox (habib.jiwa2@nhs.net), where the full
@@ -52,7 +63,7 @@ export function EnquiryActionNeededEmail({ submittedAt = "" }: ActionNeededProps
           ) : null}
           <Hr style={{ borderColor: "#e6e9ef", margin: "4px 0 16px" }} />
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: 0 }}>
-            Kenton Pharmacy Clinic · 41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX
+            {branchName} · {branchAddress}
           </Text>
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: "6px 0 0" }}>
             No personal information is included in this message.
@@ -66,6 +77,14 @@ export function EnquiryActionNeededEmail({ submittedAt = "" }: ActionNeededProps
 export const template = {
   component: EnquiryActionNeededEmail,
   displayName: "Action needed (no patient details)",
-  subject: "Action needed: new website form in your NHS mailbox",
-  previewData: { submittedAt: "2 August 2026, 14:20" },
+  subject: (data: Record<string, any>) => {
+    const branch = data["branchLabel"] ? ` (${data["branchLabel"]})` : "";
+    return `Action needed: new website form${branch} in your NHS mailbox`;
+  },
+  previewData: {
+    branchLabel: "Kenton",
+    branchName: "Kenton Pharmacy Clinic",
+    branchAddress: "41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
+    submittedAt: "2 August 2026, 14:20",
+  },
 } satisfies TemplateEntry;

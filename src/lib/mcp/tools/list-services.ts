@@ -1,13 +1,18 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { ALL_SERVICES, PHARMACY } from "@/lib/pharmacy-data";
+import { ALL_SERVICES } from "@/lib/pharmacy-data";
+import { BRANCHES, BRANCH_LIST, BRANCH_SLUGS, UMBRELLA_BRAND } from "@/lib/branches";
 
 export default defineTool({
   name: "list_services",
   title: "List pharmacy services",
   description:
-    "List the NHS services and private treatments offered by Kenton Pharmacy Clinic, along with opening hours and contact details.",
+    "List the NHS services and private treatments offered by Newcastle Pharmacy Clinic (Kenton and Chillingham Road branches), along with each branch's opening hours and contact details.",
   inputSchema: {
+    branch: z
+      .enum(BRANCH_SLUGS)
+      .optional()
+      .describe("Filter to a specific branch (kenton or chillingham-road)."),
     kind: z
       .enum(["all", "nhs", "private"])
       .optional()
@@ -18,7 +23,7 @@ export default defineTool({
     idempotentHint: true,
     openWorldHint: false,
   },
-  handler: ({ kind }) => {
+  handler: ({ branch, kind }) => {
     const wanted = kind ?? "all";
     const services = ALL_SERVICES.filter(
       (s) => wanted === "all" || s.kind === wanted,
@@ -29,7 +34,13 @@ export default defineTool({
       kind: s.kind,
     }));
 
-    const payload = { pharmacy: PHARMACY, services };
+    const branches = branch ? [BRANCHES[branch]] : BRANCH_LIST;
+    const payload = {
+      brand: UMBRELLA_BRAND,
+      pharmacy: branch ? BRANCHES[branch] : BRANCHES.kenton,
+      branches,
+      services,
+    };
     return {
       content: [{ type: "text", text: JSON.stringify(payload) }],
       structuredContent: payload,

@@ -13,9 +13,13 @@ import { defaultEmailSettings, fillTemplate, type EnquiryEmailSection } from "..
 import type { TemplateEntry } from "./registry";
 
 interface EnquiryConfirmationProps {
+  branchLabel?: string;
+  branchName?: string;
+  branchAddress?: string;
   fullName?: string;
   serviceName?: string;
   phone?: string;
+  hoursSummary?: string;
   content?: Partial<EnquiryEmailSection>;
 }
 
@@ -39,45 +43,57 @@ const paragraph: React.CSSProperties = {
 };
 
 export function EnquiryConfirmationEmail({
+  branchLabel = "Kenton",
+  branchName = "Kenton Pharmacy Clinic",
+  branchAddress = "41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
   fullName = "there",
   serviceName = "your enquiry",
   phone = "0191 205 2006",
+  hoursSummary = "Monday to Friday 8:30am–6pm and Saturday 9am–6pm",
   content,
 }: EnquiryConfirmationProps) {
   const c = { ...defaultEmailSettings.enquiryConfirmation, ...content };
+  const vars = {
+    branchLabel,
+    branchName,
+    branchAddress,
+    fullName,
+    serviceName,
+    phone,
+    hoursSummary,
+  };
   return (
     <Html lang="en" dir="ltr">
       <Head />
-      <Preview>{fillTemplate(c.preview, { fullName, serviceName })}</Preview>
+      <Preview>{fillTemplate(c.preview, vars)}</Preview>
       <Body style={main}>
         <Container style={container}>
           <Heading
             style={{ fontSize: "22px", color: "#0f2340", margin: "0 0 4px" }}
           >
-            {fillTemplate(c.heading, { fullName, serviceName })}
+            {fillTemplate(c.heading, vars)}
           </Heading>
           <Text
             style={{ fontSize: "14px", color: "#7b8794", margin: "0 0 20px" }}
           >
-            {fillTemplate(c.subheading ?? "", { fullName, serviceName })}
+            {branchName}
           </Text>
           <Hr style={{ borderColor: "#e6e9ef", margin: "0 0 20px" }} />
           <Text style={paragraph}>
-            {fillTemplate(c.intro ?? "", { fullName, serviceName })}
+            {fillTemplate(c.intro ?? "", vars)}
           </Text>
           <Text style={paragraph}>
-            {fillTemplate(c.body ?? "", { fullName, serviceName, phone })}
+            {fillTemplate(c.body ?? "", vars)}
           </Text>
           <Text style={paragraph}>
-            {fillTemplate(c.closing ?? "", { fullName, serviceName, phone })}
+            {fillTemplate(c.closing ?? "", vars)}
           </Text>
           <Hr style={{ borderColor: "#e6e9ef", margin: "4px 0 16px" }} />
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: 0 }}>
-            Kenton Pharmacy Clinic · 41 Halewood Avenue, Newcastle upon Tyne,
-            NE3 3RX
+            {branchName} · {branchAddress}
           </Text>
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: "6px 0 0" }}>
-            {fillTemplate(c.footer, { fullName, serviceName })}
+            {fillTemplate(c.footer, vars)}
           </Text>
         </Container>
       </Body>
@@ -91,11 +107,20 @@ export const template = {
   subject: (data: Record<string, any>, settings?: { enquiryConfirmation?: Partial<EnquiryEmailSection> }) =>
     fillTemplate(
       settings?.enquiryConfirmation?.subject ?? defaultEmailSettings.enquiryConfirmation.subject,
-      { serviceName: data['serviceName'] ?? "Kenton Pharmacy Clinic", fullName: data['fullName'] ?? "there" },
+      {
+        branchLabel: data["branchLabel"] ?? "Kenton",
+        branchName: data["branchName"] ?? "Newcastle Pharmacy Clinic",
+        serviceName: data["serviceName"] ?? "your enquiry",
+        fullName: data["fullName"] ?? "there",
+      },
     ),
   previewData: {
+    branchLabel: "Kenton",
+    branchName: "Kenton Pharmacy Clinic",
+    branchAddress: "41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
     fullName: "Sarah",
     serviceName: "Weight Loss Clinic",
     phone: "0191 205 2006",
+    hoursSummary: "Monday to Friday 8:30am–6pm and Saturday 9am–6pm",
   },
 } satisfies TemplateEntry;

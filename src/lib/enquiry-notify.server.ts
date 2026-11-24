@@ -1,15 +1,21 @@
 // Server-only: alerts the pharmacy when a new enquiry arrives.
+import { formatBranchAddress, getBranch } from "./branches";
 import type { EnquiryInput } from "./enquiries-schema";
 import {
   ACTION_ALERT_EMAIL,
   PHARMACY_INBOX,
-  PHARMACY_PHONE,
   STAFF_NOTIFICATION_EMAILS,
 } from "./staff-access";
 
 export async function notifyNewEnquiry(
   enquiry: EnquiryInput & { id: string },
 ): Promise<void> {
+  const branch = getBranch(enquiry.branch);
+  const branchAddress = formatBranchAddress(branch);
+  const submittedAt = new Date().toLocaleString("en-GB", {
+    timeZone: "Europe/London",
+  });
+
   // Alert each staff recipient individually so every send is traceable.
   for (const staffEmail of STAFF_NOTIFICATION_EMAILS) {
     try {
@@ -20,15 +26,18 @@ export async function notifyNewEnquiry(
         idempotencyKey: `new-enquiry-${enquiry.id}-${staffEmail}`,
         replyTo: enquiry.email || undefined,
         templateData: {
+          branchSlug: branch.slug,
+          branchLabel: branch.shortLabel,
+          branchName: branch.name,
+          branchAddress,
+          branchPhone: branch.phone,
           fullName: enquiry.fullName,
           phone: enquiry.phone,
           email: enquiry.email,
           serviceName: enquiry.serviceName,
           message: enquiry.message,
           source: enquiry.source,
-          submittedAt: new Date().toLocaleString("en-GB", {
-            timeZone: "Europe/London",
-          }),
+          submittedAt,
         },
       });
       if (!result.sent) {
@@ -50,9 +59,10 @@ export async function notifyNewEnquiry(
     await sendTemplateEmail("enquiry-action-needed", ACTION_ALERT_EMAIL, {
       idempotencyKey: `enquiry-action-needed-${enquiry.id}`,
       templateData: {
-        submittedAt: new Date().toLocaleString("en-GB", {
-          timeZone: "Europe/London",
-        }),
+        branchLabel: branch.shortLabel,
+        branchName: branch.name,
+        branchAddress,
+        submittedAt,
       },
     });
   } catch (error) {
@@ -73,9 +83,13 @@ export async function notifyNewEnquiry(
         idempotencyKey: `enquiry-confirmation-${enquiry.id}`,
         replyTo: PHARMACY_INBOX,
         templateData: {
+          branchLabel: branch.shortLabel,
+          branchName: branch.name,
+          branchAddress,
           fullName: enquiry.fullName?.split(" ")[0] || "there",
           serviceName: enquiry.serviceName,
-          phone: PHARMACY_PHONE,
+          phone: branch.phone,
+          hoursSummary: branch.hoursSummary,
         },
       },
     );

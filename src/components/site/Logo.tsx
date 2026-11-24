@@ -1,10 +1,13 @@
 import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
+import { UMBRELLA_BRAND } from "@/lib/branches";
 
 export function Logo({
+  title = UMBRELLA_BRAND,
   compact = false,
   showWordmark = true,
   onDark = false,
 }: {
+  title?: string;
   compact?: boolean;
   showWordmark?: boolean;
   onDark?: boolean;
@@ -13,7 +16,7 @@ export function Logo({
     <div className="flex items-center gap-3">
       <img
         src={logoAsset.url}
-        alt="Kenton Pharmacy Clinic"
+        alt={title}
         className={
           (compact ? "h-10 sm:h-11" : "h-12 sm:h-14") +
           " w-auto object-contain select-none"
@@ -27,7 +30,7 @@ export function Logo({
               " font-serif text-xl font-semibold tracking-wide sm:text-2xl"
             }
           >
-            Kenton Pharmacy Clinic
+            {title}
           </span>
           <span
             className={

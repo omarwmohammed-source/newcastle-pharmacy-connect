@@ -1,3 +1,5 @@
+import { BRANCHES } from "./branches";
+
 export type Service = {
   slug: string;
   name: string;
@@ -59,7 +61,7 @@ export const NHS_SERVICES: Service[] = [
     slug: "prescriptions",
     name: "Prescriptions & EPS",
     description:
-      "Nominate Kenton Pharmacy Clinic for the NHS Electronic Prescription Service and pick up your medicines here.",
+      "Nominate our pharmacy for the NHS Electronic Prescription Service and pick up your medicines here.",
     link: {
       href: "https://www.nhs.uk/nhs-app/help/prescriptions/nominating-a-pharmacy/",
       text: "Alternatively, you can also nominate us using the NHS app.",
@@ -201,20 +203,4 @@ export const PRIVATE_SERVICES: Service[] = [
 
 export const ALL_SERVICES: Service[] = [...NHS_SERVICES, ...PRIVATE_SERVICES];
 
-export const PHARMACY = {
-  name: "Kenton Pharmacy Clinic",
-  phone: "0191 205 2006",
-  phoneHref: "tel:+441912052006",
-  addressLine1: "41 Halewood Avenue",
-  addressLine2: "Newcastle upon Tyne",
-  postcode: "NE3 3RX",
-  deliveryArea: "All areas of Newcastle upon Tyne",
-  freeDelivery: true,
-  mapEmbed:
-    "https://www.google.com/maps?q=41+Halewood+Avenue+Newcastle+NE3+3RX&output=embed",
-  hours: [
-    { day: "Monday – Friday", time: "8:30 – 18:00" },
-    { day: "Saturday", time: "9:00 – 18:00" },
-    { day: "Sunday", time: "Closed" },
-  ],
-};
+export const PHARMACY = BRANCHES.kenton;

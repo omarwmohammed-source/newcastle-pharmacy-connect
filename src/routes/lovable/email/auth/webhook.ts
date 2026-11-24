@@ -10,7 +10,7 @@ import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 import { getEmailSettingsForSending } from '@/lib/email-settings-loader'
 
 // Configuration
-const SITE_NAME = "Kenton Pharmacy Clinic"
+const SITE_NAME = "Newcastle Pharmacy Clinic"
 const SENDER_DOMAIN = "notify.pharmacy-clinic.com"
 const ROOT_DOMAIN = "pharmacy-clinic.com"
 const FROM_DOMAIN = "notify.pharmacy-clinic.com"

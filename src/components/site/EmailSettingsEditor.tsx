@@ -46,8 +46,8 @@ const TEMPLATE_VARIABLES: Record<TemplateKey, string[]> = {
   invite: ["{{siteName}}", "{{siteUrl}}"],
   emailChange: ["{{siteName}}", "{{oldEmail}}", "{{newEmail}}"],
   reauthentication: ["{{siteName}}"],
-  newEnquiry: ["{{fullName}}", "{{serviceName}}", "{{phone}}", "{{email}}", "{{message}}", "{{source}}", "{{submittedAt}}"],
-  enquiryConfirmation: ["{{fullName}}", "{{serviceName}}", "{{phone}}"],
+  newEnquiry: ["{{branchLabel}}", "{{branchName}}", "{{branchAddress}}", "{{branchPhone}}", "{{fullName}}", "{{serviceName}}", "{{phone}}", "{{email}}", "{{message}}", "{{source}}", "{{submittedAt}}"],
+  enquiryConfirmation: ["{{branchLabel}}", "{{branchName}}", "{{branchAddress}}", "{{fullName}}", "{{serviceName}}", "{{phone}}", "{{hoursSummary}}"],
 };
 
 export function EmailSettingsEditor() {

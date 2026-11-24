@@ -13,6 +13,7 @@ export const submitEnquiry = createServerFn({ method: "POST" })
     const { data: row, error } = await supabaseAdmin
       .from("enquiries")
       .insert({
+        branch: data.branch,
         full_name: data.fullName,
         phone: data.phone,
         email: data.email || null,
@@ -81,7 +82,7 @@ export const listEnquiries = createServerFn({ method: "GET" })
     const { data, error } = await context.supabase
       .from("enquiries")
       .select(
-        "id, full_name, phone, email, dob, service_slug, service_name, message, consent, source, status, staff_notes, created_at",
+        "id, branch, full_name, phone, email, dob, service_slug, service_name, message, consent, source, status, staff_notes, created_at",
       )
       .order("created_at", { ascending: false })
       .limit(1000);

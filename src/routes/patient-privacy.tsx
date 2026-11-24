@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PHARMACY } from "@/lib/pharmacy-data";
+import { BRANCH_LIST, formatBranchAddress, UMBRELLA_BRAND } from "@/lib/branches";
 import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
 import {
@@ -13,20 +13,20 @@ const OG_IMAGE = `${BASE_URL}${logoAsset.url}`;
 export const Route = createFileRoute("/patient-privacy")({
   head: () => ({
     meta: [
-      { title: "Patient privacy notice — Kenton Pharmacy Clinic" },
+      { title: `Patient privacy notice — ${UMBRELLA_BRAND}` },
       {
         name: "description",
         content:
-          "How Kenton Pharmacy Clinic records, uses and safeguards patient information, your rights under UK GDPR, and how to access your pharmacy record.",
+          "How Newcastle Pharmacy Clinic records, uses and safeguards patient information, your rights under UK GDPR, and how to access your pharmacy record.",
       },
       {
         property: "og:title",
-        content: "Patient privacy notice — Kenton Pharmacy Clinic",
+        content: `Patient privacy notice — ${UMBRELLA_BRAND}`,
       },
       {
         property: "og:description",
         content:
-          "How we look after and safeguard information about you at Kenton Pharmacy Clinic in Newcastle.",
+          "How we look after and safeguard information about you at Newcastle Pharmacy Clinic (Kenton and Chillingham Road).",
       },
       { property: "og:url", content: `${BASE_URL}/patient-privacy` },
       { property: "og:image", content: OG_IMAGE },
@@ -54,12 +54,19 @@ function PatientPrivacyPage() {
       </div>
 
       <div className="mt-12 rounded-lg border border-border bg-muted/50 p-5 text-sm text-muted-foreground">
-        <p>
-          Kenton Pharmacy Clinic,{" "}
-          {`${PHARMACY.addressLine1}, ${PHARMACY.addressLine2}, ${PHARMACY.postcode}`}
-          . Call us on {PHARMACY.phone}.
-        </p>
-        <p className="mt-2">
+        <p className="font-medium text-foreground">{UMBRELLA_BRAND} branches</p>
+        <ul className="mt-2 space-y-1">
+          {BRANCH_LIST.map((b) => (
+            <li key={b.slug}>
+              <strong className="text-foreground">{b.name}:</strong>{" "}
+              {formatBranchAddress(b)} —{" "}
+              <a href={b.phoneHref} className="text-primary underline">
+                {b.phone}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3">
           For how we handle details submitted through this website&apos;s
           enquiry forms, see our{" "}
           <Link to="/privacy" className="text-primary underline">

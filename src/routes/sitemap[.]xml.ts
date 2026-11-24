@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { BASE_URL } from "@/lib/site-config";
+import { BRANCH_SLUGS } from "@/lib/branches";
 
 interface SitemapEntry {
   path: string;
@@ -12,15 +13,19 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        const branchEntries: SitemapEntry[] = BRANCH_SLUGS.flatMap((slug) => [
+          { path: `/${slug}`, changefreq: "weekly", priority: "0.9" },
+          { path: `/${slug}/services`, changefreq: "weekly", priority: "0.8" },
+          { path: `/${slug}/private`, changefreq: "weekly", priority: "0.8" },
+          { path: `/${slug}/contact`, changefreq: "monthly", priority: "0.7" },
+          { path: `/${slug}/register`, changefreq: "monthly", priority: "0.6" },
+        ]);
+
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
-          { path: "/services", changefreq: "weekly", priority: "0.9" },
-          { path: "/private", changefreq: "weekly", priority: "0.8" },
-          { path: "/contact", changefreq: "monthly", priority: "0.7" },
-          { path: "/register", changefreq: "monthly", priority: "0.6" },
+          ...branchEntries,
           { path: "/patient-privacy", changefreq: "yearly", priority: "0.4" },
           { path: "/privacy", changefreq: "yearly", priority: "0.4" },
-
           { path: "/cookies", changefreq: "yearly", priority: "0.4" },
         ];
 

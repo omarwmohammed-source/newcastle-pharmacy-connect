@@ -8,7 +8,7 @@ import {
 } from "./custom-email-schema";
 import { fillTemplate, type TemplateVariables } from "./email-settings-schema";
 
-const SITE_NAME = "Kenton Pharmacy Clinic";
+const SITE_NAME = "Newcastle Pharmacy Clinic";
 const SENDER_DOMAIN = "notify.pharmacy-clinic.com";
 const FROM_DOMAIN = "notify.pharmacy-clinic.com";
 

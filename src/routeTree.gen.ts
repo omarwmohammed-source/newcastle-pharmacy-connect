@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BranchRouteImport } from './routes/$branch'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookiesRouteImport } from './routes/cookies'
@@ -20,6 +21,11 @@ import { Route as PrivateRouteImport } from './routes/private'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as BranchIndexRouteImport } from './routes/$branch.index'
+import { Route as BranchContactRouteImport } from './routes/$branch.contact'
+import { Route as BranchPrivateRouteImport } from './routes/$branch.private'
+import { Route as BranchRegisterRouteImport } from './routes/$branch.register'
+import { Route as BranchServicesRouteImport } from './routes/$branch.services'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -31,6 +37,11 @@ import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/l
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BranchRoute = BranchRouteImport.update({
+  id: '/$branch',
+  path: '/$branch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -83,6 +94,31 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BranchIndexRoute = BranchIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BranchRoute,
+} as any)
+const BranchContactRoute = BranchContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => BranchRoute,
+} as any)
+const BranchPrivateRoute = BranchPrivateRouteImport.update({
+  id: '/private',
+  path: '/private',
+  getParentRoute: () => BranchRoute,
+} as any)
+const BranchRegisterRoute = BranchRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => BranchRoute,
+} as any)
+const BranchServicesRoute = BranchServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => BranchRoute,
+} as any)
 const Char91DotmcpChar93ListToolsRoute =
   Char91DotmcpChar93ListToolsRouteImport.update({
     id: '/.mcp/list-tools',
@@ -125,6 +161,7 @@ const LovableEmailTransactionalPreviewRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$branch': typeof BranchRouteWithChildren
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
@@ -135,8 +172,13 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$branch/contact': typeof BranchContactRoute
+  '/$branch/private': typeof BranchPrivateRoute
+  '/$branch/register': typeof BranchRegisterRoute
+  '/$branch/services': typeof BranchServicesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/$branch/': typeof BranchIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -155,8 +197,13 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$branch/contact': typeof BranchContactRoute
+  '/$branch/private': typeof BranchPrivateRoute
+  '/$branch/register': typeof BranchRegisterRoute
+  '/$branch/services': typeof BranchServicesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/$branch': typeof BranchIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -166,6 +213,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$branch': typeof BranchRouteWithChildren
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
@@ -176,8 +224,13 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$branch/contact': typeof BranchContactRoute
+  '/$branch/private': typeof BranchPrivateRoute
+  '/$branch/register': typeof BranchRegisterRoute
+  '/$branch/services': typeof BranchServicesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/$branch/': typeof BranchIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -188,6 +241,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$branch'
     | '/admin'
     | '/contact'
     | '/cookies'
@@ -198,8 +252,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/services'
     | '/sitemap.xml'
+    | '/$branch/contact'
+    | '/$branch/private'
+    | '/$branch/register'
+    | '/$branch/services'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/$branch/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/lovable/email/auth/preview'
@@ -218,8 +277,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/services'
     | '/sitemap.xml'
+    | '/$branch/contact'
+    | '/$branch/private'
+    | '/$branch/register'
+    | '/$branch/services'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/$branch'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/lovable/email/auth/preview'
@@ -228,6 +292,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$branch'
     | '/admin'
     | '/contact'
     | '/cookies'
@@ -238,8 +303,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/services'
     | '/sitemap.xml'
+    | '/$branch/contact'
+    | '/$branch/private'
+    | '/$branch/register'
+    | '/$branch/services'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/$branch/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/lovable/email/auth/preview'
@@ -249,6 +319,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BranchRoute: typeof BranchRouteWithChildren
   AdminRoute: typeof AdminRoute
   ContactRoute: typeof ContactRoute
   CookiesRoute: typeof CookiesRoute
@@ -275,6 +346,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$branch': {
+      id: '/$branch'
+      path: '/$branch'
+      fullPath: '/$branch'
+      preLoaderRoute: typeof BranchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -347,6 +425,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$branch/': {
+      id: '/$branch/'
+      path: '/'
+      fullPath: '/$branch/'
+      preLoaderRoute: typeof BranchIndexRouteImport
+      parentRoute: typeof BranchRoute
+    }
+    '/$branch/contact': {
+      id: '/$branch/contact'
+      path: '/contact'
+      fullPath: '/$branch/contact'
+      preLoaderRoute: typeof BranchContactRouteImport
+      parentRoute: typeof BranchRoute
+    }
+    '/$branch/private': {
+      id: '/$branch/private'
+      path: '/private'
+      fullPath: '/$branch/private'
+      preLoaderRoute: typeof BranchPrivateRouteImport
+      parentRoute: typeof BranchRoute
+    }
+    '/$branch/register': {
+      id: '/$branch/register'
+      path: '/register'
+      fullPath: '/$branch/register'
+      preLoaderRoute: typeof BranchRegisterRouteImport
+      parentRoute: typeof BranchRoute
+    }
+    '/$branch/services': {
+      id: '/$branch/services'
+      path: '/services'
+      fullPath: '/$branch/services'
+      preLoaderRoute: typeof BranchServicesRouteImport
+      parentRoute: typeof BranchRoute
+    }
     '/.mcp/list-tools': {
       id: '/.mcp/list-tools'
       path: '/.mcp/list-tools'
@@ -399,8 +512,28 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface BranchRouteChildren {
+  BranchContactRoute: typeof BranchContactRoute
+  BranchPrivateRoute: typeof BranchPrivateRoute
+  BranchRegisterRoute: typeof BranchRegisterRoute
+  BranchServicesRoute: typeof BranchServicesRoute
+  BranchIndexRoute: typeof BranchIndexRoute
+}
+
+const BranchRouteChildren: BranchRouteChildren = {
+  BranchContactRoute: BranchContactRoute,
+  BranchPrivateRoute: BranchPrivateRoute,
+  BranchRegisterRoute: BranchRegisterRoute,
+  BranchServicesRoute: BranchServicesRoute,
+  BranchIndexRoute: BranchIndexRoute,
+}
+
+const BranchRouteWithChildren =
+  BranchRoute._addFileChildren(BranchRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BranchRoute: BranchRouteWithChildren,
   AdminRoute: AdminRoute,
   ContactRoute: ContactRoute,
   CookiesRoute: CookiesRoute,

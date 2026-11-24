@@ -17,8 +17,7 @@ import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { PrivacyBanner } from "@/components/site/PrivacyBanner";
 
-import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
-import { BASE_URL } from "@/lib/site-config";
+import { UMBRELLA_BRAND } from "@/lib/branches";
 
 function NotFoundComponent() {
   return (
@@ -46,7 +45,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportLovableError(
+      error instanceof Error ? error : new Error(String(error)),
+      { boundary: "tanstack_root_error_component" },
+    );
   }, [error]);
 
   return (
@@ -85,25 +87,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Kenton Pharmacy Clinic — Newcastle NE3" },
+      { title: `${UMBRELLA_BRAND} — Newcastle upon Tyne` },
       {
         name: "description",
         content:
-          "Kenton Pharmacy Clinic in Newcastle. Full NHS pharmacy services, free prescription delivery, and private weight loss and insomnia treatments.",
+          "Newcastle Pharmacy Clinic serving Kenton and Chillingham Road. Full NHS pharmacy services, free prescription delivery across Newcastle, and private treatments.",
       },
-      { name: "author", content: "Kenton Pharmacy Clinic" },
-      { property: "og:title", content: "Kenton Pharmacy Clinic — Newcastle NE3" },
-      {
-        property: "og:description",
-        content:
-          "Full NHS pharmacy services and free prescription delivery across Newcastle. Your trusted community pharmacy in Kenton.",
-      },
+      { name: "author", content: UMBRELLA_BRAND },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: BASE_URL },
-      { property: "og:image", content: `${BASE_URL}${logoAsset.url}` },
-      { property: "og:site_name", content: "Kenton Pharmacy Clinic" },
+      { property: "og:site_name", content: UMBRELLA_BRAND },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BASE_URL}${logoAsset.url}` },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

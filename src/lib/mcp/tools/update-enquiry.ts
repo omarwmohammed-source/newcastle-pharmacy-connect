@@ -51,7 +51,7 @@ export default defineTool({
       .from("enquiries")
       .update(patch)
       .eq("id", id)
-      .select("id, status, staff_notes")
+      .select("id, branch, status, staff_notes")
       .maybeSingle();
 
     if (error) {

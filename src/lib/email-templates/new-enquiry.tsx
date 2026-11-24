@@ -15,6 +15,10 @@ import { defaultEmailSettings, fillTemplate, type EnquiryEmailSection } from "..
 import type { TemplateEntry } from "./registry";
 
 interface NewEnquiryEmailProps {
+  branchLabel?: string;
+  branchName?: string;
+  branchAddress?: string;
+  branchPhone?: string;
   fullName?: string;
   phone?: string;
   email?: string;
@@ -40,6 +44,10 @@ const valueStyle: React.CSSProperties = {
 };
 
 export function NewEnquiryEmail({
+  branchLabel = "Kenton",
+  branchName = "Kenton Pharmacy Clinic",
+  branchAddress = "41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
+  branchPhone = "0191 205 2006",
   fullName = "—",
   phone = "—",
   email = "—",
@@ -50,10 +58,18 @@ export function NewEnquiryEmail({
   content,
 }: NewEnquiryEmailProps) {
   const c = { ...defaultEmailSettings.newEnquiry, ...content };
+  const vars = {
+    branchLabel,
+    branchName,
+    branchAddress,
+    branchPhone,
+    fullName,
+    serviceName,
+  };
   return (
     <Html lang="en" dir="ltr">
       <Head />
-      <Preview>{fillTemplate(c.preview, { fullName, serviceName })}</Preview>
+      <Preview>{fillTemplate(c.preview, vars)}</Preview>
       <Body
         style={{
           backgroundColor: "#ffffff",
@@ -77,14 +93,16 @@ export function NewEnquiryEmail({
               color: "#0f2340",
             }}
           >
-            {fillTemplate(c.heading, { fullName, serviceName })}
+            {fillTemplate(c.heading, vars)}
           </Heading>
           <Text style={{ margin: "0 0 20px", fontSize: "14px", color: "#7b8794" }}>
-            {fillTemplate(c.subheading ?? "", { fullName, serviceName })}
+            {branchName} · Newcastle Pharmacy Clinic
           </Text>
           <Hr style={{ borderColor: "#e6e9ef", margin: "0 0 20px" }} />
           <Section>
-            <Text style={{ ...labelStyle, textTransform: "none" }}>{fillTemplate(c.intro ?? "", { fullName, serviceName })}</Text>
+            <Text style={{ ...labelStyle, textTransform: "none", marginBottom: "14px" }}>{fillTemplate(c.intro ?? "", vars)}</Text>
+            <Text style={labelStyle}>Branch</Text>
+            <Text style={valueStyle}>{branchName}</Text>
             <Text style={labelStyle}>Service</Text>
             <Text style={valueStyle}>{serviceName}</Text>
             <Text style={labelStyle}>Name</Text>
@@ -130,9 +148,9 @@ export function NewEnquiryEmail({
               {email && email !== "\u2014" ? (
                 <Link
                   href={`mailto:${email}?subject=${encodeURIComponent(
-                    `Kenton Pharmacy Clinic \u2013 ${serviceName}`,
+                    `${branchName} \u2013 ${serviceName}`,
                   )}&body=${encodeURIComponent(
-                    `Dear ${fullName},\n\nThank you for your enquiry about ${serviceName}. We would be happy to arrange a suitable time to speak with you.\n\nKind regards,\nKenton Pharmacy Clinic\n41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX\nTelephone 0191 205 2006`,
+                    `Dear ${fullName},\n\nThank you for your enquiry about ${serviceName}. We would be happy to arrange a suitable time to speak with you.\n\nKind regards,\n${branchName}\n${branchAddress}\nTelephone ${branchPhone}`,
                   )}`}
                   style={{
                     display: "inline-block",
@@ -152,11 +170,10 @@ export function NewEnquiryEmail({
           ) : null}
           <Hr style={{ borderColor: "#e6e9ef", margin: "4px 0 16px" }} />
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: 0 }}>
-            Kenton Pharmacy Clinic · 41 Halewood Avenue, Newcastle upon Tyne,
-            NE3 3RX
+            {branchName} · {branchAddress}
           </Text>
           <Text style={{ fontSize: "13px", color: "#7b8794", margin: "6px 0 0" }}>
-            {fillTemplate(c.footer, { fullName, serviceName })}
+            {fillTemplate(c.footer, vars)}
           </Text>
         </Container>
       </Body>
@@ -167,12 +184,25 @@ export function NewEnquiryEmail({
 export const template = {
   component: NewEnquiryEmail,
   displayName: "New enquiry alert",
-  subject: (data: Record<string, any>, settings?: { newEnquiry?: Partial<EnquiryEmailSection> }) =>
-    fillTemplate(
-      settings?.newEnquiry?.subject ?? defaultEmailSettings.newEnquiry.subject,
-      { serviceName: data['serviceName'] ?? "Service", fullName: data['fullName'] ?? "Website" },
-    ),
+  subject: (data: Record<string, any>, settings?: { newEnquiry?: Partial<EnquiryEmailSection> }) => {
+    const branchLabel = String(data["branchLabel"] ?? "Kenton");
+    const branchName = String(data["branchName"] ?? "Kenton Pharmacy Clinic");
+    const raw = settings?.newEnquiry?.subject ?? defaultEmailSettings.newEnquiry.subject;
+    const filled = fillTemplate(raw, {
+      branchLabel,
+      branchName,
+      serviceName: data["serviceName"] ?? "Service",
+      fullName: data["fullName"] ?? "Website",
+    });
+    return filled.toLowerCase().includes(branchLabel.toLowerCase())
+      ? filled
+      : `[${branchLabel}] ${filled}`;
+  },
   previewData: {
+    branchLabel: "Kenton",
+    branchName: "Kenton Pharmacy Clinic",
+    branchAddress: "41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
+    branchPhone: "0191 205 2006",
     fullName: "Sarah Ahmed",
     phone: "0191 205 2006",
     email: "jane@example.com",

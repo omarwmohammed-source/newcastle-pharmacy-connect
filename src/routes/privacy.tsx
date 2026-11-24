@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PHARMACY } from "@/lib/pharmacy-data";
+import { BRANCH_LIST, formatBranchAddress, UMBRELLA_BRAND } from "@/lib/branches";
 import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
 
@@ -8,17 +8,17 @@ const OG_IMAGE = `${BASE_URL}${logoAsset.url}`;
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy notice — Kenton Pharmacy Clinic" },
+      { title: `Privacy notice — ${UMBRELLA_BRAND}` },
       {
         name: "description",
         content:
-          "How Kenton Pharmacy Clinic in Newcastle collects, stores and protects the personal details you submit through our website enquiry forms.",
+          "How Newcastle Pharmacy Clinic (Kenton and Chillingham Road) collects, stores and protects the personal details you submit through our website enquiry forms.",
       },
-      { property: "og:title", content: "Privacy notice — Kenton Pharmacy Clinic" },
+      { property: "og:title", content: `Privacy notice — ${UMBRELLA_BRAND}` },
       {
         property: "og:description",
         content:
-          "How we handle and protect the personal details you share with Kenton Pharmacy Clinic.",
+          "How we handle and protect the personal details you share with Newcastle Pharmacy Clinic.",
       },
       { property: "og:url", content: `${BASE_URL}/privacy` },
       { property: "og:image", content: OG_IMAGE },
@@ -39,7 +39,7 @@ function PrivacyPage() {
         Privacy notice
       </h1>
       <p className="mt-3 text-muted-foreground">
-        How Kenton Pharmacy Clinic handles the information you give us through
+        How {UMBRELLA_BRAND} handles the information you give us through
         this website. Last updated: {new Date().getFullYear()}. For how we
         record and safeguard your patient and prescription information, see our{" "}
         <Link to="/patient-privacy" className="text-primary underline">
@@ -52,10 +52,18 @@ function PrivacyPage() {
       <div className="prose prose-slate mt-10 max-w-none">
         <Block title="Who we are">
           <p>
-            Kenton Pharmacy Clinic, {`${PHARMACY.addressLine1}, ${PHARMACY.addressLine2}, ${PHARMACY.postcode}`}. We are the data
-            controller for the personal information you submit through this
-            website. You can contact us on {PHARMACY.phone} or in the pharmacy.
+            {UMBRELLA_BRAND} is the data controller for the personal information
+            you submit through this website. We operate two branches in
+            Newcastle upon Tyne:
           </p>
+          <ul>
+            {BRANCH_LIST.map((b) => (
+              <li key={b.slug}>
+                <strong className="text-foreground">{b.name}:</strong>{" "}
+                {formatBranchAddress(b)} — Tel: {b.phone}
+              </li>
+            ))}
+          </ul>
         </Block>
 
         <Block title="What we collect">
@@ -110,9 +118,10 @@ function PrivacyPage() {
           <p>
             You have the right to access your information, have it corrected or
             erased, restrict or object to its use, and withdraw consent at any
-            time. Contact us on {PHARMACY.phone} to exercise any of these. If
-            you are unhappy with how we have handled your data you can complain
-            to the Information Commissioner&apos;s Office at ico.org.uk.
+            time. Contact either branch by phone or in person to exercise any of
+            these. If you are unhappy with how we have handled your data you can
+            complain to the Information Commissioner&apos;s Office at
+            ico.org.uk.
           </p>
         </Block>
 

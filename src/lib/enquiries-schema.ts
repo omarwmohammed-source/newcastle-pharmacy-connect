@@ -1,6 +1,8 @@
 import { z } from "zod";
+import { BRANCH_SLUGS, type BranchSlug } from "./branches";
 
 export const enquiryInputSchema = z.object({
+  branch: z.enum(BRANCH_SLUGS).default("kenton"),
   fullName: z.string().trim().min(1, "Please enter your full name").max(100),
   phone: z
     .string()
@@ -29,6 +31,7 @@ export type EnquiryInput = z.infer<typeof enquiryInputSchema>;
 
 export type EnquiryRow = {
   id: string;
+  branch: BranchSlug;
   full_name: string;
   phone: string;
   email: string | null;

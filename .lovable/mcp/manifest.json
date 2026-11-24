@@ -19,7 +19,7 @@
       {
         "name": "list_services",
         "title": "List pharmacy services",
-        "description": "List the NHS services and private treatments offered by Kenton Pharmacy Clinic, along with opening hours and contact details.",
+        "description": "List the NHS services and private treatments offered by Newcastle Pharmacy Clinic (Kenton and Chillingham Road branches), along with each branch's opening hours and contact details.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -28,6 +28,14 @@
         "inputSchema": {
           "type": "object",
           "properties": {
+            "branch": {
+              "type": "string",
+              "enum": [
+                "kenton",
+                "chillingham-road"
+              ],
+              "description": "Filter to a specific branch (kenton or chillingham-road)."
+            },
             "kind": {
               "type": "string",
               "enum": [
@@ -46,7 +54,7 @@
       {
         "name": "list_enquiries",
         "title": "List patient enquiries",
-        "description": "List register-interest enquiries submitted through the Kenton Pharmacy Clinic website, newest first. Staff access only.",
+        "description": "List register-interest enquiries submitted through the Newcastle Pharmacy Clinic website across both Kenton and Chillingham Road branches, newest first. Staff access only.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -55,6 +63,14 @@
         "inputSchema": {
           "type": "object",
           "properties": {
+            "branch": {
+              "type": "string",
+              "enum": [
+                "kenton",
+                "chillingham-road"
+              ],
+              "description": "Filter by branch slug (kenton or chillingham-road)."
+            },
             "status": {
               "type": "string",
               "enum": [

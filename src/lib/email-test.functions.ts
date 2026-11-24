@@ -14,7 +14,7 @@ import { EnquiryConfirmationEmail } from "@/lib/email-templates/enquiry-confirma
 import { getEmailSettingsForSending } from "@/lib/email-settings-loader";
 import type { EmailSettings, AuthEmailSection, EnquiryEmailSection } from "@/lib/email-settings-schema";
 
-const SITE_NAME = "Kenton Pharmacy Clinic";
+const SITE_NAME = "Newcastle Pharmacy Clinic";
 const SENDER_DOMAIN = "notify.pharmacy-clinic.com";
 const FROM_DOMAIN = "notify.pharmacy-clinic.com";
 
@@ -52,6 +52,10 @@ const MOCK_DATA = {
     siteName: SITE_NAME,
   },
   newEnquiry: {
+    branchLabel: "Kenton",
+    branchName: "Kenton Pharmacy Clinic",
+    branchAddress: "41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
+    branchPhone: "0191 205 2006",
     fullName: "Sarah Ahmed",
     phone: "07700 900123",
     email: "sarah.ahmed@example.com",
@@ -61,9 +65,13 @@ const MOCK_DATA = {
     submittedAt: "2 August 2026, 14:20",
   },
   enquiryConfirmation: {
+    branchLabel: "Kenton",
+    branchName: "Kenton Pharmacy Clinic",
+    branchAddress: "41 Halewood Avenue, Newcastle upon Tyne, NE3 3RX",
     fullName: "Sarah",
     serviceName: "Weight Loss Clinic",
     phone: "0191 205 2006",
+    hoursSummary: "Monday to Friday 8:30am–6pm and Saturday 9am–6pm",
   },
 };
 

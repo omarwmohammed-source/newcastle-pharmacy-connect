@@ -11,8 +11,12 @@ import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 // Lovable Cloud's URL and publishable key are safe to expose to the browser.
 // Define them deterministically so preview and publish builds cannot omit the
 // browser auth configuration. Privileged credentials remain server-only.
-const publicSupabaseUrl = "https://obyzmabdrkwibpxteyud.supabase.co";
-const publicSupabaseKey = "sb_publishable_eHd1wp7uzFR9_FviPUA1oA_u6WK7QYV";
+const publicSupabaseUrl =
+  process.env["VITE_SUPABASE_URL"] ||
+  "https://obyzmabdrkwibpxteyud.supabase.co";
+const publicSupabaseKey =
+  process.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ||
+  "sb_publishable_eHd1wp7uzFR9_FviPUA1oA_u6WK7QYV";
 
 export default defineConfig({
   tanstackStart: {

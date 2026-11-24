@@ -19,7 +19,7 @@ interface ReauthenticationEmailProps {
 
 export const ReauthenticationEmail = ({
   token,
-  siteName = 'Kenton Pharmacy Clinic',
+  siteName = 'Newcastle Pharmacy Clinic',
   content,
 }: ReauthenticationEmailProps) => {
   const c = { ...defaultEmailSettings.reauthentication, ...content }

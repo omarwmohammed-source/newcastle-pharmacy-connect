@@ -37,11 +37,11 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
   }),
   head: () => ({
     meta: [
-      { title: "Connect an app — Kenton Pharmacy Clinic" },
+      { title: "Connect an app — Newcastle Pharmacy Clinic" },
       {
         name: "description",
         content:
-          "Approve or deny an AI assistant's request to connect to Kenton Pharmacy Clinic.",
+          "Approve or deny an AI assistant's request to connect to Newcastle Pharmacy Clinic.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
@@ -141,7 +141,7 @@ function Consent() {
             Sign in to continue
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Sign in with your Kenton Pharmacy Clinic staff account to connect
+            Sign in with your Newcastle Pharmacy Clinic staff account to connect
             this app.
           </p>
           {error && (
@@ -195,7 +195,7 @@ function Consent() {
           Connect {clientName} to your account
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          This lets {clientName} read and manage Kenton Pharmacy Clinic patient
+          This lets {clientName} read and manage Newcastle Pharmacy Clinic patient
           enquiries as you. Only approve apps you trust.
         </p>
         {error && (

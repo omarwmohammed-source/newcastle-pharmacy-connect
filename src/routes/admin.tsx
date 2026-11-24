@@ -27,16 +27,17 @@ import { CustomEmailTemplates } from "@/components/site/CustomEmailTemplates";
 
 import type { EnquiryRow } from "@/lib/enquiries-schema";
 import { ENQUIRY_STATUSES } from "@/lib/enquiries-schema";
+import { BRANCHES, BRANCH_LIST, UMBRELLA_BRAND, type BranchSlug } from "@/lib/branches";
 
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Staff dashboard — Kenton Pharmacy Clinic" },
+      { title: `Staff dashboard — ${UMBRELLA_BRAND}` },
       {
         name: "description",
         content:
-          "Secure staff area for managing patient enquiries and email templates for the Kenton Pharmacy Clinic website.",
+          "Secure staff area for managing patient enquiries and email templates for Newcastle Pharmacy Clinic (Kenton and Chillingham Road).",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
@@ -254,6 +255,7 @@ function Dashboard() {
   const [rows, setRows] = useState<EnquiryRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [denied, setDenied] = useState(false);
+  const [branchFilter, setBranchFilter] = useState<"all" | BranchSlug>("all");
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -294,15 +296,20 @@ function Dashboard() {
     }
   };
 
+  const filteredRows =
+    branchFilter === "all"
+      ? rows
+      : rows.filter((r) => (r.branch ?? "kenton") === branchFilter);
+
   return (
     <section className="mx-auto max-w-7xl px-6 py-12">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-primary">
-            Staff dashboard
+            {UMBRELLA_BRAND} — Staff dashboard
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Manage patient enquiries and email templates.
+            Manage patient enquiries and email templates across both branches.
           </p>
         </div>
         <div className="flex gap-2">
@@ -322,12 +329,40 @@ function Dashboard() {
 
 
         <TabsContent value="enquiries" className="mt-6">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-xl font-semibold text-primary">Patient enquiries</h2>
-            <Button variant="outline" size="sm" onClick={() => void refresh()}>
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Refresh
-            </Button>
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex rounded-md border border-border bg-muted/40 p-0.5" role="group" aria-label="Filter by branch">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={branchFilter === "all" ? "default" : "ghost"}
+                  className="h-7 px-3 text-xs"
+                  onClick={() => setBranchFilter("all")}
+                >
+                  All ({rows.length})
+                </Button>
+                {BRANCH_LIST.map((b) => {
+                  const count = rows.filter((r) => (r.branch ?? "kenton") === b.slug).length;
+                  return (
+                    <Button
+                      key={b.slug}
+                      type="button"
+                      size="sm"
+                      variant={branchFilter === b.slug ? "default" : "ghost"}
+                      className="h-7 px-3 text-xs"
+                      onClick={() => setBranchFilter(b.slug)}
+                    >
+                      {b.shortLabel} ({count})
+                    </Button>
+                  );
+                })}
+              </div>
+              <Button variant="outline" size="sm" onClick={() => void refresh()}>
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Refresh
+              </Button>
+            </div>
           </div>
           {denied ? (
             <p className="mt-6 rounded-lg border bg-muted/40 p-6 text-sm text-muted-foreground">
@@ -337,17 +372,28 @@ function Dashboard() {
             </p>
           ) : loading ? (
             <p className="mt-6 text-muted-foreground">Loading enquiries…</p>
-          ) : rows.length === 0 ? (
-            <p className="mt-6 text-muted-foreground">No enquiries yet.</p>
+          ) : filteredRows.length === 0 ? (
+            <p className="mt-6 text-muted-foreground">
+              {rows.length === 0
+                ? "No enquiries yet."
+                : "No enquiries for this branch yet."}
+            </p>
           ) : (
             <div className="mt-6 space-y-4">
-              {rows.map((r) => (
+              {filteredRows.map((r) => {
+                const branch = BRANCHES[r.branch] ?? BRANCHES.kenton;
+                return (
                 <article key={r.id} className="rounded-xl border bg-card p-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <h2 className="text-lg font-semibold text-primary">
-                        {r.full_name}
-                      </h2>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-lg font-semibold text-primary">
+                          {r.full_name}
+                        </h2>
+                        <Badge variant="outline" className="border-accent/50 bg-accent/15 text-accent-foreground">
+                          {branch.shortLabel}
+                        </Badge>
+                      </div>
                       <p className="text-sm text-muted-foreground">
                         {r.service_name}
                         {r.source ? ` · ${r.source}` : ""}
@@ -385,7 +431,8 @@ function Dashboard() {
                     </p>
                   )}
                 </article>
-              ))}
+                );
+              })}
             </div>
           )}
         </TabsContent>

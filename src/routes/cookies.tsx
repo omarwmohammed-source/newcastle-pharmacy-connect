@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PHARMACY } from "@/lib/pharmacy-data";
+import { BRANCH_LIST, formatBranchAddress, UMBRELLA_BRAND } from "@/lib/branches";
 import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
 
@@ -8,13 +8,13 @@ const OG_IMAGE = `${BASE_URL}${logoAsset.url}`;
 export const Route = createFileRoute("/cookies")({
   head: () => ({
     meta: [
-      { title: "Cookie notice — Kenton Pharmacy Clinic" },
+      { title: `Cookie notice — ${UMBRELLA_BRAND}` },
       {
         name: "description",
         content:
-          "Kenton Pharmacy Clinic uses no advertising or tracking cookies. Read what the small number of cookies on this site are used for.",
+          "Newcastle Pharmacy Clinic uses no advertising or tracking cookies. Read what the small number of cookies on this site are used for.",
       },
-      { property: "og:title", content: "Cookie notice — Kenton Pharmacy Clinic" },
+      { property: "og:title", content: `Cookie notice — ${UMBRELLA_BRAND}` },
       {
         property: "og:description",
         content:
@@ -82,10 +82,18 @@ function CookiesPage() {
 
         <div>
           <h2 className="text-xl font-semibold text-primary">Questions</h2>
-          <p className="mt-2">
-            Call us on {PHARMACY.phone} or pop into the pharmacy at{" "}
-            {`${PHARMACY.addressLine1}, ${PHARMACY.addressLine2}, ${PHARMACY.postcode}`}.
-          </p>
+          <p className="mt-2">Contact either of our Newcastle branches:</p>
+          <ul className="mt-2 ml-5 list-disc space-y-1">
+            {BRANCH_LIST.map((b) => (
+              <li key={b.slug}>
+                <strong className="text-foreground">{b.name}:</strong>{" "}
+                {formatBranchAddress(b)} —{" "}
+                <a href={b.phoneHref} className="text-primary underline">
+                  {b.phone}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

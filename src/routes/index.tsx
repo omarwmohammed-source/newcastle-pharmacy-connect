@@ -1,188 +1,166 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, HeartPulse, Pill, Stethoscope, Truck } from "lucide-react";
+import { ArrowRight, Clock, MapPin, Phone, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { OpeningHours } from "@/components/site/OpeningHours";
-import { PHARMACY } from "@/lib/pharmacy-data";
+import { BRANCH_LIST, UMBRELLA_BRAND } from "@/lib/branches";
 import logoAsset from "@/assets/kenton-pharmacy-logo.jpg.asset.json";
 import { BASE_URL } from "@/lib/site-config";
+
 const LOGO_URL = `${BASE_URL}${logoAsset.url}`;
 
-const pharmacySchema = {
+const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "Pharmacy",
-  name: PHARMACY.name,
-  image: LOGO_URL,
+  "@type": "Organization",
+  name: UMBRELLA_BRAND,
   url: BASE_URL,
-  telephone: PHARMACY.phoneHref.replace("tel:", ""),
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: PHARMACY.addressLine1,
-    addressLocality: PHARMACY.addressLine2,
-    postalCode: PHARMACY.postcode,
-    addressCountry: "GB",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: "54.9975",
-    longitude: "-1.6505",
-  },
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "08:30",
-      closes: "18:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Saturday",
-      opens: "09:00",
-      closes: "18:00",
-    },
-  ],
+  logo: LOGO_URL,
   areaServed: {
     "@type": "City",
     name: "Newcastle upon Tyne",
   },
-  priceRange: "£",
+  department: BRANCH_LIST.map((branch) => ({
+    "@type": "Pharmacy",
+    name: branch.name,
+    image: LOGO_URL,
+    url: `${BASE_URL}/${branch.slug}`,
+    telephone: branch.phoneHref.replace("tel:", ""),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: branch.addressLine1,
+      addressLocality: branch.addressLine2,
+      postalCode: branch.postcode,
+      addressCountry: "GB",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: branch.geo.latitude,
+      longitude: branch.geo.longitude,
+    },
+    openingHoursSpecification: branch.openingHoursSpecification,
+    areaServed: {
+      "@type": "City",
+      name: "Newcastle upon Tyne",
+    },
+    priceRange: "£",
+  })),
 };
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Kenton Pharmacy Clinic — Newcastle NE3 3RX" },
+      { title: `${UMBRELLA_BRAND} — Kenton & Chillingham Road, Newcastle` },
       {
         name: "description",
         content:
-          "Community pharmacy in Kenton, Newcastle. Full NHS services, free prescription delivery across Newcastle, and private weight loss and insomnia treatments.",
+          "Newcastle Pharmacy Clinic serves Kenton (NE3 3RX) and Chillingham Road (NE6 5LJ). Full NHS pharmacy services, free prescription delivery across Newcastle, and private treatments.",
       },
       {
         property: "og:title",
-        content: "Kenton Pharmacy Clinic — Newcastle NE3",
+        content: `${UMBRELLA_BRAND} — Kenton & Chillingham Road`,
       },
       {
         property: "og:description",
         content:
-          "Full NHS pharmacy services and free prescription delivery across Newcastle.",
+          "Choose your Newcastle Pharmacy Clinic branch in Kenton or Chillingham Road for NHS services, free delivery, and private treatments.",
       },
       { property: "og:url", content: BASE_URL },
-      { property: "og:image", content: `${BASE_URL}${logoAsset.url}` },
+      { property: "og:image", content: LOGO_URL },
       { property: "og:type", content: "website" },
-      { name: "twitter:image", content: `${BASE_URL}${logoAsset.url}` },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: LOGO_URL },
     ],
-    links: [
-      { rel: "canonical", href: BASE_URL },
+    links: [{ rel: "canonical", href: BASE_URL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(organizationSchema),
+      },
     ],
   }),
-  component: Home,
+  component: BranchSelectorPage,
 });
 
-
-function Home() {
+function BranchSelectorPage() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pharmacySchema) }}
-      />
-      <section className="border-b border-border bg-gradient-to-b from-muted/60 to-background">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
-          <div>
-            <p className="inline-flex items-center gap-2 rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent-foreground ring-1 ring-accent/30">
-              <Truck className="h-3.5 w-3.5" />
-              Free prescription delivery across Newcastle
-            </p>
-            <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-primary sm:text-5xl">
-              Your trusted community pharmacy in Kenton
-            </h1>
-            <p className="mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
-              We serve all areas of Newcastle upon Tyne with the full range of
-              NHS pharmacy services, free prescription delivery, and private
-              treatments. Our team of friendly, expert pharmacists is here to help.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <Link to="/register">
-                  Register your details
-                  <ArrowRight className="ml-1 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link to="/services">View NHS services</Link>
-              </Button>
-            </div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              {
-                icon: Truck,
-                title: "Free delivery",
-                copy: "Free NHS prescription delivery to any Newcastle address.",
-                to: "/services" as const,
-              },
-              {
-                icon: Stethoscope,
-                title: "All NHS services",
-                copy: "Pharmacy First, BP checks, vaccinations and more.",
-                to: "/services" as const,
-              },
-              {
-                icon: Pill,
-                title: "Prescriptions & EPS",
-                copy: "Nominate us and pick up quickly, or have them delivered.",
-                to: "/services" as const,
-              },
-              {
-                icon: HeartPulse,
-                title: "Private Treatments",
-                copy: "Weight Loss and Insomnia consultations.",
-                to: "/private" as const,
-              },
-            ].map((t) => (
-              <Link
-                key={t.title}
-                to={t.to}
-                className="rounded-xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md"
-              >
-                <t.icon className="h-6 w-6 text-accent" />
-                <h2 className="mt-3 font-serif text-lg font-semibold text-primary">
-                  {t.title}
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">{t.copy}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto grid max-w-6xl gap-8 px-6 py-16 md:grid-cols-2">
-        <OpeningHours />
-        <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-          <h2 className="font-serif text-xl font-semibold text-primary">
-            Find us
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {PHARMACY.addressLine1}
-            <br />
-            {PHARMACY.addressLine2}, {PHARMACY.postcode}
+    <section className="bg-gradient-to-b from-muted/60 to-background">
+      <div className="mx-auto max-w-5xl px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="inline-flex items-center gap-2 rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent-foreground ring-1 ring-accent/30">
+            <Truck className="h-3.5 w-3.5" />
+            Free prescription delivery across all of Newcastle
           </p>
-          <a
-            href={PHARMACY.phoneHref}
-            className="mt-2 inline-block text-primary hover:underline"
-          >
-            {PHARMACY.phone}
-          </a>
-          <div className="mt-4 overflow-hidden rounded-lg border border-border">
-            <iframe
-              title="Map to Kenton Pharmacy Clinic"
-              src={PHARMACY.mapEmbed}
-              className="h-56 w-full"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
+          <h1 className="mt-5 font-serif text-4xl font-semibold tracking-tight text-primary sm:text-5xl">
+            {UMBRELLA_BRAND}
+          </h1>
+          <p className="mt-4 text-base text-muted-foreground sm:text-lg">
+            Select your local branch below for NHS pharmacy services, free
+            prescription delivery across Newcastle upon Tyne, and private
+            treatments.
+          </p>
         </div>
-      </section>
-    </>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
+          {BRANCH_LIST.map((branch) => (
+            <article
+              key={branch.slug}
+              className="flex flex-col rounded-2xl border border-border bg-card p-7 shadow-sm transition-shadow hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="font-serif text-2xl font-semibold text-primary sm:text-3xl">
+                    {branch.shortLabel}
+                  </h2>
+                  <p className="mt-1 text-sm font-medium text-muted-foreground">
+                    {branch.name}
+                  </p>
+                </div>
+                <span className="shrink-0 rounded-full bg-accent/15 px-2.5 py-1 text-xs font-medium text-accent-foreground ring-1 ring-accent/30">
+                  {branch.postcode}
+                </span>
+              </div>
+
+              <div className="mt-6 space-y-3 text-sm">
+                <p className="flex items-start gap-3 text-foreground">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  <span>
+                    {branch.addressLine1}, {branch.addressLine2},{" "}
+                    {branch.postcode}
+                  </span>
+                </p>
+                <a
+                  href={branch.phoneHref}
+                  className="flex items-center gap-3 text-primary hover:underline"
+                >
+                  <Phone className="h-4 w-4 shrink-0 text-accent" />
+                  <span>{branch.phone}</span>
+                </a>
+                <div className="flex items-start gap-3 pt-1 text-muted-foreground">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  <dl className="w-full space-y-1">
+                    {branch.hours.map((h) => (
+                      <div
+                        key={h.day}
+                        className="flex justify-between gap-4 text-xs sm:text-sm"
+                      >
+                        <dt>{h.day}</dt>
+                        <dd className="font-medium text-foreground">{h.time}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-2">
+                <Button asChild size="lg" className="w-full">
+                  <Link to="/$branch" params={{ branch: branch.slug }}>
+                    Visit {branch.shortLabel} branch
+                    <ArrowRight className="ml-1.5 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
