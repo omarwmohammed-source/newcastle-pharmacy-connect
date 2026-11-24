@@ -102,10 +102,10 @@ function BranchSelectorPage() {
           {BRANCH_LIST.map((branch) => (
             <article
               key={branch.slug}
-              className="flex flex-col rounded-2xl border border-border bg-card p-7 shadow-sm transition-shadow hover:shadow-md"
+              className="flex min-w-0 flex-col rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md sm:p-7"
             >
-              <div className="flex items-start justify-between gap-4">
-                <div>
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="min-w-0">
                   <h2 className="font-serif text-2xl font-semibold text-primary sm:text-3xl">
                     {branch.shortLabel}
                   </h2>
@@ -135,11 +135,11 @@ function BranchSelectorPage() {
                 </a>
                 <div className="flex items-start gap-3 pt-1 text-muted-foreground">
                   <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                  <dl className="w-full space-y-1">
+                  <dl className="min-w-0 w-full space-y-1">
                     {branch.hours.map((h) => (
                       <div
                         key={h.day}
-                        className="flex justify-between gap-4 text-xs sm:text-sm"
+                        className="flex flex-wrap justify-between gap-x-2 gap-y-1 text-xs sm:text-sm"
                       >
                         <dt>{h.day}</dt>
                         <dd className="font-medium text-foreground">{h.time}</dd>
@@ -150,7 +150,7 @@ function BranchSelectorPage() {
               </div>
 
               <div className="mt-8 pt-2">
-                <Button asChild size="lg" className="w-full">
+                <Button asChild size="lg" className="h-auto min-h-10 w-full whitespace-normal px-3 py-2 text-center">
                   <Link to="/$branch" params={{ branch: branch.slug }}>
                     Visit {branch.shortLabel} branch
                     <ArrowRight className="ml-1.5 h-4 w-4" />

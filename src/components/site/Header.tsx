@@ -49,23 +49,23 @@ export function Header() {
 
       {/* Main bar */}
       <div className="bg-primary text-primary-foreground">
-        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3 sm:px-6">
           {activeBranch ? (
             <Link
               to="/$branch"
               params={{ branch: activeBranch.slug }}
               aria-label={`${activeBranch.name} home`}
-              className="shrink-0"
+              className="min-w-0 flex-1 xl:flex-none"
             >
               <Logo title={activeBranch.name} onDark />
             </Link>
           ) : (
-            <Link to="/" aria-label={`${UMBRELLA_BRAND} home`} className="shrink-0">
+            <Link to="/" aria-label={`${UMBRELLA_BRAND} home`} className="min-w-0 flex-1 xl:flex-none">
               <Logo title={UMBRELLA_BRAND} onDark />
             </Link>
           )}
 
-          <div className="ml-auto flex items-center gap-2">
+           <div className="ml-auto flex shrink-0 items-center gap-2">
           <nav className="hidden items-center gap-0.5 whitespace-nowrap xl:flex">
             {activeBranch ? (
               <>
@@ -124,10 +124,11 @@ export function Header() {
             <Link
               to="/"
               aria-label="Change branch"
+              title="Change branch"
               className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-accent/50 bg-primary-foreground/10 px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/20 sm:text-sm"
             >
               <ArrowLeftRight className="h-3.5 w-3.5" />
-              Change branch
+              <span className="hidden sm:inline">Change branch</span>
             </Link>
           )}
           <Sheet open={open} onOpenChange={setOpen}>

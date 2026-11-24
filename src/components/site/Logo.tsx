@@ -13,21 +13,21 @@ export function Logo({
   onDark?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex min-w-0 items-center gap-3">
       <img
         src={logoAsset.url}
         alt={title}
         className={
           (compact ? "h-10 sm:h-11" : "h-12 sm:h-14") +
-          " w-auto object-contain select-none"
+          " w-auto shrink-0 object-contain select-none"
         }
       />
       {showWordmark && (
-        <div className="flex flex-col">
+        <div className="flex min-w-0 flex-col">
           <span
             className={
               (onDark ? "text-primary-foreground" : "text-primary") +
-              " font-serif text-xl font-semibold tracking-wide sm:text-2xl"
+              " font-serif text-xl font-semibold sm:text-2xl"
             }
           >
             {title}

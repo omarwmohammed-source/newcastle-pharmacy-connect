@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState, useId, type ReactNode } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
@@ -73,6 +73,7 @@ export function RegisterInterestDialog({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pending, setPending] = useState(false);
   const send = useServerFn(submitEnquiry);
+  const fieldId = useId();
 
   const set = <K extends keyof Values>(k: K, v: Values[K]) =>
     setValues((prev) => ({ ...prev, [k]: v }));
@@ -122,7 +123,7 @@ export function RegisterInterestDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl text-primary">
             Register interest — {service.name}
@@ -134,10 +135,11 @@ export function RegisterInterestDialog({
         </DialogHeader>
         <form onSubmit={onSubmit} className="mt-2 space-y-4" noValidate>
           <div>
-            <Label className="mb-1.5 block text-sm font-medium">
+            <Label htmlFor={`${fieldId}-name`} className="mb-1.5 block text-sm font-medium">
               Full name <span className="text-destructive">*</span>
             </Label>
             <Input
+              id={`${fieldId}-name`}
               value={values.fullName}
               onChange={(e) => set("fullName", e.target.value)}
               autoComplete="name"
@@ -149,10 +151,11 @@ export function RegisterInterestDialog({
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label className="mb-1.5 block text-sm font-medium">
+              <Label htmlFor={`${fieldId}-phone`} className="mb-1.5 block text-sm font-medium">
                 Phone <span className="text-destructive">*</span>
               </Label>
               <Input
+                id={`${fieldId}-phone`}
                 type="tel"
                 value={values.phone}
                 onChange={(e) => set("phone", e.target.value)}
@@ -164,10 +167,11 @@ export function RegisterInterestDialog({
               )}
             </div>
             <div>
-              <Label className="mb-1.5 block text-sm font-medium">
+              <Label htmlFor={`${fieldId}-email`} className="mb-1.5 block text-sm font-medium">
                 Email (optional)
               </Label>
               <Input
+                id={`${fieldId}-email`}
                 type="email"
                 value={values.email}
                 onChange={(e) => set("email", e.target.value)}
@@ -180,10 +184,11 @@ export function RegisterInterestDialog({
             </div>
           </div>
           <div>
-            <Label className="mb-1.5 block text-sm font-medium">
+            <Label htmlFor={`${fieldId}-notes`} className="mb-1.5 block text-sm font-medium">
               Anything else? (optional)
             </Label>
             <Textarea
+              id={`${fieldId}-notes`}
               value={values.notes}
               onChange={(e) => set("notes", e.target.value)}
               rows={3}

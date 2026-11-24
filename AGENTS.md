@@ -12,3 +12,4 @@
 ## Architecture
 - Multi-branch config lives in `src/lib/branches.ts` (`BRANCHES`, `BRANCH_LIST`, `UMBRELLA_BRAND`) so branch metadata, routes (`src/routes/$branch*.tsx`), enquiries, emails, and MCP tools share one source of truth.
 - Legacy top-level Kenton paths (`/services`, `/private`, `/contact`, `/register`) issue 301 redirects to `/kenton/*` so published links and search results stay valid.
+- Shared route error recovery uses `PageError` with a full page reload, because resetting React cannot reliably repair externally mutated DOM nodes.

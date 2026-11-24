@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useId } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Loader2, Plus, Save, Send, Trash2, Palette, Tags } from "lucide-react";
@@ -139,7 +139,7 @@ export function CustomEmailTemplates() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+    <div className="grid min-w-0 gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
       <aside className="space-y-3">
         <Button
           className="w-full"
@@ -175,7 +175,7 @@ export function CustomEmailTemplates() {
           placeholders, then send yourself a test copy.
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="min-w-[220px] flex-1">
               <Label htmlFor="tpl-name">Template name</Label>
@@ -440,10 +440,11 @@ function Field({
   onChange: (v: string) => void;
   hint?: string;
 }) {
+  const id = useId();
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs">{label}</Label>
-      <Input value={value} onChange={(e) => onChange(e.target.value)} />
+      <Label htmlFor={id} className="text-xs">{label}</Label>
+      <Input id={id} value={value} onChange={(e) => onChange(e.target.value)} />
       {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
     </div>
   );
@@ -460,10 +461,11 @@ function AreaField({
   onChange: (v: string) => void;
   rows?: number;
 }) {
+  const id = useId();
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs">{label}</Label>
-      <Textarea rows={rows} value={value} onChange={(e) => onChange(e.target.value)} />
+      <Label htmlFor={id} className="text-xs">{label}</Label>
+      <Textarea id={id} rows={rows} value={value} onChange={(e) => onChange(e.target.value)} />
     </div>
   );
 }

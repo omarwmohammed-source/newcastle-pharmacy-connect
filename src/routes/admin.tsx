@@ -40,6 +40,10 @@ export const Route = createFileRoute("/admin")({
           "Secure staff area for managing patient enquiries and email templates for Newcastle Pharmacy Clinic (Kenton and Chillingham Road).",
       },
       { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: `Staff dashboard — ${UMBRELLA_BRAND}` },
+      { property: "og:description", content: "Restricted staff access for managing Newcastle Pharmacy Clinic enquiries and email templates." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AdminPage,
@@ -321,7 +325,7 @@ function Dashboard() {
       </header>
 
       <Tabs defaultValue="enquiries" className="mt-8">
-        <TabsList>
+        <TabsList className="h-auto max-w-full flex-wrap justify-start">
           <TabsTrigger value="enquiries">Patient enquiries</TabsTrigger>
           <TabsTrigger value="emails">Email templates</TabsTrigger>
           <TabsTrigger value="custom">Create new template</TabsTrigger>
@@ -420,7 +424,7 @@ function Dashboard() {
                       </Select>
                     </div>
                   </div>
-                  <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-3">
+                  <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-3 [&>div]:min-w-0 [&_dd]:break-words">
                     <Detail label="Phone" value={r.phone} />
                     <Detail label="Email" value={r.email} />
                     <Detail label="Date of birth" value={r.dob} />

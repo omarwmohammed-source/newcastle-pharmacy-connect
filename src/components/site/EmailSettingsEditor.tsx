@@ -137,7 +137,7 @@ export function EmailSettingsEditor() {
   const variables = TEMPLATE_VARIABLES[selected];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+    <div className="grid min-w-0 gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
       <aside className="space-y-6">
         {GROUPS.map((group) => (
           <div key={group.id}>
@@ -163,7 +163,7 @@ export function EmailSettingsEditor() {
         ))}
       </aside>
 
-      <div className="space-y-4">
+      <div className="min-w-0 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-xl font-semibold text-primary">
