@@ -33,3 +33,7 @@ All work happens in a **draft**, so the live Kenton site stays exactly as it is 
 - Migration: add `branch text not null default 'kenton'` to `enquiries`, check the value against the known branches, and add an index. Existing rows become Kenton.
 - The enquiry functions, email templates, notification sender, MCP tools, sitemap and per-branch head/JSON-LD all take the branch into account.
 - Old top-level routes redirect permanently to /kenton/*.
+
+## Shared branding
+- Anything both branches share uses **Newcastle Pharmacy Clinic** instead of "Kenton Pharmacy Clinic". That covers the footer, privacy, cookie and patient notices, the staff dashboard, the email sender name and footers, page titles on the landing page, and Google listing details.
+- Branch pages say "Kenton" or "Chillingham Road" only where the details belong to that branch, such as the address, phone, map, hours, and the branch name in the header.
